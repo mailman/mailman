@@ -12,6 +12,8 @@ begin
     gem.authors = ['Jonathan Rudenberg']
     gem.add_development_dependency 'rspec', '>= 1.2.9'
     gem.add_development_dependency 'yard', '>= 0'
+
+    gem.add_dependency 'mail', '>= 2.2.0'
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
