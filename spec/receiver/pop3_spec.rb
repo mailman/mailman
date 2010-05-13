@@ -3,11 +3,9 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', '/spec_helper')
 describe 'POP3 receiver' do
 
   before do
-    @connection = mock('POP3 Connection')
-    @connection.stub!(:start).and_return(true)
     @receiver_options = { :username => 'user',
                           :password => 'pass',
-                          :connection => @connection }
+                          :connection => MockPOP3.new }
     @receiver = Mailman::Receiver::POP3.new(@receiver_options)
   end
 
@@ -19,4 +17,10 @@ describe 'POP3 receiver' do
 
   end
 
+end
+
+class MockPOP3
+  def start(account, password)
+    return self if account == 'user' && password == 'pass'
+  end
 end
