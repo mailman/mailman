@@ -1,5 +1,3 @@
-require 'net/pop'
-
 module Mailman
   class Receiver
     class POP3
@@ -12,6 +10,10 @@ module Mailman
 
       def connect
         @connection.start(@username, @password)
+      end
+
+      def disconnect
+        @connection.finish
       end
 
     end
