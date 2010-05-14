@@ -8,7 +8,7 @@ describe 'Mail processor' do
 
   before do
     @router = mock('Message Router')
-    @processor = Mailman::MailProcessor.new(:router => @router)
+    @processor = Mailman::MessageProcessor.new(:router => @router)
   end
 
   it 'should process an email and pass it to the router' do

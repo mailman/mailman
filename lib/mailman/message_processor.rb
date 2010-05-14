@@ -1,5 +1,5 @@
 module Mailman
-  class MailProcessor
+  class MessageProcessor
 
     def initialize(options)
       @router = options[:router]
