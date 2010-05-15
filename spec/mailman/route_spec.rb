@@ -30,6 +30,10 @@ describe 'Message route' do
       end
     end
 
+    it 'should store the order conditions are called' do
+      @route.to('test').from('test').conditions.should == [:to, :from]
+    end
+
     describe 'compilation' do
 
       it 'should compile to a regular expression' do

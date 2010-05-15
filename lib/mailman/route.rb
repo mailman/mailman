@@ -3,9 +3,16 @@ module Mailman
 
     CONDITIONS = [:to, :from, :subject, :body]
 
+    attr_reader :block, :conditions
+
+    def initialize
+      @conditions = []
+    end
+
     CONDITIONS.each do |condition|
       class_eval <<-EOM
         def #{condition}(*args, &block)
+          @conditions << :#{condition}
           @#{condition} = compile_condition(args[0])
           if block_given?
             @block = block
