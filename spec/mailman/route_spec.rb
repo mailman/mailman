@@ -63,11 +63,6 @@ describe 'Message route' do
           matches[2].should == 'example.com'
         end
 
-        it 'should stop named matching at a space' do
-          compiled = @route.compile_condition('Ticket :id')[0]
-          compiled.match('Ticket 55 Error')[1].should == '55'
-        end
-
         it 'should not match a non-matching string' do
           compiled = @route.compile_condition('foobar')[0]
           compiled.match('fuzz').should be_nil
@@ -81,8 +76,11 @@ describe 'Message route' do
         end
 
         it 'should match a pattern with special characters in it' do
-          compiled = @route.compile_condition('(:id)+')[0]
-          compiled.match('(55)+')[1].should == '55'
+          compiled = @route.compile_condition("(:id)+ ^|$ \n [:foo]*\?{:bar}")[0]
+          match = compiled.match("(55)+ ^|$ \n [test]*\?{2}")
+          match[1].should == '55'
+          match[2].should == 'test'
+          match[3].should == '2'
         end
 
       end

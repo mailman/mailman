@@ -19,14 +19,14 @@ module Mailman
 
     def compile_condition(condition)
       keys = []
-      special_chars = %w{. + ( )}
-      pattern = condition.gsub(/((:\w+)|[\*#{special_chars.join}])/) do |match|
+      special_chars = %w{* . + ? \\ | ^ $ ( ) [ ] }
+      pattern = condition.gsub(/((:\w+)|[\*\\.+?|^$()\[\]])/) do |match|
         case match
         when *special_chars
           Regexp.escape(match)
         else
           keys << $2[1..-1]
-          "([a-zA-Z0-9!$#%&'*+/=?^_`{}|~.-]+)"
+          "(.*)"
         end
       end
       [/#{pattern}/i, keys]
