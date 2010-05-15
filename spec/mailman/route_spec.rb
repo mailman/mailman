@@ -83,6 +83,12 @@ describe 'Message route' do
           match[3].should == '2'
         end
 
+        it 'should accept a regex' do
+          regex = /(.*?)/
+          compiled = @route.compile_condition(regex)
+          compiled[0].should == regex
+        end
+
       end
 
     end

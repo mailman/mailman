@@ -18,18 +18,23 @@ module Mailman
     end
 
     def compile_condition(condition)
+      # Thanks Sinatra!
       keys = []
-      special_chars = %w{* . + ? \\ | ^ $ ( ) [ ] }
-      pattern = condition.gsub(/((:\w+)|[\*\\.+?|^$()\[\]])/) do |match|
-        case match
-        when *special_chars
-          Regexp.escape(match)
-        else
-          keys << $2[1..-1]
-          "(.*)"
+      if condition.respond_to?(:to_str)
+        special_chars = %w{* . + ? \\ | ^ $ ( ) [ ] }
+        pattern = condition.to_str.gsub(/((:\w+)|[\*\\.+?|^$()\[\]])/) do |match|
+          case match
+          when *special_chars
+            Regexp.escape(match)
+          else
+            keys << $2[1..-1]
+            "(.*)"
+          end
         end
+        [/#{pattern}/i, keys]
+      elsif condition.respond_to?(:match)
+        [condition, keys]
       end
-      [/#{pattern}/i, keys]
     end
 
   end
