@@ -109,7 +109,7 @@ describe 'Message route' do
     it 'should match static to address' do
       block = Proc.new { test }
       @route.to('test@example.com', &block)
-      @route.match!(basic_message).should == [block, {}]
+      @route.match!(basic_message).should == [block, {}, []]
     end
 
     it 'should not match a non-matching to address' do
@@ -138,6 +138,18 @@ describe 'Message route' do
       @route.to(':user@example.com').from('chunky@:domain')
       @route.match!(basic_message)[1].should == { 'user'   => 'test',
                                                   'domain' => 'bacon.com' }
+    end
+
+    it 'should pass an array of captures if the condition is a regex' do
+      @route.to(/(.*)@(.*)/)
+      @route.match!(basic_message)[2].should == ['test', 'example.com']
+    end
+
+    it 'should pass named params and captures' do
+      @route.to(/(.*)@example\.com/).from(':user@bacon.com')
+      result = @route.match!(basic_message)
+      result[1].should == { 'user' => 'chunky' }
+      result[2].should == ['test']
     end
 
   end

@@ -40,23 +40,27 @@ module Mailman
         end
         [/#{pattern}/i, keys]
       elsif condition.respond_to?(:match)
-        [condition, keys]
+        [condition, (keys unless keys.empty?)]
       end
     end
 
     def match!(message)
       results = {}
       params = {}
+      captures = []
       @conditions.each do |condition|
         results[condition] = method("match_#{condition}").call(message)
-        if results[condition] && captures = results[condition].captures
-          named_params = instance_variable_get("@#{condition}_params")
-          params.merge! Hash[*named_params.zip(captures).flatten]
+        if results[condition] && pattern_captures = results[condition].captures
+          if named_params = instance_variable_get("@#{condition}_params")
+            params.merge! Hash[*named_params.zip(pattern_captures).flatten]
+          else
+            captures += pattern_captures
+          end
         end
       end
 
       if !results.value?(nil) and !results.values.empty?
-        [@block, params]
+        [@block, params, captures]
       end
     end
 
