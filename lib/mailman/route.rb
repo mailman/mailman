@@ -28,8 +28,8 @@ module Mailman
       # Thanks Sinatra!
       keys = []
       if condition.respond_to?(:to_str)
-        special_chars = %w{* . + ? \\ | ^ $ ( ) [ ] }
-        pattern = condition.to_str.gsub(/((:\w+)|[\*\\.+?|^$()\[\]])/) do |match|
+        special_chars = %w/* . + ? \\ | ^ $ ( ) [ ] { } /
+        pattern = condition.to_str.gsub(/((:\w+)|[\*\\.+?|^$()\[\]{}])/) do |match|
           case match
           when *special_chars
             Regexp.escape(match)

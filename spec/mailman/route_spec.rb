@@ -18,8 +18,7 @@ describe 'Message route' do
     it 'should compile and set the condition' do
       @conditions.each do |condition|
         @route.send(condition, 'test')
-        @route.instance_variable_get("@#{condition}")
-          .should == @route.compile_condition('test')
+        @route.instance_variable_get("@#{condition}").should == @route.compile_condition('test')
       end
     end
 
