@@ -13,7 +13,7 @@ module Mailman
       class_eval <<-EOM
         def #{condition}(*args, &block)
           @conditions << :#{condition}
-          @#{condition} = compile_condition(args[0])
+          @#{condition}_pattern, @#{condition}_params = compile_condition(args[0])
           if block_given?
             @block = block
             true
@@ -50,7 +50,7 @@ module Mailman
       @conditions.each do |condition|
         results[condition] = method("match_#{condition}").call(message)
         if results[condition] && captures = results[condition].captures
-          named_params = instance_variable_get("@#{condition}")[1]
+          named_params = instance_variable_get("@#{condition}_params")
           params.merge! Hash[*named_params.zip(captures).flatten]
         end
       end
@@ -62,7 +62,7 @@ module Mailman
 
     def match_to(message)
       message.to.each do |address|
-        if result = @to[0].match(address)
+        if result = @to_pattern.match(address)
           return result
         end
       end
@@ -70,7 +70,7 @@ module Mailman
     end
 
     def match_from(message)
-      @from[0].match(message.from.first.to_s)
+      @from_pattern.match(message.from.first.to_s)
     end
 
   end
