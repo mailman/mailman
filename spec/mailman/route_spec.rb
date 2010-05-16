@@ -133,6 +133,12 @@ describe 'Message route' do
       @route.match!(basic_message).should be_true
     end
 
+    it 'should pass named params across multiple conditions' do
+      @route.to(':user@example.com').from('chunky@:domain')
+      @route.match!(basic_message)[1].should == { 'user'   => 'test',
+                                                  'domain' => 'bacon.com' }
+    end
+
   end
 
 end

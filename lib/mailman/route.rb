@@ -70,7 +70,7 @@ module Mailman
     end
 
     def match_from(message)
-      @from[0].match(message.from.to_s)
+      @from[0].match(message.from.first.to_s)
     end
 
   end
