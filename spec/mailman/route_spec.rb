@@ -99,4 +99,40 @@ describe 'Message route' do
 
   end
 
+  describe 'matching' do
+
+    def basic_message
+      Mail.new("To: test@example.com\r\nFrom: chunky@bacon.com\r\nSubject: Hello!\r\n\r\nemail message\r\n")
+    end
+
+    it 'should match static to address' do
+      block = Proc.new { test }
+      @route.to('test@example.com', &block)
+      @route.match!(basic_message).should == [block, {}]
+    end
+
+    it 'should not match a non-matching to address' do
+      @route.to('noone')
+      @route.match!(basic_message).should be_nil
+    end
+
+    it 'should pass named params' do
+      @route.to(':user@:domain.:tld')
+      @route.match!(basic_message)[1].should == { 'user'   => 'test',
+                                                  'domain' => 'example',
+                                                  'tld'    => 'com' }
+    end
+
+    it 'should not match with a failed condition' do
+      @route.to('test@example.com').from('foobar') { test }
+      @route.match!(basic_message).should be_nil
+    end
+
+    it 'should match a to and from address' do
+      @route.to('test@example.com').from('chunky@bacon.com')
+      @route.match!(basic_message).should be_true
+    end
+
+  end
+
 end

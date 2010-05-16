@@ -44,5 +44,34 @@ module Mailman
       end
     end
 
+    def match!(message)
+      results = {}
+      params = {}
+      @conditions.each do |condition|
+        results[condition] = method("match_#{condition}").call(message)
+        if results[condition] && captures = results[condition].captures
+          named_params = instance_variable_get("@#{condition}")[1]
+          params.merge! Hash[*named_params.zip(captures).flatten]
+        end
+      end
+
+      if !results.value?(nil) and !results.values.empty?
+        [@block, params]
+      end
+    end
+
+    def match_to(message)
+      message.to.each do |address|
+        if result = @to[0].match(address)
+          return result
+        end
+      end
+      nil
+    end
+
+    def match_from(message)
+      @from[0].match(message.from.to_s)
+    end
+
   end
 end
