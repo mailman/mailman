@@ -1,9 +1,13 @@
 module Mailman
   class Route
+
+    ##
     # @abstract The base matcher class. All matchers should subclass and
     #   override {#match} to implement this API. A pattern compiler method may
     #   be required.
     class Matcher
+
+      attr_reader :pattern
 
       ##
       # Creates a new matcher instance.
