@@ -38,4 +38,6 @@ task :spec => :check_dependencies
 task :default => :spec
 
 require 'yard'
-YARD::Rake::YardocTask.new
+YARD::Rake::YardocTask.new do |doc|
+  doc.options = ['--title', 'Mailman']
+end
