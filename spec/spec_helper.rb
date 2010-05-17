@@ -8,6 +8,10 @@ module Mailman::SpecHelpers
   def regexp_matcher(pattern)
     Mailman::Route::RegexpMatcher.new(pattern)
   end
+
+  def string_matcher(pattern)
+    Mailman::Route::StringMatcher.new(pattern)
+  end
 end
 
 Spec::Runner.configure do |config|
