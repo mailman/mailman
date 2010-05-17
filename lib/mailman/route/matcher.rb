@@ -3,8 +3,8 @@ module Mailman
 
     ##
     # @abstract The base matcher class. All matchers should subclass and
-    #   override {#match} to implement this API. A pattern compiler method may
-    #   be required.
+    #   override {#match} to implement this API. Override {#compile!} if a
+    #   pattern compiler is needed.
     class Matcher
 
       attr_reader :pattern
@@ -15,6 +15,7 @@ module Mailman
       # @param pattern the matcher pattern.
       def initialize(pattern)
         @pattern = pattern
+        compile!
       end
 
       ##
@@ -25,6 +26,12 @@ module Mailman
       #   of arguments for the block
       def match(string)
         raise NotImplementedError
+      end
+
+      ##
+      # Compiles the pattern into something easier to work with, usually a
+      # Regexp.
+      def compile!
       end
 
     end

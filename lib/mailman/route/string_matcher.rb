@@ -4,11 +4,6 @@ module Mailman
 
       attr_reader :keys
 
-      def initialize(pattern)
-        super
-        compile!
-      end
-
       def match(string)
         params = {}
         if match = @pattern.match(string)
@@ -17,8 +12,6 @@ module Mailman
           [params, captures]
         end
       end
-
-      private
 
       def compile!
         @keys = []
