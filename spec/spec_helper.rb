@@ -4,6 +4,13 @@ require 'mailman'
 require 'spec'
 require 'spec/autorun'
 
-Spec::Runner.configure do |config|
-  
+module Mailman::SpecHelpers
+  def regexp_matcher(pattern)
+    Mailman::Route::RegexpMatcher.new(pattern)
+  end
 end
+
+Spec::Runner.configure do |config|
+  config.include Mailman::SpecHelpers
+end
+

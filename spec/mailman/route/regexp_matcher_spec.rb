@@ -6,7 +6,7 @@ describe Mailman::Route::RegexpMatcher do
   describe 'basic' do
 
     before do 
-      @matcher = Mailman::Route::RegexpMatcher.new(/test/)
+      @matcher = regexp_matcher(/test/)
     end
 
     it 'should store a pattern' do
@@ -26,14 +26,12 @@ describe Mailman::Route::RegexpMatcher do
   describe 'captures' do
 
     it 'should return a captures hash and array with matches' do
-      matcher = Mailman::Route::RegexpMatcher.new(/(.*)@(.*)/)
       correct_captures = ['test', 'example.com']
-      matcher.match('test@example.com').should == [{:captures => correct_captures}, correct_captures]
+      regexp_matcher(/(.*)@(.*)/).match('test@example.com').should == [{:captures => correct_captures}, correct_captures]
     end
 
     it 'should return empty capture arrays if there were no captures' do
-      matcher = Mailman::Route::RegexpMatcher.new(/test/)
-      matcher.match('test').should == [{:captures => []}, []]
+      regexp_matcher(/test/).match('test').should == [{:captures => []}, []]
     end
 
   end
