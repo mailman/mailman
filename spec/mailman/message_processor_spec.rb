@@ -1,6 +1,6 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', '/spec_helper'))
 
-describe 'Message processor' do
+describe Mailman::MessageProcessor do
 
   def basic_email
     "To: mikel\r\nFrom: bob\r\nSubject: Hello!\r\n\r\nemail message\r\n"

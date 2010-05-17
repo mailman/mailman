@@ -1,6 +1,6 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', '/spec_helper'))
 
-describe 'Message route' do
+describe Mailman::Route do
 
   before do
     @route = Mailman::Route.new

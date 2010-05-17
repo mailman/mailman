@@ -1,6 +1,6 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '/spec_helper'))
 
-describe 'POP3 receiver' do
+describe Mailman::Receiver::POP3 do
 
   before do
     @processor = mock('Message Processor', :process => true)
