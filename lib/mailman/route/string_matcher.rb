@@ -9,6 +9,16 @@ module Mailman
         compile!
       end
 
+      def match(string)
+        params = {}
+        if match = @pattern.match(string)
+          captures = match.captures
+          params.merge!(Hash[*@keys.zip(captures).flatten])
+          [params, captures]
+        end
+      end
+
+      private
 
       def compile!
         @keys = []
@@ -23,16 +33,6 @@ module Mailman
           end
         end
         @pattern = /#{compiled_pattern}/i
-      end
-
-
-      def match(string)
-        params = {}
-        if match = @pattern.match(string)
-          captures = match.captures
-          params.merge!(Hash[*@keys.zip(captures).flatten])
-          [params, captures]
-        end
       end
 
     end
