@@ -13,12 +13,12 @@ module Mailman
       def compile!
         @keys = []
         special_chars = %w/* . + ? \\ | ^ $ ( ) [ ] { } /
-        compiled_pattern = @pattern.to_s.gsub(/((%\w+%)|[\*\\.+?|^$()\[\]{}])/) do |match|
+        compiled_pattern = @pattern.to_s.gsub(/((%[A-Za-z_]+%)|[\*\\.+?|^$()\[\]{}])/) do |match|
           case match
           when *special_chars
             Regexp.escape(match)
           else
-            @keys << $2[1..-2]
+            @keys << $2[1..-2].to_sym
             '(.*)'
           end
         end

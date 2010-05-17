@@ -13,7 +13,7 @@ describe Mailman::Route::StringMatcher do
     end
 
     it 'should turn tokens into keys' do
-      @matcher.keys.should == ['user']
+      @matcher.keys.should == [:user]
     end
 
   end
@@ -21,8 +21,8 @@ describe Mailman::Route::StringMatcher do
   describe 'matcher' do
 
     it 'should return a hash of named params and an array of captures' do
-      correct_result = [{ 'user' => 'test', 'domain' => 'example.com' }, ['test', 'example.com']]
-      string_matcher('%user%@%domain%').match('test@example.com').should == correct_result
+      correct_result = [{ :user_name => 'test', :domain => 'example.com' }, ['test', 'example.com']]
+      string_matcher('%user_name%@%domain%').match('test@example.com').should == correct_result
     end
 
     it 'should return empty results if there are no captures' do
