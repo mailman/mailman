@@ -28,6 +28,12 @@ module Mailman
         @pattern = /#{compiled_pattern}/i
       end
 
+      def self.valid_pattern?(pattern)
+        pattern.respond_to?(:to_s)
+      end
+
+      Matcher.register self
+
     end
   end
 end

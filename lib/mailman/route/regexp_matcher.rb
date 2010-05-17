@@ -9,6 +9,12 @@ module Mailman
         end
       end
 
+      def self.valid_pattern?(pattern)
+        pattern.class == Regexp
+      end
+
+      Matcher.register self
+
     end
   end
 end

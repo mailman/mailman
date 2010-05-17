@@ -2,6 +2,9 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '/spec_he
 
 describe Mailman::Route::RegexpMatcher do
 
+  it 'should be registered with Matcher' do
+    Mailman::Route::Matcher.create(/test/).class.should == Mailman::Route::RegexpMatcher
+  end
 
   describe 'basic' do
 
