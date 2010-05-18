@@ -22,8 +22,8 @@ module Mailman
       def self.register(condition)
         condition_name = condition.to_s.sub('Mailman::Route::', '').sub('Condition', '').downcase
         Route.class_eval <<-EOM
-          def #{condition_name}(*args, &block)
-            @conditions << #{condition}.new(args)
+          def #{condition_name}(pattern, &block)
+            @conditions << #{condition}.new(pattern)
             if block_given?
               @block = block
               true
