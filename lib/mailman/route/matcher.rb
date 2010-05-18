@@ -1,15 +1,15 @@
 module Mailman
   class Route
     # The base matcher class. All matchers should subclass and override {#match}
-    # and {Matcher.valid_pattern?} to implement this API. Override {#compile!} if a
-    # pattern compiler is needed.
+    # and {Matcher.valid_pattern?}, then call {Matcher.register} in the class
+    # body. Override {#compile!} if a pattern compiler is needed.
     class Matcher
 
-      # @return the matcher pattern, normally stored as a Regexp.
+      # @return the matcher pattern, normally stored as a +Regexp+.
       attr_reader :pattern
 
       # Creates a new matcher and calls {#compile!}.
-      # @param the matcher pattern
+      # @param pattern the matcher pattern
       def initialize(pattern)
         @pattern = pattern
         compile!
