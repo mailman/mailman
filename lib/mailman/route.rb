@@ -1,12 +1,23 @@
 module Mailman
+  # The main route class. Has condition methods defined on it by
+  # {Route::Condition.register}. Stores a route with a set of conditions and
+  # matches against them.
   class Route
 
-    attr_reader :block, :conditions
+    # @return [Proc] the block that should be run if the conditions match
+    attr_reader :block
+
+    # @return [Array] the list of condition instances associated with the route
+    attr_reader :conditions
 
     def initialize
       @conditions = []
     end
 
+    # Checks whether a message matches the route.
+    # @param [Mail::Message] message the message to match against
+    # @return [(Proc, Hash, Array)] the block associated with the route, the
+    #   params hash, and the block arguments.
     def match!(message)
       params = {}
       args = []

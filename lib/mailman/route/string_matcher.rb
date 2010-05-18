@@ -1,9 +1,16 @@
 module Mailman
   class Route
+    # Matches using a +String+ with named param captures formatted like
+    # +%user%@example.com+.
     class StringMatcher < Matcher
 
+      # @return [Array<Symbol>] the names of the param captures
       attr_reader :keys
 
+      # Matches against a string using the stored pattern.
+      # @param [String] string the string to match against
+      # @return [({Symbol => String}, <String>)] the params hash, and array of
+      #   captures.
       def match(string)
         params = {}
         if match = @pattern.match(string)
