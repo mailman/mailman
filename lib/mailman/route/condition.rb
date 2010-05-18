@@ -20,7 +20,7 @@ module Mailman
       end
 
       def self.register(condition)
-        condition_name = condition.to_s.sub('Mailman::Route::', '').sub('Condition', '').downcase
+        condition_name = condition.to_s.split('::')[-1][0...-9].downcase
         Route.class_eval <<-EOM
           def #{condition_name}(pattern, &block)
             @conditions << #{condition}.new(pattern)
