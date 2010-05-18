@@ -27,11 +27,14 @@ describe Mailman::Route::Matcher do
     end
 
     it 'should be able to find and create a matcher instance' do
-      Mailman::Route::Matcher.instance_variable_set('@matchers', [TestMatcher])
-      matcher = Mailman::Route::Matcher.create('test')
+      matcher_class = Mailman::Route::Matcher
+      original_matchers = matcher_class.instance_variable_get('@matchers')
+      matcher_class.instance_variable_set('@matchers', [TestMatcher])
+      matcher = matcher_class.create('test')
       matcher.class.should == TestMatcher
       matcher.pattern.should == 'test'
       TestMatcher.validated.should == true
+      matcher_class.instance_variable_set('@matchers', original_matchers)
     end
 
   end
