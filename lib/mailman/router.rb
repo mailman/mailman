@@ -1,5 +1,3 @@
-require 'pp'
-
 module Mailman
   # The router. Stores routes and uses them to process messages.
   class Router
