@@ -8,14 +8,14 @@ describe Mailman::Route do
 
   it 'should match a condition' do
     block = Proc.new { test }
-    correct_result = [block, {:testing => 'test'}, ['testing']]
+    correct_result = { :block => block, :params => {:testing => 'test'}, :args => ['testing'] }
     @route.testing('test', &block)
     @route.match!('test').should == correct_result
   end
 
   it 'should match multiple conditions' do
     block = Proc.new { test }
-    correct_result = [block, {:testing => 'test', :tester => 'test2'}, ['testing', 'test2']]
+    correct_result = { :block => block, :params => {:testing => 'test', :tester => 'test2'}, :args => ['testing', 'test2'] }
     @route.testing('test').tester('test', &block)
     @route.match!('test').should == correct_result
   end

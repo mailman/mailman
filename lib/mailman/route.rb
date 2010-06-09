@@ -16,8 +16,8 @@ module Mailman
 
     # Checks whether a message matches the route.
     # @param [Mail::Message] message the message to match against
-    # @return [(Proc, Hash, Array)] the block associated with the route, the
-    #   params hash, and the block arguments.
+    # @return [Hash] the +:block+ associated with the route, the
+    #   +:params+ hash, and the block +:args+ array.
     def match!(message)
       params = {}
       args = []
@@ -29,7 +29,7 @@ module Mailman
           return nil
         end
       end
-      [@block, params, args]
+      { :block => @block, :params => params, :args => args }
     end
 
   end
