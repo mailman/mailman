@@ -5,6 +5,12 @@ module Mailman
     # @return [Array] the list of routes
     attr_accessor :routes
 
+    # @return [Proc] the block to run if a message has bounced
+    attr_accessor :bounce_block
+
+    # @return [Proc] the block to run if no routes match
+    attr_accessor :default_block
+
     # @return [Hash] the params of the most recently processed message. Used by
     #   route blocks.
     attr_reader :params
@@ -28,6 +34,10 @@ module Mailman
     def route(message)
       result = nil
 
+      if @bounce_block and message.respond_to?(:bounced?) and message.bounced?
+        return instance_exec(&@bounce_block)
+      end
+
       routes.each do |route|
         break if result = route.match!(message)
       end
@@ -39,6 +49,8 @@ module Mailman
         else
           instance_exec(&result[:block])
         end
+      elsif @default_block
+        instance_exec(&@default_block)
       end
     end
 

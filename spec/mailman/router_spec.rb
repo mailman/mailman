@@ -29,7 +29,7 @@ describe Mailman::Router do
       @router.route('test1').should be_true
     end
 
-    describe 'list' do
+    describe 'array' do
 
       before do
         @route2 = TestRoute.new
@@ -47,6 +47,46 @@ describe Mailman::Router do
         @route1.block = lambda { 1 }
         @route2.block = lambda { 2 }
         @router.route('test1').should == 1
+      end
+
+    end
+
+    describe 'bounces' do
+
+      before do
+        @router.bounce_block = lambda { 'bounce' }
+      end
+
+      it 'should run the bounce block if it exists' do
+        message = mock('bounced message', :bounced? => true)
+        @route1.correct_message = message
+        @router.route(message).should == 'bounce'
+      end
+
+      it 'should not run the bounce block if the message did not bounce' do
+        message = mock('bounced message', :bounced? => false)
+        @route1.correct_message = message
+        @route1.block = lambda { 'nobounce' }
+        @router.route(message).should == 'nobounce'
+      end
+
+    end
+
+    describe 'default' do
+
+      before do
+        @router.default_block = lambda { 'default' }
+      end
+
+      it 'should run the default block if it exists and no routes match' do
+        @route1.correct_message = 'foobar'
+        @router.route('blah').should == 'default'
+      end
+
+      it 'should not run the default block if a route matched' do
+        @route1.correct_message = 'test'
+        @route1.block = lambda { 'nodefault' }
+        @router.route('test').should == 'nodefault'
       end
 
     end
