@@ -33,6 +33,12 @@ describe Mailman::Router do
       @router.route('test1')
     end
 
+    it 'should set the params helper to a indifferent hash' do
+      @route1.block = lambda { params[:test].should == 'test'
+                               params['test'].should == 'test' } 
+      @router.route('test1')
+    end
+
     describe 'array' do
 
       before do

@@ -20,7 +20,7 @@ module Mailman
 
     def initialize
       @routes = []
-      @params = {}
+      @params = Hash.new { |hash,key| hash[key.to_sym] if key.respond_to?(:to_sym) } # allows indifferent access via string and symbol
     end
 
     # Adds a route to the router.
