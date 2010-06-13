@@ -20,12 +20,14 @@ describe Mailman::Router do
     end
 
     it 'should work without block args' do
-      @route1.block = lambda { params[:test] == 'test' } 
+      @route1.block = lambda { params[:test] == 'test' and message == 'test1' } 
       @router.route('test1').should be_true
     end
 
     it 'should work with block args' do
-      @route1.block = lambda { |arg1,arg2| arg1 == 'test' and arg2 == 'testing' and params[:test] == 'test' } 
+      @route1.block = lambda { |arg1,arg2| arg1 == 'test' and arg2 == 'testing' and
+                                           params[:test] == 'test' and
+                                           message == 'test1' } 
       @router.route('test1').should be_true
     end
 

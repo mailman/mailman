@@ -12,8 +12,11 @@ module Mailman
     attr_accessor :default_block
 
     # @return [Hash] the params of the most recently processed message. Used by
-    #   route blocks.
+    #   route blocks
     attr_reader :params
+
+    # @return [Mail::Message] the most recently processed message
+    attr_reader :message
 
     def initialize
       @routes = []
@@ -32,6 +35,7 @@ module Mailman
     # captured params. Named params are available from the +params+ helper.
     # @param [Mail::Message] the message to route.
     def route(message)
+      @message = message
       result = nil
 
       if @bounce_block and message.respond_to?(:bounced?) and message.bounced?
