@@ -1,6 +1,7 @@
 require 'mail'
 require 'active_support'
 require 'active_support/core_ext/string/inflections'
+require 'active_support/core_ext/hash/indifferent_access'
 
 module Mailman
 
