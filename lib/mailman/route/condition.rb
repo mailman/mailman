@@ -34,10 +34,14 @@ module Mailman
             @conditions << #{condition}.new(pattern)
             if block_given?
               @block = block
-              true
-            else
-              self
             end
+            self
+          end
+        EOM
+
+        Application.class_eval <<-EOM
+          def #{condition_name}(pattern, &block)
+            @router.add_route Route.new.#{condition_name}(pattern, &block)
           end
         EOM
       end

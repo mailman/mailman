@@ -32,7 +32,8 @@ module Mailman
     end
 
     # Route a message. If the route block accepts arguments, it passes any
-    # captured params. Named params are available from the +params+ helper.
+    # captured params. Named params are available from the +params+ helper. The
+    # message is available from the +message+ helper.
     # @param [Mail::Message] the message to route.
     def route(message)
       @message = message
