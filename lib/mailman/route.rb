@@ -4,6 +4,10 @@ module Mailman
   # matches against them.
   class Route
 
+    [:Condition, :Matcher].each do |constant|
+      autoload constant, "mailman/route/#{constant.to_s.underscore}"
+    end
+
     # @return [Proc] the block that should be run if the conditions match
     attr_reader :block
 

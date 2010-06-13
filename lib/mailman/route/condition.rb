@@ -49,3 +49,5 @@ module Mailman
     end
   end
 end
+
+require 'mailman/route/conditions'

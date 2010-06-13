@@ -1,17 +1,11 @@
+require 'mail'
+require 'active_support'
+require 'active_support/core_ext/string/inflections'
+
 module Mailman
 
+  [:Application, :Router, :Route, :Receiver, :MessageProcessor].each do |constant|
+    autoload constant, "mailman/#{constant.to_s.underscore}"
+  end
+
 end
-
-require 'mail'
-
-require 'mailman/router'
-require 'mailman/application'
-require 'mailman/receiver'
-require 'mailman/receiver/pop3'
-require 'mailman/message_processor'
-require 'mailman/route'
-require 'mailman/route/matcher'
-require 'mailman/route/regexp_matcher'
-require 'mailman/route/string_matcher'
-require 'mailman/route/condition'
-require 'mailman/route/conditions'

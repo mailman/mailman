@@ -60,3 +60,6 @@ module Mailman
     end
   end
 end
+
+require 'mailman/route/regexp_matcher'
+require 'mailman/route/string_matcher'
