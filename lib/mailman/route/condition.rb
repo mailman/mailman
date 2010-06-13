@@ -22,8 +22,8 @@ module Mailman
         raise NotImplementedError
       end
 
-      # Registers a condition subclass, which creates an instance method on
-      # {Route}.
+      # Registers a condition subclass, which creates instance methods on
+      # {Route} and {Application}.
       # @param [Class] condition the condition subclass to register. The method
       #   name is extracted by taking the class name, such as +ToCondition+,
       #   and removing the +Condition+ ending
