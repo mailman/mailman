@@ -28,5 +28,15 @@ module Mailman
       @config[key] = value
     end
 
+    # Same as calling +set :option, true+ for each of the given options.
+    def enable(*opts)
+      opts.each { |key| set(key, true) }
+    end
+
+    # Same as calling +set :option, false+ for each of the given options.
+    def disable(*opts)
+      opts.each { |key| set(key, false) }
+    end
+
   end
 end
