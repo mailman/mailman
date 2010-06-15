@@ -1,7 +1,6 @@
 # Mailman TODO
 
 ## Features
-- Configuration system (send/receive, etc)
 - Logging everywhere
 - Polling for POP3
 - Gemspec
