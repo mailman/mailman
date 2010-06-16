@@ -5,13 +5,9 @@ module Mailman
     # @return [Router] the app's router
     attr_reader :router
 
-    # @return [HashWithIndifferentAccess] a hash of config options
-    attr_accessor :config
-
     # Creates a new router, and sets up any routes passed in the block.
     # @param [Proc] block a block with routes
     def initialize(&block)
-      @config = HashWithIndifferentAccess.new
       @router = Mailman::Router.new
       instance_eval(&block)
     end
@@ -19,23 +15,6 @@ module Mailman
     # Sets the block to run if no routes match a message.
     def default(&block)
       @router.default_block = block
-    end
-
-    # Sets a config option.
-    # @param [Symbol] key the config key
-    # @param value the config value
-    def set(key, value)
-      @config[key] = value
-    end
-
-    # Same as calling +set :option, true+ for each of the given options.
-    def enable(*opts)
-      opts.each { |key| set(key, true) }
-    end
-
-    # Same as calling +set :option, false+ for each of the given options.
-    def disable(*opts)
-      opts.each { |key| set(key, false) }
     end
 
   end

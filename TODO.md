@@ -3,6 +3,8 @@
 ## Features
 - Logging everywhere
 - Polling for POP3
+- Accept messages via named pipe
+- Accept messages via STDIN
 - Gemspec
 - Reply with ActionMailer
 - MTA integration
@@ -21,6 +23,4 @@
 - Mailing list system (w/simple Sinatra web interface)
 
 ## Website
-- Ask about using the vagrantup.com design (clean, easy, and built on GitHub
-  Pages)
 - Overview and quick tutorial docs
