@@ -30,6 +30,10 @@ module Mailman::SpecHelpers
     @app.router.route Mail.new(message)
   end
 
+  def config
+    Mailman::Configuration
+  end
+
   def fixture(*name)
     File.open(File.join(SPEC_ROOT, 'fixtures', name) + '.eml').read
   end
