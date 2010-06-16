@@ -11,9 +11,4 @@ describe Mailman::Configuration do
     Mailman::Configuration.logger.instance_variable_get('@logdev').dev.should == STDERR
   end
 
-  it 'should store the custom logger using a block' do
-    Mailman::Configuration.new { logger = Logger.new(STDERR) }
-    Mailman::Configuration.logger.instance_variable_get('@logdev').dev.should == STDERR
-  end
-
 end
