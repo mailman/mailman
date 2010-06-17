@@ -42,4 +42,15 @@ describe Mailman::Application do
     send_example
   end
 
+  it "should accept a message from STDIN" do
+    mailman_app {
+      from('jamis@37signals.com') do
+        true
+      end
+    }
+
+    $stdin.string = fixture('example02')
+    @app.run.should be_true
+  end
+
 end

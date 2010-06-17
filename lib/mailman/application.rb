@@ -17,5 +17,12 @@ module Mailman
       @router.default_block = block
     end
 
+    # Runs the application.
+    def run
+      if $stdin.fcntl(Fcntl::F_GETFL, 0) == 0 # we have stdin
+        MessageProcessor.new(:router => @router).process($stdin.read)
+      end
+    end
+
   end
 end

@@ -4,7 +4,6 @@
 - Logging everywhere
 - Polling for POP3
 - Accept messages via named pipe
-- Accept messages via STDIN
 - Gemspec
 - Reply with ActionMailer
 - MTA integration
