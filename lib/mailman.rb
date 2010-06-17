@@ -1,3 +1,4 @@
+require 'logger'
 require 'fcntl'
 require 'mail'
 require 'active_support'
