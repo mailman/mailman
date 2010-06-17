@@ -6,8 +6,10 @@ require 'active_support/core_ext/hash/indifferent_access'
 
 module Mailman
 
-  [:Application, :Router, :Configuration, :Route, :Receiver, :MessageProcessor].each do |constant|
+  [:Application, :Router, :Configuration, :Receiver, :MessageProcessor].each do |constant|
     autoload constant, "mailman/#{constant.to_s.underscore}"
   end
+
+  require 'mailman/route'
 
 end
