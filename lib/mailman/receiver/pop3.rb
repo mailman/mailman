@@ -12,14 +12,14 @@ module Mailman
       # @option options [MessageProcessor] :processor the processor to pass new
       #   messages to
       # @option options [String] :server the server to connect to
+      # @option options [Integer] :port the port to connect to
       # @option options [String] :username the username to authenticate with
       # @option options [String] :password the password to authenticate with
       def initialize(options)
         @processor = options[:processor]
-        server = options[:connection]
         @username = options[:username]
         @password = options[:password]
-        @connection = Net::POP3.new(server)
+        @connection = Net::POP3.new(options[:server], options[:port])
       end
 
       # Connects to the POP3 server.
