@@ -51,6 +51,24 @@ describe Mailman::Application do
 
     $stdin.string = fixture('example02')
     @app.run.should be_true
+    $stdin.string = nil
+  end
+
+  it 'should poll a POP3 server, and process messsages' do
+    config.pop3 = { :server => 'example.com',
+                    :username => 'chunky',
+                    :password => 'bacon' }
+    config.poll_interval = 0 # just poll once
+
+    mailman_app {
+      from 'chunky@bacon.com' do
+        @count ||= 0
+        @count += 1
+      end
+    }
+
+    @app.run
+    @app.router.instance_variable_get('@count').should == 2
   end
 
 end

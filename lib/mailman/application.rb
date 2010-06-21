@@ -25,6 +25,22 @@ module Mailman
     def run
       if $stdin.fcntl(Fcntl::F_GETFL, 0) == 0 # we have stdin
         @processor.process($stdin.read)
+      elsif Configuration.pop3
+        options = {:processor => @processor}.merge(Configuration.pop3)
+        connection = Receiver::POP3.new(options)
+        begin
+          connection.connect
+          if Configuration.poll_interval > 0 # we should poll
+            loop do
+              connection.get_messages
+              sleep poll_interval
+            end
+          else # one-time retrieval
+            connection.get_messages
+          end
+        ensure
+          connection.disconnect
+        end
       end
     end
 
