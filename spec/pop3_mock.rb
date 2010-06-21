@@ -25,8 +25,7 @@ class MockPOP3
   def initialize
     @@popmails = []
     2.times do |i|
-      # "test0", "test1"
-      @@popmails << MockPopMail.new("test#{i.to_s}", i)
+      @@popmails << MockPopMail.new("To: test@example.com\r\nFrom: chunky@bacon.com\r\nSubject: Hello!\r\n\r\nemail message\r\ntest#{i.to_s}", i)
     end
   end
 
