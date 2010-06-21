@@ -5,10 +5,14 @@ module Mailman
     # @return [Router] the app's router
     attr_reader :router
 
+    # @return [MessageProcessor] the app's message processor
+    attr_reader :processor
+
     # Creates a new router, and sets up any routes passed in the block.
     # @param [Proc] block a block with routes
     def initialize(&block)
       @router = Mailman::Router.new
+      @processor = MessageProcessor.new(:router => @router)
       instance_eval(&block)
     end
 
@@ -20,7 +24,7 @@ module Mailman
     # Runs the application.
     def run
       if $stdin.fcntl(Fcntl::F_GETFL, 0) == 0 # we have stdin
-        MessageProcessor.new(:router => @router).process($stdin.read)
+        @processor.process($stdin.read)
       end
     end
 
