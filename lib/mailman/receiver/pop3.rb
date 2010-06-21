@@ -1,19 +1,25 @@
+require 'net/pop'
+
 module Mailman
   class Receiver
     # Receives messages using POP3, and passes them to a {MessageProcessor}.
     class POP3
 
+      # @return [Net::POP3] the POP3 connection
+      attr_reader :connection
+
       # @param [Hash] options the receiver options
       # @option options [MessageProcessor] :processor the processor to pass new
       #   messages to
-      # @option options [Net::POP3] :connection the connection to use
+      # @option options [String] :server the server to connect to
       # @option options [String] :username the username to authenticate with
       # @option options [String] :password the password to authenticate with
       def initialize(options)
         @processor = options[:processor]
-        @connection = options[:connection]
+        server = options[:connection]
         @username = options[:username]
         @password = options[:password]
+        @connection = Net::POP3.new(server)
       end
 
       # Connects to the POP3 server.
@@ -31,8 +37,8 @@ module Mailman
       def get_messages
         @connection.each_mail do |message|
           @processor.process(message.pop)
-          message.delete
         end
+        @connection.delete_all
       end
 
     end
