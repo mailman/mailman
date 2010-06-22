@@ -39,8 +39,6 @@ module Mailman
         pattern.respond_to?(:to_s)
       end
 
-      Matcher.register self
-
     end
   end
 end

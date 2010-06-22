@@ -18,8 +18,6 @@ module Mailman
         pattern.class == Regexp
       end
 
-      Matcher.register self
-
     end
   end
 end

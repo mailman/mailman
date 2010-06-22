@@ -56,6 +56,4 @@ class TestMatcher < Mailman::Route::Matcher
       true
     end
   end
-
-  Mailman::Route::Matcher.register self
 end

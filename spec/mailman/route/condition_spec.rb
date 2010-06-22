@@ -26,6 +26,4 @@ class TestCondition < Mailman::Route::Condition
   def match
     true
   end
-
-  Mailman::Route::Condition.register self
 end

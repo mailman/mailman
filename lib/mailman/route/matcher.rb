@@ -1,8 +1,8 @@
 module Mailman
   class Route
     # The base matcher class. All matchers should subclass and override {#match}
-    # and {Matcher.valid_pattern?}, then call {Matcher.register} in the class
-    # body. Override {#compile!} if a pattern compiler is needed.
+    # and {Matcher.valid_pattern?}Override {#compile!} if a pattern compiler is
+    # needed.
     class Matcher
 
       # @return the matcher pattern, normally stored as a +Regexp+.
@@ -35,7 +35,7 @@ module Mailman
 
         # Registers a matcher so that it can be used in {Matcher.create}.
         # @param matcher [Class] a matcher subclass
-        def register(matcher)
+        def inherited(matcher)
           @matchers ||= []
           @matchers << matcher
         end

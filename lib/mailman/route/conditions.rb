@@ -11,8 +11,6 @@ module Mailman
         end
         nil
       end
-
-      Condition.register self
     end
 
     # Matches against the From addresses of a message.
@@ -25,8 +23,6 @@ module Mailman
         end
         nil
       end
-
-      Condition.register self
     end
 
     # Matches against the Subject of a message.
@@ -34,8 +30,6 @@ module Mailman
       def match(message)
         @matcher.match(message.subject)
       end
-
-      Condition.register self
     end
 
     # Matches against the Body of a message.
@@ -43,8 +37,6 @@ module Mailman
       def match(message)
         @matcher.match(message.body.decoded)
       end
-
-      Condition.register self
     end
 
   end

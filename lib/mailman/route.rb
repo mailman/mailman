@@ -1,6 +1,6 @@
 module Mailman
   # The main route class. Has condition methods defined on it by
-  # {Route::Condition.register}. Stores a route with a set of conditions and
+  # {Route::Condition.inherited}. Stores a route with a set of conditions and
   # matches against them.
   class Route
 

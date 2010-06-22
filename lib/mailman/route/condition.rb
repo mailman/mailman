@@ -1,7 +1,7 @@
 module Mailman
   class Route
     # The base condition class. All conditions should subclass and override
-    # {#match}, and call {Condition.register} in the class body.
+    # {#match}.
     class Condition
 
       # @return the matcher to match against.
@@ -27,7 +27,7 @@ module Mailman
       # @param [Class] condition the condition subclass to register. The method
       #   name is extracted by taking the class name, such as +ToCondition+,
       #   and removing the +Condition+ ending
-      def self.register(condition)
+      def self.inherited(condition)
         condition_name = condition.to_s.split('::')[-1][0...-9].downcase
         Route.class_eval <<-EOM
           def #{condition_name}(pattern, &block)

@@ -34,14 +34,10 @@ class TestingCondition < Mailman::Route::Condition
   def match(message)
     [{:testing => 'test'}, ['testing']] if @matcher.match(message)
   end
-
-  Mailman::Route::Condition.register self
 end
 
 class TesterCondition < Mailman::Route::Condition
   def match(message)
     [{:tester => 'test2'}, ['test2']] if @matcher.match(message)
   end
-
-  Mailman::Route::Condition.register self
 end
