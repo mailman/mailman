@@ -1,7 +1,7 @@
 module Mailman
   class Route
     # The base matcher class. All matchers should subclass and override {#match}
-    # and {Matcher.valid_pattern?}Override {#compile!} if a pattern compiler is
+    # and {Matcher.valid_pattern?}. Override {#compile!} if a pattern compiler is
     # needed.
     class Matcher
 
