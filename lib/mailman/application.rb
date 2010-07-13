@@ -41,6 +41,20 @@ module Mailman
         ensure
           connection.disconnect
         end
+      elsif Mailman.config.maildir
+        maildir = Maildir.new(Mailman.config.maildir)
+
+        # Process messages queued in the new directory
+        maildir.list(:new).each do |message|
+          @processor.process_maildir_message(message)
+        end
+
+        FSSM.monitor File.join(Mailman.config.maildir, 'new') do |monitor|
+          monitor.create { |directory, filename| # a new message was delivered to new
+            message = Maildir::Message.new(maildir, "new/#{filename}")
+            @processor.process_maildir_message(message)
+          }
+        end
       end
     end
 

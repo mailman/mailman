@@ -11,6 +11,9 @@ module Mailman
     #   disables polling
     attr_accessor :poll_interval
 
+    # @return [String] the path to the maildir
+    attr_accessor :maildir
+
     def logger
       @logger ||= Logger.new(STDOUT)
     end

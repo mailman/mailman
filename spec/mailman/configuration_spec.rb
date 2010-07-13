@@ -4,7 +4,7 @@ describe Mailman::Configuration do
 
   # in spec_helper config = Mailman.config
 
-  before do
+  after do
     Mailman.reset_config!
   end
 
@@ -35,6 +35,11 @@ describe Mailman::Configuration do
   it 'should store the poll interval' do
     config.poll_interval = 20
     config.poll_interval.should == 20
+  end
+
+  it 'should store the maildir location' do
+    config.maildir = '../maildir-test'
+    config.maildir.should == '../maildir-test'
   end
 
 end

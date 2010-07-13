@@ -16,5 +16,12 @@ module Mailman
       @router.route(Mail.new(message))
     end
 
+    # Processes a +Maildir::Message+ instance.
+    def process_maildir_message(message)
+      message.process # move message to cur
+      message.seen!
+      process(message.data)
+    end
+
   end
 end

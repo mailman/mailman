@@ -2,6 +2,10 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', '/spec_helper')
 
 describe Mailman::Application do
 
+  after do
+    Mailman.reset_config!
+  end
+
   def send_example
     send_message(fixture('example01')).should be_true
   end
@@ -69,6 +73,29 @@ describe Mailman::Application do
 
     @app.run
     @app.router.instance_variable_get('@count').should == 2
+  end
+
+  it 'should watch a maildir folder for messages' do
+    setup_maildir # creates the maildir with a queued message
+
+    config.maildir = File.join(SPEC_ROOT, 'test-maildir')
+    test_message_path = File.join(config.maildir, 'new', 'message2')
+
+    mailman_app {
+      from 'jdoe@machine.example' do
+        @count ||= 0
+        @count += 1
+
+        Thread.exit if @count == 2 # exit when we've processed the two messages
+      end
+    }
+
+    app_thread = Thread.new { @app.run } # run the app in a separate thread so that fssm doesn't block
+    FileUtils.cp(File.join(SPEC_ROOT, 'fixtures', 'example01.eml'), test_message_path) # copy a message into place, triggering fssm handler
+    app_thread.join # wait for fssm handler
+    @app.router.instance_variable_get('@count').should == 2
+
+    FileUtils.rm_r(config.maildir)
   end
 
 end

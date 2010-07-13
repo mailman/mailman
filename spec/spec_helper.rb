@@ -1,5 +1,6 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+require 'fileutils'
 require 'mailman'
 require 'spec'
 require 'spec/autorun'
@@ -37,6 +38,15 @@ module Mailman::SpecHelpers
 
   def fixture(*name)
     File.open(File.join(SPEC_ROOT, 'fixtures', name) + '.eml').read
+  end
+
+  def setup_maildir
+    maildir = File.join(SPEC_ROOT, 'test-maildir')
+    FileUtils.rm_r(maildir) rescue nil
+    Maildir.new(maildir)
+    message = File.new(File.join(maildir, 'new', 'message1'), 'w')
+    message.puts(fixture('example01'))
+    message.close
   end
 
 end
