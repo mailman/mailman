@@ -91,6 +91,7 @@ describe Mailman::Application do
     }
 
     app_thread = Thread.new { @app.run } # run the app in a separate thread so that fssm doesn't block
+    sleep(0.5)
     FileUtils.cp(File.join(SPEC_ROOT, 'fixtures', 'example01.eml'), test_message_path) # copy a message into place, triggering fssm handler
     app_thread.join # wait for fssm handler
     @app.router.instance_variable_get('@count').should == 2
