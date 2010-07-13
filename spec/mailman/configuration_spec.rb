@@ -2,17 +2,13 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', '/spec_helper')
 
 describe Mailman::Configuration do
 
-  # in spec_helper config = Mailman::Configuration
+  # in spec_helper config = Mailman.config
+
+  before do
+    Mailman.reset_config!
+  end
 
   describe 'logger' do
-
-    before do
-      @original_logger = config.logger
-    end
-
-    after do
-      config.logger = @original_logger
-    end
 
     it 'should have a default logger' do
       config.logger = nil
@@ -29,7 +25,6 @@ describe Mailman::Configuration do
   it 'should store the POP3 config hash' do
     config.pop3 = {:user => 'foo'}
     config.pop3.should == {:user => 'foo'}
-    config.pop3 = nil
   end
 
   it 'should have a default poll interval' do
@@ -40,7 +35,6 @@ describe Mailman::Configuration do
   it 'should store the poll interval' do
     config.poll_interval = 20
     config.poll_interval.should == 20
-    config.poll_interval = nil
   end
 
 end

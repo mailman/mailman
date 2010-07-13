@@ -32,7 +32,7 @@ module Mailman::SpecHelpers
   end
 
   def config
-    Mailman::Configuration
+    Mailman.config
   end
 
   def fixture(*name)

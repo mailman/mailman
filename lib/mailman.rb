@@ -13,4 +13,14 @@ module Mailman
 
   require 'mailman/route'
 
+  # @return [Configuration] the application configuration.
+  def self.config
+    @config ||= Configuration.new
+  end
+
+  # Resets the app config (useful for testing).
+  def self.reset_config!
+    @config = Configuration.new
+  end
+
 end
