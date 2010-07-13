@@ -8,18 +8,14 @@ describe Mailman::Configuration do
     Mailman.reset_config!
   end
 
-  describe 'logger' do
+  it 'should have a default logger' do
+    config.logger = nil
+    config.logger.instance_variable_get('@logdev').dev.should == STDOUT
+  end
 
-    it 'should have a default logger' do
-      config.logger = nil
-      config.logger.instance_variable_get('@logdev').dev.should == STDOUT
-    end
-
-    it 'should store a custom logger' do
-      config.logger = Logger.new(STDERR)
-      config.logger.instance_variable_get('@logdev').dev.should == STDERR
-    end
-
+  it 'should store a custom logger' do
+    config.logger = Logger.new(STDERR)
+    config.logger.instance_variable_get('@logdev').dev.should == STDERR
   end
 
   it 'should store the POP3 config hash' do
@@ -40,6 +36,15 @@ describe Mailman::Configuration do
   it 'should store the maildir location' do
     config.maildir = '../maildir-test'
     config.maildir.should == '../maildir-test'
+  end
+
+  it 'should have a default rails root' do
+    config.rails_root.should == '.'
+  end
+
+  it 'should store a custom rails root' do
+    config.rails_root = 'test-app'
+    config.rails_root.should == 'test-app'
   end
 
 end

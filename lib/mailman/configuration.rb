@@ -14,12 +14,20 @@ module Mailman
     # @return [String] the path to the maildir
     attr_accessor :maildir
 
+    # @return [String] the path to the rails root. Setting this to nil stops
+    #   rails environment loading
+    attr_accessor :rails_root
+
     def logger
       @logger ||= Logger.new(STDOUT)
     end
 
     def poll_interval
       @poll_interval ||= 60
+    end
+
+    def rails_root
+      @rails_root ||= '.'
     end
 
   end

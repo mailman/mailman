@@ -23,6 +23,11 @@ module Mailman
 
     # Runs the application.
     def run
+      rails_env = File.join(Mailman.config.rails_root, 'config', 'environment.rb')
+      if Mailman.config.rails_root && File.exist?(rails_env)
+        require rails_env
+      end
+
       if $stdin.fcntl(Fcntl::F_GETFL, 0) == 0 # we have stdin
         @processor.process($stdin.read)
       elsif Mailman.config.pop3
