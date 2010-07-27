@@ -9,6 +9,10 @@ Mailman is a microframework for processing incoming email:
       end
     end
 
+## Installation
+
+Installation is as simple as `gem install mailman`.
+
 
 ## Routes & Conditions
 
@@ -65,6 +69,14 @@ conditions pass:
 
     to('support@example.org').subject(/urgent/) do
       # process urgent message here
+    end
+
+#### Special routes
+
+The `default` route is a catch-all that is run if no other routes match:
+
+    default do
+      # process non-matching messages
     end
 
 #### Block Arguments
