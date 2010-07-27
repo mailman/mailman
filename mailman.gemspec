@@ -18,10 +18,10 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = 'mailman'
 
-  s.add_dependency 'mail', '>= 2.2.4'
-  s.add_dependency 'activesupport', '>= 2.3.6'
+  s.add_dependency 'mail', '>= 2.0.3'
+  s.add_dependency 'activesupport', '>= 2.3.4'
   s.add_dependency 'fssm', '>= 0.1.4'
-  s.add_dependency 'maildir', '>= 0.6.0'
+  s.add_dependency 'maildir', '>= 0.5.0'
 
   s.add_development_dependency 'rspec'
 
