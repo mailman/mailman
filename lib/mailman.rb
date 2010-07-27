@@ -8,6 +8,8 @@ require 'active_support/core_ext/hash/indifferent_access'
 require 'maildir'
 require 'fssm'
 
+require 'mailman/version'
+
 module Mailman
 
   [:Application, :Router, :Configuration, :Receiver, :MessageProcessor].each do |constant|
@@ -24,6 +26,11 @@ module Mailman
   # Resets the app config (useful for testing).
   def self.reset_config!
     @config = Configuration.new
+  end
+
+  # Shortcut for the logger object
+  def self.logger
+    Mailman.config.logger
   end
 
 end
