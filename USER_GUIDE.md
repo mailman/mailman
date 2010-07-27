@@ -1,6 +1,97 @@
 # Mailman User Guide
 
+Mailman is a microframework for processing incoming email:
+
+    require 'mailman'
+    Mailman::Application.new do
+      to 'support@example.org' do
+        Ticket.new_from_message(message)
+      end
+    end
+
+
 ## Routes & Conditions
+
+A **Condition** specifies the part of the message to match against. `to`,
+`from`, and `subject` are some valid conditions. A **Matcher** is used by a
+condition to determine whether it matches the message. Matchers can be
+strings or regular expressions. One or more Condition/Matcher pairs are
+combined with a block of code to form a **Route**.
+
+### Matchers
+
+There are string and regular expression matchers. Both can perform captures.
+
+#### String
+
+String matchers are very simple. They search through a whole filed for a
+specific substring. For instance: `'ID'` would match `Ticket ID`, `User ID`,
+etc.
+
+They can also perform named captures. `'%username%@example.org'` will match any
+email address that ends with `example.org`, and store the user part of the
+address in a capture called `username`. Captures can be accessed by using
+the `params` helper inside of blocks, or with block arguments (see below for
+details).
+
+The capture names may only contain letters and underscores. Behind the scenes
+they are compiled to regular expressions, and each capture is the equivalent to
+`.*`. There is currently no way to escape `%` characters. If a literal `%` is
+required, and Mailman thinks it is a named capture, use a regular expression
+matcher instead.
+
+#### Regular expression
+
+Regular expressions may be used as matchers. All captures will be available from
+the params helper (`params[:captures]`) as and Array, and as block arguments.
+
+
+### Routes
+
+Routes are defined within a Mailman application block:
+
+    Mailman::Application.new do
+      # routes here
+    end
+
+Messages are passed through routes in the order they are defined in the
+application from top to bottom. The first matching route's block will be
+called.
+
+#### Condition Chaining
+
+Conditions can be chained so that the route will only be executed if all
+conditions pass:
+
+    to('support@example.org').subject(/urgent/) do
+      # process urgent message here
+    end
+
+#### Block Arguments
+
+All captures from matchers are available as block arguments:
+
+    from('%user%@example.org').subject(/Ticket (\d+)/) do |username, ticket_id|
+      puts "Got message from #{username} about Ticket #{ticket_id}"
+    end
+
+#### Route Helpers
+
+There are two helpers available inside of route blocks:
+
+The `params` hash holds all captures from matchers:
+
+    from('%user%@example.org').subject(/RE: (.*)/) do
+      params[:user] #=> 'chunkybacon'
+      # it is an indifferent hash, so you can use strings and symbols
+      # interchangeably as keys
+      params['captures'][0] #=> 'A very important message about pigs'
+    end
+
+The `message` helper is a `Mail::Message` object that contains the entire
+message. See the [mail](http://github.com/mikel/mail/) docs for information on
+the properties available.
+
 
 ## Receivers
 
