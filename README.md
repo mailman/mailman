@@ -1,11 +1,20 @@
 # Mailman
 
-Mailman is an incoming mail processing microframework (with POP, IMAP, and
-MTA support), that works with Rails "out of the box", and is compatible with
-other popular ruby web frameworks, complete with a routing DSL and bounce
-detection.
+Mailman is an incoming mail processing microframework (with POP3 and Maildir
+support), that works with Rails "out of the box".
+
+    require 'mailman'
+    Mailman::Application.new do
+      to 'ticket-%id%@example.org' do 
+        Ticket.find(params[:id]).add_reply(message)
+      end
+    end
 
 See the {file:USER_GUIDE.md} for more information.
+
+## Installation
+
+    gem install mailman
 
 ## Thanks
 

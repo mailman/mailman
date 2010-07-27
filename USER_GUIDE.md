@@ -1,13 +1,22 @@
 # Mailman User Guide
 
-Mailman is a microframework for processing incoming email:
+Mailman is a microframework for processing incoming email.
 
+Here is an example Mailman app that takes incoming messages to a support
+email account, and adds them to a database.
+
+    # mailman_app.rb
     require 'mailman'
+
+    Mailman.config.maildir = '~/Maildir'
+
     Mailman::Application.new do
       to 'support@example.org' do
         Ticket.new_from_message(message)
       end
     end
+
+The Mailman app could then be started by running `ruby mailman_app.rb`.
 
 ## Installation
 
