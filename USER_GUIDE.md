@@ -12,7 +12,7 @@ Maildir receiver.
 
 ### Standard Input
 
-If a message is piped to a Mailman app, this reciever will override any
+If a message is piped to a Mailman app, this receiver will override any
 configured receivers. The app will process the message, and then quit. This
 receiver is useful for testing and debugging.
 
@@ -64,9 +64,9 @@ set, Mailman will use POP3 polling as the receiver.
 **Example**:
 
     Mailman.config.pop3 = {
-      :username => chunky,
-      :password => bacon,
-      :server   => example.org,
+      :username => 'chunky',
+      :password => 'bacon',
+      :server   => 'example.org',
       :port     => 110 # defaults to 110
     }
 
@@ -95,4 +95,4 @@ is set, Mailman will use Maildir watching as the receiver.
 load the environment from. If this option is set to `nil`, Rails environment
 loading will be disabled.
 
-**Default**: `.`
+**Default**: `'.'`
