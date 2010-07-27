@@ -24,12 +24,12 @@ There are string and regular expression matchers. Both can perform captures.
 
 #### String
 
-String matchers are very simple. They search through a whole filed for a
+String matchers are very simple. They search through a whole field for a
 specific substring. For instance: `'ID'` would match `Ticket ID`, `User ID`,
 etc.
 
 They can also perform named captures. `'%username%@example.org'` will match any
-email address that ends with `example.org`, and store the user part of the
+email address that ends with `@example.org`, and store the user part of the
 address in a capture called `username`. Captures can be accessed by using
 the `params` helper inside of blocks, or with block arguments (see below for
 details).
@@ -43,7 +43,7 @@ matcher instead.
 #### Regular expression
 
 Regular expressions may be used as matchers. All captures will be available from
-the params helper (`params[:captures]`) as and Array, and as block arguments.
+the params helper (`params[:captures]`) as an Array, and as block arguments.
 
 
 ### Routes
@@ -91,6 +91,13 @@ The `params` hash holds all captures from matchers:
 The `message` helper is a `Mail::Message` object that contains the entire
 message. See the [mail](http://github.com/mikel/mail/) docs for information on
 the properties available.
+
+
+### Conditions
+
+Currently there are four conditions available: `to`, `from`, `subject`, `body`
+
+More can be added easily (see `lib/mailman/route/conditions.rb`).
 
 
 ## Receivers

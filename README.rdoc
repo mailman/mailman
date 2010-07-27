@@ -5,8 +5,7 @@ MTA support), that works with Rails "out of the box", and is compatible with
 other popular ruby web frameworks, complete with a routing DSL and bounce
 detection.
 
-Currently there's not much to see here, but come back in a few months, and
-it should be working.
+See `USER_GUIDE.md` for more information.
 
 == Thanks
 
