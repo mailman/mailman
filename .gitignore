@@ -19,7 +19,6 @@ doc
 .yardoc
 pkg
 *.rbc
-Gemfile.lock
 .bundle
 
 ## PROJECT::SPECIFIC

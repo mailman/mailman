@@ -1,4 +1,4 @@
-source "http://rubygems.org"
+source 'http://rubygems.org'
 
 group :runtime do
   gem 'mail',           '>= 2.0.3'
@@ -11,4 +11,3 @@ group :test do
   gem 'rake'
   gem 'rspec'
 end
-
