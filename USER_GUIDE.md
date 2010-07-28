@@ -10,7 +10,7 @@ email account, and adds them to a database.
 
     Mailman.config.maildir = '~/Maildir'
 
-    Mailman::Application.new do
+    Mailman::Application.run do
       to 'support@example.org' do
         Ticket.new_from_message(message)
       end
@@ -63,7 +63,7 @@ the params helper (`params[:captures]`) as an Array, and as block arguments.
 
 Routes are defined within a Mailman application block:
 
-    Mailman::Application.new do
+    Mailman::Application.run do
       # routes here
     end
 

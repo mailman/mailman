@@ -2,6 +2,12 @@ module Mailman
   # The main application class. Pass a block to {#new} to create a new app.
   class Application
 
+    def self.run(&block)
+      app = new(&block)
+      app.run
+      app
+    end
+
     # @return [Router] the app's router
     attr_reader :router
 
