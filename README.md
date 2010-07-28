@@ -21,6 +21,10 @@ See the {file:USER_GUIDE.md} for more information.
 This project is sponsored by the [Ruby Summer of Code](http://rubysoc.org),
 and my mentor is [Steven Soroka](http://github.com/ssoroka).
 
+### Contributors
+
+    Tim Carey-Smith
+
 ## Copyright
 
 Copyright (c) 2010 Jonathan Rudenberg. See LICENSE for details.
