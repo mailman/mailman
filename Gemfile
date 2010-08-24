@@ -1,4 +1,4 @@
-source 'http://rubygems.org'
+source :rubygems
 
 group :runtime do
   gem 'mail',           '>= 2.0.3'

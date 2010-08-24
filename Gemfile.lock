@@ -1,49 +1,27 @@
---- 
-hash: 3249258169aa96daeea1d417c6b6a2216301d157
-sources: 
-- Rubygems: 
-    uri: http://rubygems.org
-specs: 
-- rake: 
-    version: 0.8.7
-- activesupport: 
-    version: 2.3.8
-- fssm: 
-    version: 0.1.4
-- mime-types: 
-    version: "1.16"
-- polyglot: 
-    version: 0.3.1
-- treetop: 
-    version: 1.4.8
-- mail: 
-    version: 2.2.5
-- maildir: 
-    version: 0.6.0
-- rspec: 
-    version: 1.3.0
-dependencies: 
-  mail: 
-    version: ">= 2.0.3"
-    group: 
-    - :runtime
-  activesupport: 
-    version: ">= 2.3.4"
-    group: 
-    - :runtime
-  fssm: 
-    version: ">= 0.1.4"
-    group: 
-    - :runtime
-  maildir: 
-    version: ">= 0.5.0"
-    group: 
-    - :runtime
-  rake: 
-    version: ">= 0"
-    group: 
-    - :test
-  rspec: 
-    version: ">= 0"
-    group: 
-    - :test
+GEM
+  remote: http://rubygems.org/
+  specs:
+    activesupport (2.3.8)
+    fssm (0.1.4)
+    mail (2.2.5)
+      activesupport (>= 2.3.6)
+      mime-types
+      treetop (>= 1.4.5)
+    maildir (0.6.0)
+    mime-types (1.16)
+    polyglot (0.3.1)
+    rake (0.8.7)
+    rspec (1.3.0)
+    treetop (1.4.8)
+      polyglot (>= 0.3.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  activesupport (>= 2.3.4)
+  fssm (>= 0.1.4)
+  mail (>= 2.0.3)
+  maildir (>= 0.5.0)
+  rake
+  rspec
