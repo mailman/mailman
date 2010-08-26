@@ -24,6 +24,7 @@ and my mentor is [Steven Soroka](http://github.com/ssoroka).
 ### Contributors
 
     Tim Carey-Smith
+    Nicolas Aguttes
 
 ## Copyright
 
