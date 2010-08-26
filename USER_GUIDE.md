@@ -105,7 +105,7 @@ ActionMailer mailer with a `receive` method defined, this will work:
 
 Messages can also be routed to arbitrary instance methods:
 
-    from '%user%@example.org', 'SampleMailer#new_message'
+    from '%user%@example.org', 'ExampleClass#new_message'
 
 The method should accept two arguments, the message object, and the params:
 
