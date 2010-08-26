@@ -49,7 +49,14 @@ module Mailman
 
       if result
         @params.merge!(result[:params])
-        if result[:block].arity > 0
+        if !result[:klass].nil?
+          if result[:klass].is_a?(Class) # no instance method specified
+            result[:klass].new.send(:receive, @message, @params)
+          elsif result[:klass].kind_of?(String) # instance method specified
+            klass, method = result[:klass].split('#')
+            klass.camelize.constantize.new.send(method.to_sym, @message, @params)
+          end
+        elsif result[:block].arity > 0
           instance_exec(*result[:args], &result[:block])
         else
           instance_exec(&result[:block])

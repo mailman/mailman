@@ -7,6 +7,10 @@ module Mailman
     # @return [Proc] the block that should be run if the conditions match
     attr_reader :block
 
+    # @return [Class,String] the class (and optional instance method) to run
+    #   instead of a block
+    attr_reader :klass
+
     # @return [Array] the list of condition instances associated with the route
     attr_reader :conditions
 
@@ -16,7 +20,7 @@ module Mailman
 
     # Checks whether a message matches the route.
     # @param [Mail::Message] message the message to match against
-    # @return [Hash] the +:block+ associated with the route, the
+    # @return [Hash] the +:block+ and +:klass+ associated with the route, the
     #   +:params+ hash, and the block +:args+ array.
     def match!(message)
       params = {}
@@ -29,7 +33,7 @@ module Mailman
           return nil
         end
       end
-      { :block => @block, :params => params, :args => args }
+      { :block => @block, :klass => @klass, :params => params, :args => args }
     end
 
   end

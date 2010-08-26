@@ -30,8 +30,9 @@ module Mailman
       def self.inherited(condition)
         condition_name = condition.to_s.split('::')[-1][0...-9].downcase
         Route.class_eval <<-EOM
-          def #{condition_name}(pattern, &block)
+          def #{condition_name}(pattern, klass = nil, &block)
             @conditions << #{condition}.new(pattern)
+            @klass = klass
             if block_given?
               @block = block
             end
@@ -40,8 +41,8 @@ module Mailman
         EOM
 
         Application.class_eval <<-EOM
-          def #{condition_name}(pattern, &block)
-            @router.add_route Route.new.#{condition_name}(pattern, &block)
+          def #{condition_name}(pattern, klass = nil, &block)
+            @router.add_route Route.new.#{condition_name}(pattern, klass, &block)
           end
         EOM
       end

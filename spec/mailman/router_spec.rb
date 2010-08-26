@@ -19,18 +19,36 @@ describe Mailman::Router do
       @router.add_route(@route1)
     end
 
-    it 'should work without block args' do
-      @route1.block = lambda { params[:test].should == 'test'
-                               message.should == 'test1' } 
-      @router.route('test1')
+    describe 'blocks' do
+
+      it 'should work without args' do
+        @route1.block = lambda { params[:test].should == 'test'
+                                 message.should == 'test1' } 
+        @router.route('test1')
+      end
+
+      it 'should work with args' do
+        @route1.block = lambda { |arg1,arg2| arg1.should == 'test'
+                                             arg2.should == 'testing'
+                                             params[:test].should == 'test'
+                                             message.should == 'test1' } 
+        @router.route('test1')
+      end
+
     end
 
-    it 'should work with block args' do
-      @route1.block = lambda { |arg1,arg2| arg1.should == 'test'
-                                           arg2.should == 'testing'
-                                           params[:test].should == 'test'
-                                           message.should == 'test1' } 
-      @router.route('test1')
+    describe 'class instance methods' do
+
+      it 'should route to the default method' do
+        @route1.klass = TestMailer
+        @router.route('test1').should be_true
+      end
+
+      it 'should route to the specified method' do
+        @route1.klass = 'testMailer#get'
+        @router.route('test1').should be_true
+      end
+
     end
 
     it 'should set the params helper to a indifferent hash' do
@@ -107,10 +125,20 @@ end
 
 class TestRoute
 
-  attr_accessor :block, :correct_message
+  attr_accessor :block, :correct_message, :klass
 
   def match!(message)
-    { :block => @block, :params => {:test => 'test'}, :args => ['test', 'testing'] } if message == @correct_message
+    { :block => @block, :klass => @klass, :params => {:test => 'test'}, :args => ['test', 'testing'] } if message == @correct_message
   end
+
+end
+
+class TestMailer
+
+  def receive(message, params)
+    message == 'test1' && params[:test] == 'test'
+  end
+
+  alias_method :get, :receive
 
 end

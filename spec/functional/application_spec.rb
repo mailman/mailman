@@ -32,6 +32,14 @@ describe Mailman::Application do
     send_example
   end
 
+  it 'should route a message to a class instance method' do
+    mailman_app {
+      from '%user%@machine.example', FakeMailer
+    }
+
+    send_example
+  end
+
   it "should route a message that doesn't match to the default block" do
     mailman_app {
       from('foobar@example.net') do
@@ -97,6 +105,14 @@ describe Mailman::Application do
     @app.router.instance_variable_get('@count').should == 2
 
     FileUtils.rm_r(config.maildir)
+  end
+
+end
+
+class FakeMailer
+
+  def receive(message, params)
+    message.subject == 'Saying Hello' && params[:user] == 'jdoe'
   end
 
 end

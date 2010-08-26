@@ -96,6 +96,23 @@ All captures from matchers are available as block arguments:
       puts "Got message from #{username} about Ticket #{ticket_id}"
     end
 
+#### Class Routing
+
+Messages can also be routed to methods. For instance, to route to an
+ActionMailer mailer with a `receive` method defined, this will work:
+
+    from '%user%@example.org', SampleMailer
+
+Messages can also be routed to arbitrary instance methods:
+
+    from '%user%@example.org', 'SampleMailer#new_message'
+
+The method should accept two arguments, the message object, and the params:
+
+    def receive(message, params)
+      # process message here
+    end
+
 #### Route Helpers
 
 There are two helpers available inside of route blocks:
