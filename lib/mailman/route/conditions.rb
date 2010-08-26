@@ -4,9 +4,11 @@ module Mailman
     # Matches against the To addresses of a message.
     class ToCondition < Condition
       def match(message)
-        message.to.each do |address|
-          if result = @matcher.match(address)
-            return result
+        if !message.to.nil?
+          message.to.each do |address|
+            if result = @matcher.match(address)
+              return result
+            end
           end
         end
         nil
@@ -38,6 +40,21 @@ module Mailman
         @matcher.match(message.body.decoded)
       end
     end
+
+    # Matches against the CC header of a message.
+    class CcCondition < Condition
+      def match(message)
+        if !message.cc.nil?
+          message.cc.each do |address|
+            if result = @matcher.match(address)
+              return result
+            end
+          end
+        end
+        nil
+      end
+    end
+
 
   end
 end

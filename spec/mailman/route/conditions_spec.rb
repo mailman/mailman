@@ -10,6 +10,10 @@ describe Mailman::Route::ToCondition do
     Mailman::Route::ToCondition.new('foo').match(basic_message).should be_nil
   end
 
+  it 'should not match a nil address' do
+    Mailman::Route::ToCondition.new('test').match(Mail.new).should be_nil
+  end
+
   it 'should define a method on Route that is chainable and stores the condition' do
     Mailman::Route.new.to('test').conditions[0].class.should == Mailman::Route::ToCondition
   end
@@ -60,6 +64,26 @@ describe Mailman::Route::BodyCondition do
 
   it 'should define a method on Route that is chainable and stores the condition' do
     Mailman::Route.new.body('test').conditions[0].class.should == Mailman::Route::BodyCondition
+  end
+
+end
+
+describe Mailman::Route::CcCondition do
+
+  it 'should match an address' do
+    Mailman::Route::CcCondition.new('testing').match(basic_message).should == [{}, []]
+  end
+
+  it 'should not match a non-matching address' do
+    Mailman::Route::CcCondition.new('foo').match(basic_message).should be_nil
+  end
+
+  it 'should not match a nil address' do
+    Mailman::Route::CcCondition.new('testing').match(Mail.new).should be_nil
+  end
+
+  it 'should define a method on Route that is chainable and stores the condition' do
+    Mailman::Route.new.cc('testing').conditions[0].class.should == Mailman::Route::CcCondition
   end
 
 end
