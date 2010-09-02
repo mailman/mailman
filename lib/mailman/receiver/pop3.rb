@@ -15,11 +15,13 @@ module Mailman
       # @option options [Integer] :port the port to connect to
       # @option options [String] :username the username to authenticate with
       # @option options [String] :password the password to authenticate with
+      # @option options [true,false] :ssl enable SSL
       def initialize(options)
         @processor = options[:processor]
         @username = options[:username]
         @password = options[:password]
         @connection = Net::POP3.new(options[:server], options[:port])
+        @connection.enable_ssl(OpenSSL::SSL::VERIFY_NONE) if options[:ssl]
       end
 
       # Connects to the POP3 server.

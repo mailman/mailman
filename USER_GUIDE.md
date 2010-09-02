@@ -162,7 +162,8 @@ will poll every minute by default (this can be changed with
 `Mailman.config.poll_interval`). After new messages are processed, they will
 be deleted from the server. *No copy of messages will be saved anywhere
 after processing*. If you want to keep a copy of messages, it is recommended
-that you use a mail retriever with the Maildir receiver.
+that you use a mail retriever with the Maildir receiver. You could also use
+Gmail and set it to keep messages after they have been retrieved with POP3.
 
 
 ### Maildir
@@ -200,10 +201,11 @@ set, Mailman will use POP3 polling as the receiver.
 **Example**:
 
     Mailman.config.pop3 = {
-      :username => 'chunky',
-      :password => 'bacon',
-      :server   => 'example.org',
-      :port     => 110 # defaults to 110
+      :username => 'chunkybacon@gmail.com',
+      :password => 'foobar',
+      :server   => 'pop.gmail.com',
+      :port     => 995, # defaults to 110
+      :ssl      => true # defaults to false
     }
 
 
