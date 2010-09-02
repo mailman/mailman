@@ -10,7 +10,7 @@ support), that works with Rails "out of the box".
       end
     end
 
-See the [USER_GUIDE.md](http://rubydoc.info/github/titanous/mailman/master/file/USER_GUIDE.md) for more information.
+See the [User Guide](http://rubydoc.info/github/titanous/mailman/master/file/USER_GUIDE.md) for more information.
 
 ## Installation
 
