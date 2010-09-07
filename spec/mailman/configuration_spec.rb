@@ -46,5 +46,13 @@ describe Mailman::Configuration do
     config.rails_root = 'test-app'
     config.rails_root.should == 'test-app'
   end
-
+  
+  it 'should default to not ignoring stdin' do
+    config.ignore_stdin.should == nil
+  end
+  
+  it 'should store ignore_stdin setting' do
+    config.ignore_stdin = true
+    config.ignore_stdin.should == true
+  end
 end
