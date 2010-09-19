@@ -1,5 +1,5 @@
 module Mailman
-  class Receiver
+  module Receiver
 
     autoload :POP3, 'mailman/receiver/pop3'
 

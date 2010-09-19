@@ -1,7 +1,7 @@
 require 'net/pop'
 
 module Mailman
-  class Receiver
+  module Receiver
     # Receives messages using POP3, and passes them to a {MessageProcessor}.
     class POP3
 
