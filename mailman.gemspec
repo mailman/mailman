@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'activesupport', '>= 2.3.4'
   s.add_dependency 'fssm', '>= 0.1.4'
   s.add_dependency 'maildir', '>= 0.5.0'
+  s.add_dependency 'i18n', '>= 0.4.1' # fix for mail/activesupport-3 dependency issue
 
   s.add_development_dependency 'rspec'
 
