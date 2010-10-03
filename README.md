@@ -18,13 +18,15 @@ See the [User Guide](http://rubydoc.info/github/titanous/mailman/master/file/USE
 
 ## Thanks
 
-This project is sponsored by the [Ruby Summer of Code](http://rubysoc.org),
-and my mentor is [Steven Soroka](http://github.com/ssoroka).
+This project was sponsored by the [Ruby Summer of Code](http://rubysoc.org),
+and my mentor was [Steven Soroka](http://github.com/ssoroka).
 
 ### Contributors
 
-    Tim Carey-Smith
-    Nicolas Aguttes
+- [Tim Carey-Smith](http://github.com/halorgium)
+- [Nicolas Aguttes](http://github.com/tranquiliste)
+- [Daniel Schierbeck](http://github.com/dasch)
+- [Ian White](http://github.com/ianwhite)
 
 ## Copyright
 
