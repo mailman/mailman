@@ -150,7 +150,8 @@ Maildir receiver.
 
 If a message is piped to a Mailman app, this receiver will override any
 configured receivers. The app will process the message, and then quit. This
-receiver is useful for testing and debugging.
+receiver is useful for testing and debugging. This feature can be disabled
+with the `Mailman.config.ignore_stdin` option.
 
 **Example**: `cat plain_message.eml | ruby mailman_app.rb`
 
@@ -234,3 +235,10 @@ load the environment from. If this option is set to `nil`, Rails environment
 loading will be disabled.
 
 **Default**: `'.'`
+
+### Standard input receiver
+
+`Mailman.config.ignore_stdin` disables the STDIN receiver, which can
+interfere with running Mailman with cron or as a daemon.
+
+**Default**: `false`
