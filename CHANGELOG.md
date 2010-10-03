@@ -1,3 +1,14 @@
+## 0.4.0 (October 3, 2010)
+
+Features
+
+  - The `ignore_stdin` config option has been added
+
+Bugfixes
+
+  - Fix a Mail/ActiveSupport dependency issue with i18n
+
+
 ## 0.3.0 (September 2, 2010)
 
 Features
