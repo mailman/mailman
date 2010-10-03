@@ -18,6 +18,10 @@ module Mailman
     #   rails environment loading
     attr_accessor :rails_root
 
+    # @return [boolean] whether or not to ignore stdin.  Setting this to true 
+    #   stops Mailman from entering stdin processing mode.
+    attr_accessor :ignore_stdin
+    
     def logger
       @logger ||= Logger.new(STDOUT)
     end

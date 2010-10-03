@@ -37,7 +37,7 @@ module Mailman
         require rails_env
       end
 
-      if $stdin.fcntl(Fcntl::F_GETFL, 0) == 0 # we have stdin
+      if !Mailman.config.ignore_stdin && $stdin.fcntl(Fcntl::F_GETFL, 0) == 0 # we have stdin
         Mailman.logger.debug "Processing message from STDIN."
         @processor.process($stdin.read)
       elsif Mailman.config.pop3

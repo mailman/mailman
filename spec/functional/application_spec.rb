@@ -65,6 +65,24 @@ describe Mailman::Application do
     @app.run.should be_true
     $stdin.string = nil
   end
+  
+  describe "(when config.ignore_stdin)" do
+    before do
+      Mailman.config.ignore_stdin = true
+    end
+      
+    it "should not accept a message from STDIN" do
+      mailman_app {
+        from('jamis@37signals.com') do
+          true
+        end
+      }
+
+      $stdin.string = fixture('example02')
+      @app.run.should be_false
+      $stdin.string = nil
+    end
+  end
 
   it 'should poll a POP3 server, and process messsages' do
     config.pop3 = { :server => 'example.com',
