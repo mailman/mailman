@@ -125,6 +125,16 @@ describe Mailman::Application do
     FileUtils.rm_r(config.maildir)
   end
 
+  it 'should match a multipart endocoded body' do
+    mailman_app {
+      body /ID (\d+) (OK|NO)/ do
+        params[:captures].first.should == '43'
+      end
+    }
+
+    send_message(fixture('multipart_encoded')).should be_true
+  end
+
 end
 
 class FakeMailer

@@ -37,7 +37,15 @@ module Mailman
     # Matches against the Body of a message.
     class BodyCondition < Condition
       def match(message)
-        @matcher.match(message.body.decoded)
+        if message.multipart?
+          message.parts.each do |part|
+            if result = @matcher.match(part.decoded)
+              return result
+            end
+          end
+        else
+          @matcher.match(message.body.decoded)
+        end
       end
     end
 
