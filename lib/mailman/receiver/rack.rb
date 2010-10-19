@@ -4,7 +4,17 @@ require 'rack/request'
 module Mailman
   module Receiver
     
+    # A Rack endpoint which passes incoming messages to a {MessageProcessor}.
+    #
+    # The endpoint expects the requests to contain a +message+ parameter, which
+    # holds the encoded email.
+    #
+    # The endpoint returns status 200 if the message was accepted, and 400 if the
+    # request was invalid.
     class Rack
+      # @param [Hash] options the receiver options
+      # @option options [MessageProcessor] :processor the processor to pass new
+      #   messages to
       def initialize(options = {})
         @processor = options[:processor]
       end
