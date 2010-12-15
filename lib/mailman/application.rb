@@ -37,29 +37,47 @@ module Mailman
         require rails_env
       end
 
-      if !Mailman.config.ignore_stdin && $stdin.fcntl(Fcntl::F_GETFL, 0) == 0 # we have stdin
-        Mailman.logger.debug "Processing message from STDIN."
-        @processor.process($stdin.read)
-      elsif Mailman.config.pop3
-        options = {:processor => @processor}.merge(Mailman.config.pop3)
-        Mailman.logger.info "POP3 receiver enabled (#{options[:username]}@#{options[:server]})."
-        if Mailman.config.poll_interval > 0 # we should poll
+      if Mailman.config.imap
+        options = {:processor => @processor}.merge(Mailman.config.imap)
+        Mailman.logger.info "IMAP receiver enabled (#{options[:username]}@#{options[:server]})."
+        if Mailman.config.poll_interval > 0
           polling = true
           Mailman.logger.info "Polling enabled. Checking every #{Mailman.config.poll_interval} seconds."
-        else 
+        else
           polling = false
           Mailman.logger.info 'Polling disabled. Checking for messages once.'
         end
 
-        connection = Receiver::POP3.new(options)
+        connection=Receiver::IMAP.new(options)
         loop do
-          Mailman.logger.debug "Checking POP3 server for messages..."
+          Mailman.logger.debug "Checking IMAP server #{options[:server]} for messages"
           connection.connect
           connection.get_messages
           connection.disconnect
           break if !polling
           sleep Mailman.config.poll_interval
         end
+
+      elsif Mailman.config.pop3
+        options = {:processor => @processor}.merge(Mailman.config.pop3)
+        Mailman.logger.info "POP3 receiver enabled (#{options[:username]}@#{options[:server]})."
+        if Mailman.config.poll_interval > 0 # we should poll
+          polling = true
+          Mailman.logger.info "Polling enabled. Checking every #{Mailman.config.poll_interval} seconds."
+        else
+          polling = false
+          Mailman.logger.info 'Polling disabled. Checking for messages once.'
+        end
+
+        connection = Receiver::POP3.new(options)
+            loop do
+              Mailman.logger.debug "Checking POP3 server for messages..."
+              connection.connect
+              connection.get_messages
+              connection.disconnect
+              break if !polling
+              sleep Mailman.config.poll_interval
+            end
 
       elsif Mailman.config.maildir
         Mailman.logger.info "Maildir receiver enabled (#{Mailman.config.maildir})."
@@ -78,6 +96,9 @@ module Mailman
             @processor.process_maildir_message(message)
           }
         end
+      elsif $stdin.fcntl(Fcntl::F_GETFL, 0) == 0 # we have stdin
+        Mailman.logger.debug "Processing message from STDIN."
+        @processor.process($stdin.read)
       end
     end
 
