@@ -33,6 +33,15 @@ describe Mailman::Configuration do
     config.poll_interval.should == 20
   end
 
+  it 'should have a default poll count' do
+    config.poll_count.should be_nil
+  end
+  
+  it 'should store the poll count' do
+    config.poll_interval = 40
+    config.poll_interval.should == 40
+  end
+
   it 'should store the maildir location' do
     config.maildir = '../maildir-test'
     config.maildir.should == '../maildir-test'

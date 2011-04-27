@@ -57,7 +57,8 @@ module Mailman
           connection.connect
           connection.get_messages
           connection.disconnect
-          break if !polling
+          Mailman.config.poll_count -= 1 unless Mailman.config.poll_count.nil?
+          break if !polling || Mailman.config.poll_count == 0
           sleep Mailman.config.poll_interval
         end
 

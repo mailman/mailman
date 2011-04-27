@@ -88,7 +88,7 @@ describe Mailman::Application do
     config.pop3 = { :server => 'example.com',
                     :username => 'chunky',
                     :password => 'bacon' }
-    config.poll_interval = 0 # just poll once
+    config.poll_count = 1
 
     mailman_app {
       from 'chunky@bacon.com' do
@@ -99,6 +99,25 @@ describe Mailman::Application do
 
     @app.run
     @app.router.instance_variable_get('@count').should == 2
+  end
+  
+  it 'should poll a POP3 server a specified number of times' do
+    config.pop3 = { :server => 'example.com',
+                    :username => 'chunky',
+                    :password => 'bacon' }
+    config.poll_interval = 1
+    config.poll_count = 2
+
+    mailman_app {
+      from 'chunky@bacon.com' do
+        @count ||= 0
+        @count += 1
+        MockPOP3.add_after_processing(3)
+      end
+    }
+
+    @app.run
+    @app.router.instance_variable_get('@count').should == 5
   end
 
   it 'should watch a maildir folder for messages' do

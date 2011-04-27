@@ -220,6 +220,15 @@ then exit.
 **Default**: `60`
 
 
+### Polling Count
+
+`Mailman.config.poll_count` is the number of times to check for new messages
+on the server. It is currently only used by the POP3 reciever. If it is set 
+to `nil`, Mailman will poll forever.
+
+**Default**: `nil`
+
+
 ### Maildir
 
 `Mailman.config.maildir` is the location of a Maildir folder to watch. If it

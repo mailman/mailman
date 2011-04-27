@@ -25,15 +25,27 @@ class MockPOP3
   def initialize
     @@popmails = []
     2.times do |i|
-      @@popmails << MockPopMail.new("To: test@example.com\r\nFrom: chunky@bacon.com\r\nSubject: Hello!\r\n\r\nemail message\r\ntest#{i.to_s}", i)
+      @@popmails << MockPOP3.create_message(i)
     end
   end
 
   def self.popmails
     @@popmails.clone
   end
-
+  
+  def self.create_message(index)
+    MockPopMail.new("To: test@example.com\r\nFrom: chunky@bacon.com\r\nSubject: Hello!\r\n\r\nemail message\r\ntest#{index.to_s}", index)
+  end
+  
+  def self.add_after_processing(count)
+    @@next_batch = []
+    count.times do |i|
+      @@next_batch << MockPOP3.create_message(i)
+    end
+  end
+  
   def each_mail(*args)
+    @@popmails = @@next_batch if @@popmails.length == 0 && !@@next_batch.nil?
     @@popmails.each do |popmail|
       yield popmail
     end

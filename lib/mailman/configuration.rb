@@ -10,6 +10,10 @@ module Mailman
     # @return [Fixnum] the poll interval for POP3 or IMAP. Setting this to 0
     #   disables polling
     attr_accessor :poll_interval
+    
+    # @return [Fixnum] the number of times to poll. Setting this to 0 
+    #   causes piolling to continue forever
+    attr_accessor :poll_count
 
     # @return [String] the path to the maildir
     attr_accessor :maildir
@@ -28,6 +32,10 @@ module Mailman
 
     def poll_interval
       @poll_interval ||= 60
+    end
+    
+    def poll_count
+      @poll_count ||= nil
     end
 
     def rails_root
