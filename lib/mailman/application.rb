@@ -53,10 +53,14 @@ module Mailman
 
         connection = Receiver::POP3.new(options)
         loop do
-          Mailman.logger.debug "Checking POP3 server for messages..."
-          connection.connect
-          connection.get_messages
-          connection.disconnect
+          begin
+            connection.connect
+            connection.get_messages
+            connection.disconnect
+          rescue SystemCallError => e
+            Mailman.logger.error e.message
+          end
+
           break if !polling
           sleep Mailman.config.poll_interval
         end
