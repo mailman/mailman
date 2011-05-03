@@ -16,7 +16,7 @@ describe Mailman::Receiver::POP3 do
     it 'should connect to a POP3 server' do
       @receiver.connect.should be_true
     end
-
+    
     it 'should disconnect from a POP3 server' do
       @receiver.connect
       @receiver.disconnect.should be_true
