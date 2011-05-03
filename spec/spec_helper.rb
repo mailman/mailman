@@ -5,6 +5,7 @@ require 'mailman'
 require 'spec'
 require 'spec/autorun'
 require 'pop3_mock'
+require 'mocha'
 
 unless defined?(SPEC_ROOT)
   SPEC_ROOT = File.join(File.dirname(__FILE__))
@@ -53,6 +54,7 @@ end
 
 Spec::Runner.configure do |config|
   config.include Mailman::SpecHelpers
+  config.mock_with :mocha
 end
 
 
