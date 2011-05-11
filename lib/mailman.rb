@@ -5,9 +5,6 @@ require 'active_support'
 require 'active_support/core_ext/string/inflections'
 require 'active_support/core_ext/hash/indifferent_access'
 
-require 'maildir'
-require 'fssm'
-
 require 'mailman/version'
 
 module Mailman

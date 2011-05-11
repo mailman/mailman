@@ -66,6 +66,9 @@ module Mailman
         end
 
       elsif Mailman.config.maildir
+        require 'maildir'
+        require 'fssm'
+
         Mailman.logger.info "Maildir receiver enabled (#{Mailman.config.maildir})."
         maildir = Maildir.new(Mailman.config.maildir)
 
