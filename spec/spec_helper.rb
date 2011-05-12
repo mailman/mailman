@@ -6,6 +6,7 @@ require 'spec'
 require 'spec/autorun'
 require 'pop3_mock'
 require 'mocha'
+require 'maildir'
 
 unless defined?(SPEC_ROOT)
   SPEC_ROOT = File.join(File.dirname(__FILE__))
