@@ -4,7 +4,7 @@ $:.unshift File.expand_path("../lib", __FILE__)
 require 'rubygems'
 require 'rubygems/specification'
 require 'rspec/core/rake_task'
-require 'rake/gempackagetask'
+require 'rubygems/package_task'
 
 def gemspec
   @gemspec ||= begin
@@ -24,7 +24,7 @@ RSpec::Core::RakeTask.new(:rcov) do |t|
   t.rcov_opts =  %q[--exclude "gems, spec"]
 end
 
-Rake::GemPackageTask.new(gemspec) do |pkg|
+Gem::PackageTask.new(gemspec) do |pkg|
   pkg.gem_spec = gemspec
 end
 task :gem => :gemspec
