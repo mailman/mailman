@@ -5,7 +5,6 @@ require 'mailman'
 require 'spec'
 require 'spec/autorun'
 require 'pop3_mock'
-require 'mocha'
 require 'maildir'
 
 unless defined?(SPEC_ROOT)
@@ -55,7 +54,6 @@ end
 
 Spec::Runner.configure do |config|
   config.include Mailman::SpecHelpers
-  config.mock_with :mocha
 end
 
 
