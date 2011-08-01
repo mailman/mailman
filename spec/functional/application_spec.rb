@@ -65,12 +65,12 @@ describe Mailman::Application do
     @app.run.should be_true
     $stdin.string = nil
   end
-  
+
   describe "(when config.ignore_stdin)" do
     before do
       Mailman.config.ignore_stdin = true
     end
-      
+
     it "should not accept a message from STDIN" do
       mailman_app {
         from('jamis@37signals.com') do
@@ -106,10 +106,12 @@ describe Mailman::Application do
                     :username => 'chunky',
                     :password => 'bacon' }
     config.poll_interval = 0 # just poll once
-    
-    MockPOP3.any_instance.stubs(:start).raises(SystemCallError, "Generic Connection Error")
-    Mailman.logger.expects(:error).with("unknown error - Generic Connection Error")
-    
+
+    mock_pop3 = MockPOP3.new
+    mock_pop3.should_receive(:start).and_raise(SystemCallError.new("Generic Connection Error"))
+    Net::POP3.should_receive(:new).and_return(mock_pop3)
+    Mailman.logger.should_receive(:error).with("unknown error - Generic Connection Error")
+
     mailman_app {
       from 'chunky@bacon.com' do
         @count ||= 0
@@ -118,14 +120,7 @@ describe Mailman::Application do
     }
     @app.run
     @app.router.instance_variable_get('@count').should == nil
-
-    MockPOP3.any_instance.unstub(:start)
   end
-
-
-
-  
-  
 
   it 'should watch a maildir folder for messages' do
     setup_maildir # creates the maildir with a queued message
