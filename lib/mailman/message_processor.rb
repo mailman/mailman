@@ -20,9 +20,9 @@ module Mailman
 
     # Processes a +Maildir::Message+ instance.
     def process_maildir_message(message)
+      process(message.data)
       message.process # move message to cur
       message.seen!
-      process(message.data)
     end
 
   end
