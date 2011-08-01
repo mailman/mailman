@@ -46,7 +46,7 @@ module Mailman
         if Mailman.config.poll_interval > 0 # we should poll
           polling = true
           Mailman.logger.info "Polling enabled. Checking every #{Mailman.config.poll_interval} seconds."
-        else 
+        else
           polling = false
           Mailman.logger.info 'Polling disabled. Checking for messages once.'
         end
@@ -70,21 +70,25 @@ module Mailman
         require 'fssm'
 
         Mailman.logger.info "Maildir receiver enabled (#{Mailman.config.maildir})."
-        maildir = Maildir.new(Mailman.config.maildir)
-
-        # Process messages queued in the new directory
-        Mailman.logger.debug "Processing new message queue..."
-        maildir.list(:new).each do |message|
-          @processor.process_maildir_message(message)
-        end
+        @maildir = Maildir.new(Mailman.config.maildir)
 
         Mailman.logger.debug "Monitoring the Maildir for new messages..."
         FSSM.monitor File.join(Mailman.config.maildir, 'new') do |monitor|
           monitor.create { |directory, filename| # a new message was delivered to new
-            message = Maildir::Message.new(maildir, "new/#{filename}")
-            @processor.process_maildir_message(message)
+            process_maildir
           }
         end
+      end
+    end
+
+    ##
+    # List all message in Maildir new directory and process it
+    #
+    def process_maildir
+      # Process messages queued in the new directory
+      Mailman.logger.debug "Processing new message queue..."
+      @maildir.list(:new).each do |message|
+        @processor.process_maildir_message(message)
       end
     end
 
