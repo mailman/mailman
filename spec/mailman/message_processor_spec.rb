@@ -2,18 +2,35 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', '/spec_helper')
 
 describe Mailman::MessageProcessor do
 
-  def basic_email
-    "To: mikel\r\nFrom: bob\r\nSubject: Hello!\r\n\r\nemail message\r\n"
+  let(:message) { "To: mikel\r\nFrom: bob\r\nSubject: Hello!\r\n\r\nemail message\r\n" }
+  let(:basic_email) { Mail.new message }
+  let(:router) { mock('Message Router', :route => false) }
+  let(:processor) { Mailman::MessageProcessor.new(:router => router) }
+  let(:maildir_message) { m = Maildir::Message.new(@maildir) ; m.write(message) ; m}
+
+  describe "#process" do
+    it 'should process a message and pass it to the router' do
+      router.should_receive(:route).with(basic_email).and_return(true)
+      processor.process(basic_email).should be_true
+    end
+
+    it 'should log in info the new message received' do
+      Mailman.logger.should_receive(:info).with("Got new message from '#{basic_email.from.first}' with subject '#{basic_email.subject}'.")
+      processor.process(basic_email)
+    end
   end
 
-  before do
-    @router = mock('Message Router')
-    @processor = Mailman::MessageProcessor.new(:router => @router)
-  end
+  describe "#process_maildir_message" do
+    before { setup_maildir }
+    it 'should mark message like seen' do
+      processor.process_maildir_message(maildir_message)
+      maildir_message.should be_seen
+    end
 
-  it 'should process an message and pass it to the router' do
-    @router.should_receive(:route).with(Mail.new(basic_email)).and_return(true)
-    @processor.process(basic_email).should be_true
+    it 'should move to current' do
+      processor.process_maildir_message(maildir_message)
+      maildir_message.dir.should == :cur
+    end
   end
 
 end
