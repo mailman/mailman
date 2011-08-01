@@ -127,23 +127,23 @@ describe Mailman::Application do
 
     config.maildir = File.join(SPEC_ROOT, 'test-maildir')
     test_message_path = File.join(config.maildir, 'new', 'message2')
+    test_message_path_3 = File.join(config.maildir, 'new', 'message3')
 
     mailman_app {
       from 'jdoe@machine.example' do
         @count ||= 0
         @count += 1
-
-        Thread.exit if @count == 2 # exit when we've processed the two messages
       end
     }
 
     app_thread = Thread.new { @app.run } # run the app in a separate thread so that fssm doesn't block
     sleep(0.5)
     FileUtils.cp(File.join(SPEC_ROOT, 'fixtures', 'example01.eml'), test_message_path) # copy a message into place, triggering fssm handler
-    app_thread.join # wait for fssm handler
-    @app.router.instance_variable_get('@count').should == 2
+    FileUtils.cp(File.join(SPEC_ROOT, 'fixtures', 'example01.eml'), test_message_path_3) # copy a message into place, triggering fssm handler
+    Timeout::timeout(2) { app_thread.join  } rescue Timeout::Error # wait for fssm handler
+    @app.router.instance_variable_get('@count').should == 3
 
-    FileUtils.rm_r(config.maildir)
+    FileUtils.rm_rf(config.maildir)
   end
 
   it 'should match a multipart endocoded body' do
