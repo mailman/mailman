@@ -53,6 +53,12 @@ end
 
 RSpec.configure do |config|
   config.include Mailman::SpecHelpers
+  config.before do
+    Mailman.config.logger = Logger.new(File.join(SPEC_ROOT, 'mailman-log.log'))
+  end
+  config.after do
+    FileUtils.rm File.join(SPEC_ROOT, 'mailman-log.log')
+  end
 end
 
 
