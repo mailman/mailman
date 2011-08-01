@@ -22,3 +22,4 @@ pkg
 .bundle
 
 ## PROJECT::SPECIFIC
+spec/test-maildir
