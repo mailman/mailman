@@ -3,8 +3,8 @@ $:.unshift File.expand_path("../lib", __FILE__)
 
 require 'rubygems'
 require 'rubygems/specification'
-require 'spec/rake/spectask'
-require 'rake/gempackagetask'
+require 'rspec/core/rake_task'
+require 'rubygems/package_task'
 
 def gemspec
   @gemspec ||= begin
@@ -13,19 +13,18 @@ def gemspec
   end
 end
 
-Spec::Rake::SpecTask.new(:spec) do |spec|
-  spec.libs << 'lib' << 'spec'
-  spec.spec_files = FileList['spec/**/*_spec.rb']
+RSpec::Core::RakeTask.new do |t|
+  t.rspec_opts = ["--color", "--backtrace", "-f documentation", "-r ./spec/spec_helper.rb"]
+  t.pattern = 'spec/**/*_spec.rb'
 end
 
-Spec::Rake::SpecTask.new(:rcov) do |spec|
-  spec.libs << 'lib' << 'spec'
-  spec.pattern = 'spec/**/*_spec.rb'
-  spec.rcov = true
-  spec.rcov_opts = ['--exclude', 'gems,spec']
+RSpec::Core::RakeTask.new(:rcov) do |t|
+  t.rspec_opts = ["--color", "--backtrace", "-f documentation", "-r ./spec/spec_helper.rb"]
+  t.pattern = 'spec/**/*_spec.rb'
+  t.rcov_opts =  %q[--exclude "gems, spec"]
 end
 
-Rake::GemPackageTask.new(gemspec) do |pkg|
+Gem::PackageTask.new(gemspec) do |pkg|
   pkg.gem_spec = gemspec
 end
 task :gem => :gemspec
