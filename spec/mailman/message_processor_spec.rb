@@ -31,6 +31,15 @@ describe Mailman::MessageProcessor do
       processor.process_maildir_message(maildir_message)
       maildir_message.dir.should == :cur
     end
+
+    it 'should not move file in cur if process failed' do
+      router.should_receive(:route).with(basic_email).and_raise(Exception)
+      begin
+        processor.process_maildir_message(maildir_message)
+      rescue Exception
+      end
+      maildir_message.dir.should_not == :cur
+    end
   end
 
 end
