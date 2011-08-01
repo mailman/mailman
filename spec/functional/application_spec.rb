@@ -140,7 +140,7 @@ describe Mailman::Application do
     sleep(0.5)
     FileUtils.cp(File.join(SPEC_ROOT, 'fixtures', 'example01.eml'), test_message_path) # copy a message into place, triggering fssm handler
     FileUtils.cp(File.join(SPEC_ROOT, 'fixtures', 'example01.eml'), test_message_path_3) # copy a message into place, triggering fssm handler
-    Timeout::timeout(2) { app_thread.join  } rescue Timeout::Error # wait for fssm handler
+    Timeout::timeout(2) { app_thread.join  } rescue nil # wait for fssm handler
     @app.router.instance_variable_get('@count').should == 3
 
     FileUtils.rm_rf(config.maildir)
