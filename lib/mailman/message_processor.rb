@@ -13,9 +13,9 @@ module Mailman
     # router.
     # @param [String] message the message to process
     def process(message)
-      message = Mail.new(message)
-      Mailman.logger.info "Got new message from '#{message.from.first}' with subject '#{message.subject}'."
-      @router.route(message)
+      mail = Mail.new(message)
+      Mailman.logger.info "Got new message from '#{mail.from.first}' with subject '#{mail.subject}'."
+      @router.route(mail)
     end
 
     # Processes a +Maildir::Message+ instance.
