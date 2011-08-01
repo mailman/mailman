@@ -43,10 +43,10 @@ module Mailman::SpecHelpers
   end
 
   def setup_maildir
-    maildir = File.join(SPEC_ROOT, 'test-maildir')
-    FileUtils.rm_r(maildir) rescue nil
-    Maildir.new(maildir)
-    message = File.new(File.join(maildir, 'new', 'message1'), 'w')
+    maildir_path = File.join(SPEC_ROOT, 'test-maildir')
+    FileUtils.rm_r(maildir_path) rescue nil
+    @maildir = Maildir.new(maildir_path)
+    message = File.new(File.join(maildir_path, 'new', 'message1'), 'w')
     message.puts(fixture('example01'))
     message.close
   end
