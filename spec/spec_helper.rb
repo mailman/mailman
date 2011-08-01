@@ -57,7 +57,7 @@ RSpec.configure do |config|
     Mailman.config.logger = Logger.new(File.join(SPEC_ROOT, 'mailman-log.log'))
   end
   config.after do
-    FileUtils.rm File.join(SPEC_ROOT, 'mailman-log.log')
+    FileUtils.rm File.join(SPEC_ROOT, 'mailman-log.log') rescue nil
   end
 end
 
