@@ -99,9 +99,9 @@ All captures from matchers are available as block arguments:
 #### Class Routing
 
 Messages can also be routed to methods. For instance, to route to an
-ActionMailer mailer with a `receive` method defined, this will work:
+Object with a `receive` instance method defined, this will work:
 
-    from '%user%@example.org', SampleMailer
+    from '%user%@example.org', Sample
 
 Messages can also be routed to arbitrary instance methods:
 
