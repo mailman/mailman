@@ -16,6 +16,10 @@ See the [User Guide](http://rubydoc.info/github/titanous/mailman/master/file/USE
 
     gem install mailman
 
+## Continous integration
+
+[![Build Status](https://secure.travis-ci.org/titanous/mailman.png)](https://secure.travis-ci.org/titanous/mailman)
+
 ## Thanks
 
 This project was sponsored by the [Ruby Summer of Code](http://rubysoc.org),
