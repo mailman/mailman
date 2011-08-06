@@ -27,6 +27,7 @@ and my mentor was [Steven Soroka](http://github.com/ssoroka).
 - [Nicolas Aguttes](http://github.com/tranquiliste)
 - [Daniel Schierbeck](http://github.com/dasch)
 - [Ian White](http://github.com/ianwhite)
+- [Cyril Mougel](http://github.com/shingara)
 
 ## Copyright
 
