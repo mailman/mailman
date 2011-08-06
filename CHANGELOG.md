@@ -1,3 +1,15 @@
+## master
+
+Bugfixes
+
+  - Check all new message in Maildir when only one file change and not
+    only file change
+  - Don't move message from new to current in Maildir if process failed
+  - Avoid require ffsm if not use ( W. Andrew Loe III )
+  - Avoid failing if POP3::Connection raise an exception ( Dan Cheail )
+  - Check multipart bodies properly. Issue #16
+
+
 ## 0.4.0 (October 3, 2010)
 
 Features
