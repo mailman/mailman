@@ -6,4 +6,3 @@ rvm:
   - ree
   - jruby
   - ruby-head
-  - 1.8.6

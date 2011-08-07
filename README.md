@@ -16,6 +16,19 @@ See the [User Guide](http://rubydoc.info/github/titanous/mailman/master/file/USE
 
     gem install mailman
 
+## Requirement
+
+Works fine with Ruby >= 1.8.7, rubinius and jRuby. Not works with ruby
+1.8.6
+
+### Gems dependencies
+
+ * mail >= 2.0.3
+ * activesupport >= 2.3.4
+ * fssm >= 0.1.4
+ * maildir >= 0.5.0
+ * i18n >= 0.4.1
+
 ## Continous integration
 
 [![Build Status](https://secure.travis-ci.org/titanous/mailman.png)](https://secure.travis-ci.org/titanous/mailman)
@@ -32,6 +45,7 @@ and my mentor was [Steven Soroka](http://github.com/ssoroka).
 - [Daniel Schierbeck](http://github.com/dasch)
 - [Ian White](http://github.com/ianwhite)
 - [Cyril Mougel](http://github.com/shingara)
+
 
 ## Copyright
 
