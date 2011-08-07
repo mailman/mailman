@@ -110,7 +110,7 @@ describe Mailman::Application do
     mock_pop3 = MockPOP3.new
     mock_pop3.should_receive(:start).and_raise(SystemCallError.new("Generic Connection Error"))
     Net::POP3.should_receive(:new).and_return(mock_pop3)
-    Mailman.logger.should_receive(:error).with("unknown error - Generic Connection Error")
+    Mailman.logger.should_receive(:error).with(/unknown error - Generic Connection Error/i)
 
     mailman_app {
       from 'chunky@bacon.com' do
