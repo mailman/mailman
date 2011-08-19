@@ -15,10 +15,13 @@ module Mailman
     attr_reader :processor
 
     # Creates a new router, and sets up any routes passed in the block.
+    # @param [Hash] options the application options
+    # @option options [true,false] :graceful_death catch interrupt signal and don't die until end of poll
     # @param [Proc] block a block with routes
-    def initialize(&block)
+    def initialize(options={}, &block)
       @router = Mailman::Router.new
       @processor = MessageProcessor.new(:router => @router)
+      @graceful_death = options[:graceful_death]
       instance_eval(&block)
     end
 
@@ -52,6 +55,11 @@ module Mailman
         end
 
         connection = Receiver::POP3.new(options)
+
+        if @graceful_death
+          Signal.trap("INT") {polling = false}
+        end
+
         loop do
           begin
             connection.connect
