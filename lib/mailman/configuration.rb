@@ -21,7 +21,12 @@ module Mailman
     # @return [boolean] whether or not to ignore stdin.  Setting this to true 
     #   stops Mailman from entering stdin processing mode.
     attr_accessor :ignore_stdin
-    
+
+    # @return [boolean] catch SIGINT and allow current iteration to finish
+    # rather than dropping dead immediately. Currently only works with POP3 
+    # connections.
+    attr_accessor :graceful_death
+
     def logger
       @logger ||= Logger.new(STDOUT)
     end

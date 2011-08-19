@@ -19,9 +19,10 @@ describe Mailman::Application do
   end
 
   describe "#run" do
-    describe "when graceful_death is set" do
+    describe "when graceful_death flag is set" do
       before do
-        @app = Mailman::Application.new(:graceful_death => true) {}
+        Mailman.config.graceful_death = true
+        @app = Mailman::Application.new {}
       end
 
       it "should catch interrupt signal and let a POP3 receiver finish its poll before exiting" do

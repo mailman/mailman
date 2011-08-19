@@ -18,10 +18,9 @@ module Mailman
     # @param [Hash] options the application options
     # @option options [true,false] :graceful_death catch interrupt signal and don't die until end of poll
     # @param [Proc] block a block with routes
-    def initialize(options={}, &block)
+    def initialize(&block)
       @router = Mailman::Router.new
       @processor = MessageProcessor.new(:router => @router)
-      @graceful_death = options[:graceful_death]
       instance_eval(&block)
     end
 
@@ -56,7 +55,7 @@ module Mailman
 
         connection = Receiver::POP3.new(options)
 
-        if @graceful_death
+        if Mailman.config.graceful_death
           Signal.trap("INT") {polling = false}
         end
 
