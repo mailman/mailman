@@ -14,7 +14,8 @@ module Mailman
     # @param [String] message the message to process
     def process(message)
       mail = Mail.new(message)
-      Mailman.logger.info "Got new message from '#{mail.from.first}' with subject '#{mail.subject}'."
+      from = mail.from.nil? ? "unknown" : mail.from.first
+      Mailman.logger.info "Got new message from '#{from}' with subject '#{mail.subject}'."
       @router.route(mail)
     end
 
