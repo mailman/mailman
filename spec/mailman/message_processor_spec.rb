@@ -7,7 +7,8 @@ describe Mailman::MessageProcessor do
   let(:router) { mock('Message Router', :route => false) }
   let(:processor) { Mailman::MessageProcessor.new(:router => router) }
   let(:maildir_message) { m = Maildir::Message.new(@maildir) ; m.write(message) ; m}
-
+  let(:no_from_mail) { Mail.new "To: mikel\r\nSubject: Hello!\r\n\r\nemail message\r\n" }
+  
   describe "#process" do
     it 'should process a message and pass it to the router' do
       router.should_receive(:route).with(basic_email).and_return(true)
@@ -18,6 +19,12 @@ describe Mailman::MessageProcessor do
       Mailman.logger.should_receive(:info).with("Got new message from '#{basic_email.from.first}' with subject '#{basic_email.subject}'.")
       processor.process(basic_email)
     end
+    
+    it 'should receive email without from field' do
+      Mailman.logger.should_receive(:info).with("Got new message from 'unknown' with subject '#{basic_email.subject}'.")
+      processor.process(no_from_mail)
+    end
+    
   end
 
   describe "#process_maildir_message" do
