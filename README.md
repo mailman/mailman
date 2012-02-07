@@ -18,8 +18,8 @@ See the [User Guide](http://rubydoc.info/github/titanous/mailman/master/file/USE
 
 ## Requirement
 
-Works fine with Ruby >= 1.8.7, rubinius and jRuby. Not works with ruby
-1.8.6
+Works fine with Ruby >= 1.8.7, rubinius and jRuby. Does not work with Ruby
+1.8.6.
 
 ### Gems dependencies
 
