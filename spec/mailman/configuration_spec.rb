@@ -55,4 +55,9 @@ describe Mailman::Configuration do
     config.ignore_stdin = true
     config.ignore_stdin.should == true
   end
+
+  it "should store graceful_death flag" do
+    config.graceful_death = true
+    config.graceful_death.should == true
+  end
 end

@@ -242,3 +242,10 @@ loading will be disabled.
 interfere with running Mailman with cron or as a daemon.
 
 **Default**: `false`
+
+### Graceful death
+
+`Mailman.config.graceful_death`, if set, will catch SIGINTs 
+(Control-C) and allow the mail receiver to finish its current
+iteration before exiting. Note that this currently only works
+with POP3 receivers.

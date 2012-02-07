@@ -18,4 +18,25 @@ describe Mailman::Application do
 
   end
 
+  describe "#run" do
+    describe "when graceful_death flag is set" do
+      before do
+        Mailman.config.graceful_death = true
+        @app = Mailman::Application.new {}
+      end
+
+      it "should catch interrupt signal and let a POP3 receiver finish its poll before exiting" do
+        @mock_receiver = double("Receiver::POP3")
+        @mock_receiver.stub(:connect)
+        @mock_receiver.stub(:get_messages) {Process.kill("INT", $$)}
+        @mock_receiver.should_receive(:disconnect)
+        Mailman::Receiver::POP3.stub(:new) {@mock_receiver}
+
+        Mailman.config.pop3 = {}
+
+        Signal.trap("INT") {raise "Application didn't catch SIGINT"}
+        @app.run
+      end
+    end
+  end
 end
