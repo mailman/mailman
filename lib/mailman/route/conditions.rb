@@ -5,7 +5,7 @@ module Mailman
     class ToCondition < Condition
       def match(message)
         if !message.to.nil?
-          message.to.each do |address|
+          (message.to.is_a?(Array) ? message.to : [message.to]).each do |address|
             if result = @matcher.match(address)
               return result
             end
@@ -18,7 +18,7 @@ module Mailman
     # Matches against the From addresses of a message.
     class FromCondition < Condition
       def match(message)
-        message.from.each do |address|
+        (message.from.is_a?(Array) ? message.from : [message.from]).each do |address|
           if result = @matcher.match(address)
             return result
           end
@@ -53,7 +53,7 @@ module Mailman
     class CcCondition < Condition
       def match(message)
         if !message.cc.nil?
-          message.cc.each do |address|
+          (message.cc.is_a?(Array) ? message.cc : [message.cc]).each do |address|
             if result = @matcher.match(address)
               return result
             end
