@@ -12,6 +12,9 @@ support), that works with Rails "out of the box".
 
 See the [User Guide](http://rubydoc.info/github/titanous/mailman/master/file/USER_GUIDE.md) for more information.
 
+There is also a great [Getting Started Guide](http://dansowter.com/mailman-guide/) written by Dan Sowter.
+
+
 ## Installation
 
     gem install mailman
