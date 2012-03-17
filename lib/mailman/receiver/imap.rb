@@ -16,13 +16,12 @@ module Mailman
       # @option options [String] :username the username to authenticate with
       # @option options [String] :password the password to authenticate with
       def initialize(options)
-        @processor, @username, @password, @server, @filter, @port = nil, nil, nil, nil, ["NEW"], 143
+        @processor = options[:processor]
+        @username  = options[:username]
+        @password  = options[:password]
+        @filter    = options[:filter] || ['NEW']
+        @port      = options[:port] || 143
 
-        @processor = options[:processor] if options.has_key? :processor
-        @username =  options[:username]  if options.has_key? :username
-        @password =  options[:password]  if options.has_key? :password
-        @filter =    options[:filter]    if options.has_key? :filter
-        @port =      options[:port]      if options.has_key? :port
         @connection = Net::IMAP.new(options[:server], @port)
       end
 
