@@ -122,6 +122,23 @@ describe Mailman::Application do
     @app.router.instance_variable_get('@count').should == nil
   end
 
+  it 'should poll an IMAP server, and process messsages' do
+    config.imap = { :server => 'example.com',
+                    :username => 'chunky',
+                    :password => 'bacon' }
+    config.poll_interval = 0 # just poll once
+
+    mailman_app {
+      from 'chunky@bacon.com' do
+        @count ||= 0
+        @count += 1
+      end
+    }
+
+    @app.run
+    @app.router.instance_variable_get('@count').should == 2
+  end
+
   it 'should watch a maildir folder for messages' do
     setup_maildir # creates the maildir with a queued message
 

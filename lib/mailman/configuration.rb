@@ -5,7 +5,7 @@ module Mailman
     attr_accessor :logger
 
     # @return [Hash] the configuration hash for POP3
-    attr_accessor :pop3
+    attr_accessor :pop3, :imap
 
     # @return [Fixnum] the poll interval for POP3 or IMAP. Setting this to 0
     #   disables polling
@@ -18,12 +18,12 @@ module Mailman
     #   rails environment loading
     attr_accessor :rails_root
 
-    # @return [boolean] whether or not to ignore stdin.  Setting this to true 
+    # @return [boolean] whether or not to ignore stdin.  Setting this to true
     #   stops Mailman from entering stdin processing mode.
     attr_accessor :ignore_stdin
 
     # @return [boolean] catch SIGINT and allow current iteration to finish
-    # rather than dropping dead immediately. Currently only works with POP3 
+    # rather than dropping dead immediately. Currently only works with POP3
     # connections.
     attr_accessor :graceful_death
 
