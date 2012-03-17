@@ -41,7 +41,6 @@ module Mailman
       # deleting them.
       def get_messages
         @connection.search(@filter).each do  |message|
-          puts "PROCESSING MESSAGE #{message}"
           body = @connection.fetch(message,"RFC822")[0].attr["RFC822"]
           @processor.process(body)
           @connection.store(message,"+FLAGS",[Net::IMAP::DELETED])
