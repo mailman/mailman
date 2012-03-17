@@ -24,6 +24,10 @@ module Mailman
       instance_eval(&block)
     end
 
+    def polling?
+      Mailman.config.poll_interval > 0 && !@polling_interrupt
+    end
+
     # Sets the block to run if no routes match a message.
     def default(&block)
       @router.default_block = block
@@ -39,39 +43,33 @@ module Mailman
         require rails_env
       end
 
-      if !Mailman.config.ignore_stdin && $stdin.fcntl(Fcntl::F_GETFL, 0) == 0 # we have stdin
+      if Mailman.config.graceful_death
+        # When user presses CTRL-C, finish processing current message before exiting
+        Signal.trap("INT") { @polling_interrupt = true }
+      end
+
+      # STDIN
+      # ---------------------------------------------------------------------
+      if !Mailman.config.ignore_stdin && $stdin.fcntl(Fcntl::F_GETFL, 0) == 0
         Mailman.logger.debug "Processing message from STDIN."
         @processor.process($stdin.read)
+
+      # IMAP
+      # ---------------------------------------------------------------------
+      elsif Mailman.config.imap
+        options = {:processor => @processor}.merge(Mailman.config.imap)
+        Mailman.logger.info "IMAP receiver enabled (#{options[:username]}@#{options[:server]})."
+        polling_loop Receiver::IMAP.new(options)
+
+      # POP3
+      # ---------------------------------------------------------------------
       elsif Mailman.config.pop3
         options = {:processor => @processor}.merge(Mailman.config.pop3)
         Mailman.logger.info "POP3 receiver enabled (#{options[:username]}@#{options[:server]})."
-        if Mailman.config.poll_interval > 0 # we should poll
-          polling = true
-          Mailman.logger.info "Polling enabled. Checking every #{Mailman.config.poll_interval} seconds."
-        else
-          polling = false
-          Mailman.logger.info 'Polling disabled. Checking for messages once.'
-        end
+        polling_loop Receiver::POP3.new(options)
 
-        connection = Receiver::POP3.new(options)
-
-        if Mailman.config.graceful_death
-          Signal.trap("INT") {polling = false}
-        end
-
-        loop do
-          begin
-            connection.connect
-            connection.get_messages
-            connection.disconnect
-          rescue SystemCallError => e
-            Mailman.logger.error e.message
-          end
-
-          break if !polling
-          sleep Mailman.config.poll_interval
-        end
-
+      # Maildir
+      # ---------------------------------------------------------------------
       elsif Mailman.config.maildir
         require 'maildir'
         require 'fssm'
@@ -96,6 +94,31 @@ module Mailman
       Mailman.logger.debug "Processing new message queue..."
       @maildir.list(:new).each do |message|
         @processor.process_maildir_message(message)
+      end
+    end
+
+    private
+
+    # Run the polling loop for the email inbox connection
+    def polling_loop(connection)
+      if polling?
+        polling_msg = "Polling enabled. Checking every #{Mailman.config.poll_interval} seconds."
+      else
+        polling_msg = "Polling disabled. Checking for messages once."
+      end
+      Mailman.logger.info(polling_msg)
+
+      loop do
+        begin
+          connection.connect
+          connection.get_messages
+          connection.disconnect
+        rescue SystemCallError => e
+          Mailman.logger.error e.message
+        end
+
+        break unless polling?
+        sleep Mailman.config.poll_interval
       end
     end
 
