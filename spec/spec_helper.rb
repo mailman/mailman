@@ -1,11 +1,14 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), 'support'))
 require 'fileutils'
 require 'mailman'
 require 'rspec'
-require 'pop3_mock'
 require 'maildir'
+
+# Require all files in spec/support (Mocks, helpers, etc.)
+Dir[File.join(File.dirname(__FILE__), "support", "**", "*.rb")].each do |f|
+  require File.expand_path(f)
+end
 
 unless defined?(SPEC_ROOT)
   SPEC_ROOT = File.join(File.dirname(__FILE__))
