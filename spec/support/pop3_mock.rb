@@ -1,4 +1,4 @@
-# From http://github.com/mikel/mail/blob/master/spec/spec_helper.rb#L89
+# From https://github.com/mikel/mail/blob/master/spec/spec_helper.rb#L131
 
 class MockPopMail
   def initialize(rfc2822, number)
