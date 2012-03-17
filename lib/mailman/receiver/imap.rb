@@ -35,6 +35,7 @@ module Mailman
       # Disconnects from the IMAP server.
       def disconnect
         @connection.logout
+        @connection.disconnected? ? true : @connection.disconnect rescue nil
       end
 
       # Iterates through new messages, passing them to the processor, and
@@ -42,11 +43,12 @@ module Mailman
       def get_messages
         @connection.search(@filter).each do  |message|
           puts "PROCESSING MESSAGE #{message}"
-          body=@connection.fetch(message,"RFC822")[0].attr["RFC822"]
+          body = @connection.fetch(message,"RFC822")[0].attr["RFC822"]
           @processor.process(body)
-          @connection.store(message,"+FLAGS",[:Seen])
+          @connection.store(message,"+FLAGS",[Net::IMAP::DELETED])
         end
-        #@connection.delete_all
+        # Clears messages that have the Deleted flag set
+        @connection.expunge
       end
 
     end
