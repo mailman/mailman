@@ -14,6 +14,10 @@ unless defined?(SPEC_ROOT)
   SPEC_ROOT = File.join(File.dirname(__FILE__))
 end
 
+unless defined?(THREAD_TIMING)
+  THREAD_TIMING = (ENV['THREAD_TIMING'] || (RUBY_ENGINE == 'jruby' ? 2.5 : 0.5)).to_f
+end
+
 module Mailman::SpecHelpers
 
   def regexp_matcher(pattern)

@@ -154,11 +154,11 @@ describe Mailman::Application do
     }
 
     app_thread = Thread.new { @app.run } # run the app in a separate thread so that fssm doesn't block
-    sleep(0.5)
+    sleep(THREAD_TIMING)
     FileUtils.cp(File.join(SPEC_ROOT, 'fixtures', 'example01.eml'), test_message_path) # copy a message into place, triggering fssm handler
     FileUtils.cp(File.join(SPEC_ROOT, 'fixtures', 'example01.eml'), test_message_path_3) # copy a message into place, triggering fssm handler
     begin
-      Timeout::timeout(2) {
+      Timeout::timeout(THREAD_TIMING) {
         app_thread.join
       }
     rescue Timeout::Error # wait for fssm handler
