@@ -49,46 +49,38 @@ module Mailman
       end
 
       # STDIN
-      # ---------------------------------------------------------------------
       if !Mailman.config.ignore_stdin && $stdin.fcntl(Fcntl::F_GETFL, 0) == 0
         Mailman.logger.debug "Processing message from STDIN."
         @processor.process($stdin.read)
 
       # IMAP
-      # ---------------------------------------------------------------------
       elsif Mailman.config.imap
         options = {:processor => @processor}.merge(Mailman.config.imap)
         Mailman.logger.info "IMAP receiver enabled (#{options[:username]}@#{options[:server]})."
         polling_loop Receiver::IMAP.new(options)
 
       # POP3
-      # ---------------------------------------------------------------------
       elsif Mailman.config.pop3
         options = {:processor => @processor}.merge(Mailman.config.pop3)
         Mailman.logger.info "POP3 receiver enabled (#{options[:username]}@#{options[:server]})."
         polling_loop Receiver::POP3.new(options)
 
       # Maildir
-      # ---------------------------------------------------------------------
       elsif Mailman.config.maildir
         require 'maildir'
-        require 'fssm'
+        require 'listen'
 
         Mailman.logger.info "Maildir receiver enabled (#{Mailman.config.maildir})."
         @maildir = Maildir.new(Mailman.config.maildir)
 
         Mailman.logger.debug "Monitoring the Maildir for new messages..."
-        FSSM.monitor File.join(Mailman.config.maildir, 'new') do |monitor|
-          monitor.create { |directory, filename| # a new message was delivered to new
-            process_maildir
-          }
+        Listen.to File.join(Mailman.config.maildir, 'new') do |modified, added, removed|
+          process_maildir
         end
       end
     end
 
-    ##
     # List all message in Maildir new directory and process it
-    #
     def process_maildir
       # Process messages queued in the new directory
       Mailman.logger.debug "Processing new message queue..."
