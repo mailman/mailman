@@ -15,7 +15,7 @@ unless defined?(SPEC_ROOT)
 end
 
 unless defined?(THREAD_TIMING)
-  THREAD_TIMING = (ENV['THREAD_TIMING'] || (RUBY_ENGINE == 'jruby' ? 2.5 : 0.5)).to_f
+  THREAD_TIMING = (ENV['THREAD_TIMING'] || (defined?(RUBY_ENGINE) && RUBY_ENGINE == 'jruby' ? 2.5 : 0.5)).to_f
 end
 
 module Mailman::SpecHelpers
