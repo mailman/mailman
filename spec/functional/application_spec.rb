@@ -153,15 +153,15 @@ describe Mailman::Application do
       end
     }
 
-    app_thread = Thread.new { @app.run } # run the app in a separate thread so that fssm doesn't block
+    app_thread = Thread.new { @app.run } # run the app in a separate thread so that listen doesn't block
     sleep(THREAD_TIMING)
-    FileUtils.cp(File.join(SPEC_ROOT, 'fixtures', 'example01.eml'), test_message_path) # copy a message into place, triggering fssm handler
-    FileUtils.cp(File.join(SPEC_ROOT, 'fixtures', 'example01.eml'), test_message_path_3) # copy a message into place, triggering fssm handler
+    FileUtils.cp(File.join(SPEC_ROOT, 'fixtures', 'example01.eml'), test_message_path) # copy a message into place, triggering listen handler
+    FileUtils.cp(File.join(SPEC_ROOT, 'fixtures', 'example01.eml'), test_message_path_3) # copy a message into place, triggering listen handler
     begin
       Timeout::timeout(THREAD_TIMING) {
         app_thread.join
       }
-    rescue Timeout::Error # wait for fssm handler
+    rescue Timeout::Error # wait for listen handler
     end
     @app.router.instance_variable_get('@count').should == 3
 

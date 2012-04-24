@@ -1,4 +1,4 @@
-# Mailman
+# Mailman [![Build Status](https://secure.travis-ci.org/titanous/mailman.png)](https://secure.travis-ci.org/titanous/mailman)
 
 Mailman is an incoming mail processing microframework (with POP3 and Maildir
 support), that works with Rails "out of the box".
@@ -19,22 +19,17 @@ There is also a great [Getting Started Guide](http://dansowter.com/mailman-guide
 
     gem install mailman
 
-## Requirement
+## Compatibility
 
-Works fine with Ruby >= 1.8.7, rubinius and jRuby. Does not work with Ruby
-1.8.6.
+Tested on all Ruby versions with Travis CI.
 
-### Gems dependencies
+### Dependencies
 
  * mail >= 2.0.3
  * activesupport >= 2.3.4
- * fssm >= 0.1.4
+ * listen >= 0.4.1
  * maildir >= 0.5.0
  * i18n >= 0.4.1
-
-## Continous integration
-
-[![Build Status](https://secure.travis-ci.org/titanous/mailman.png)](https://secure.travis-ci.org/titanous/mailman)
 
 ## Thanks
 
@@ -43,13 +38,17 @@ and my mentor was [Steven Soroka](http://github.com/ssoroka).
 
 ### Contributors
 
-- [Tim Carey-Smith](http://github.com/halorgium)
 - [Nicolas Aguttes](http://github.com/tranquiliste)
-- [Daniel Schierbeck](http://github.com/dasch)
-- [Ian White](http://github.com/ianwhite)
+- [Nathan Broadbent](https://github.com/ndbroadbent)
+- [Tim Carey-Smith](http://github.com/halorgium)
+- [Francis Chong](https://github.com/siuying)
 - [Cyril Mougel](http://github.com/shingara)
+- [Phillip Ridlen](https://github.com/philtr)
+- [Daniel Schierbeck](http://github.com/dasch)
+- [Steven Soroka](http://github.com/ssoroka)
+- [Ian White](http://github.com/ianwhite)
 
 
 ## Copyright
 
-Copyright (c) 2010 Jonathan Rudenberg. See LICENSE for details.
+Copyright (c) 2010-2012 Jonathan Rudenberg. See LICENSE for details.
