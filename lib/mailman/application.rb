@@ -72,6 +72,7 @@ module Mailman
 
         Mailman.logger.info "Maildir receiver enabled (#{Mailman.config.maildir})."
         @maildir = Maildir.new(Mailman.config.maildir)
+        process_maildir
 
         Mailman.logger.debug "Monitoring the Maildir for new messages..."
         Listen.to File.join(Mailman.config.maildir, 'new') do |modified, added, removed|
