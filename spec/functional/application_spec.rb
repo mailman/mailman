@@ -139,6 +139,32 @@ describe Mailman::Application do
     @app.router.instance_variable_get('@count').should == 2
   end
 
+  it 'should process new messages in the maildir folder on launch' do
+    setup_maildir # creates the maildir with a queued message
+
+    config.maildir = File.join(SPEC_ROOT, 'test-maildir')
+
+    mailman_app {
+      from 'jdoe@machine.example' do
+        @count ||= 0
+        @count += 1
+      end
+    }
+
+    app_thread = Thread.new { @app.run } # run the app in a separate thread so that listen doesn't block
+    sleep(THREAD_TIMING)
+
+    begin
+      Timeout::timeout(THREAD_TIMING) {
+        app_thread.join
+      }
+    rescue Timeout::Error # wait for listen handler
+    end
+    @app.router.instance_variable_get('@count').should == 1
+
+    FileUtils.rm_rf(config.maildir)
+  end
+
   it 'should watch a maildir folder for messages' do
     setup_maildir # creates the maildir with a queued message
 
