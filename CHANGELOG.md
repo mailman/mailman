@@ -1,3 +1,11 @@
+## 0.5.1 (May 9, 2012)
+
+Bugfixes
+
+  - Check maildir on startup to catch any pre-existing messages
+  - Rescue errors while processing messages so that the app doesn't die
+
+
 ## 0.5.0 (April 24, 2012)
 
 Features
