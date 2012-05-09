@@ -4,6 +4,8 @@ describe Mailman::Application do
 
   after do
     Mailman.reset_config!
+    listener = @app.instance_variable_get('@listener')
+    listener.stop unless listener.nil?
   end
 
   def send_example
