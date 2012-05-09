@@ -75,9 +75,13 @@ module Mailman
         process_maildir
 
         Mailman.logger.debug "Monitoring the Maildir for new messages..."
-        Listen.to File.join(Mailman.config.maildir, 'new') do |modified, added, removed|
+
+        callback = Proc.new do |modified, added, removed|
           process_maildir
         end
+
+        @listener = Listen.to(File.join(Mailman.config.maildir, 'new')).change(&callback)
+        @listener.start
       end
     end
 
