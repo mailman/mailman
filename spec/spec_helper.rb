@@ -3,11 +3,19 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'fileutils'
 require 'mailman'
 require 'rspec'
-require 'pop3_mock'
 require 'maildir'
+
+# Require all files in spec/support (Mocks, helpers, etc.)
+Dir[File.join(File.dirname(__FILE__), "support", "**", "*.rb")].each do |f|
+  require File.expand_path(f)
+end
 
 unless defined?(SPEC_ROOT)
   SPEC_ROOT = File.join(File.dirname(__FILE__))
+end
+
+unless defined?(THREAD_TIMING)
+  THREAD_TIMING = (ENV['THREAD_TIMING'] || (defined?(RUBY_ENGINE) && (RUBY_ENGINE == 'jruby' || RUBY_ENGINE == 'rbx') ? 2.5 : 0.5)).to_f
 end
 
 module Mailman::SpecHelpers
@@ -61,23 +69,3 @@ RSpec.configure do |config|
   end
 end
 
-
-class FakeSTDIN
-
-  attr_accessor :string
-
-  def initialize(string=nil)
-    @string = string
-  end
-
-  def fcntl(*args)
-    @string ? 0 : 2
-  end
-
-  def read
-    @string
-  end
-
-end
-
-$stdin = FakeSTDIN.new

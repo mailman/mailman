@@ -20,6 +20,7 @@ doc
 pkg
 *.rbc
 .bundle
+Gemfile.lock
 
 ## PROJECT::SPECIFIC
 spec/test-maildir

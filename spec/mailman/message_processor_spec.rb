@@ -8,7 +8,7 @@ describe Mailman::MessageProcessor do
   let(:processor) { Mailman::MessageProcessor.new(:router => router) }
   let(:maildir_message) { m = Maildir::Message.new(@maildir) ; m.write(message) ; m}
   let(:no_from_mail) { Mail.new "To: mikel\r\nSubject: Hello!\r\n\r\nemail message\r\n" }
-  
+
   describe "#process" do
     it 'should process a message and pass it to the router' do
       router.should_receive(:route).with(basic_email).and_return(true)
@@ -19,12 +19,12 @@ describe Mailman::MessageProcessor do
       Mailman.logger.should_receive(:info).with("Got new message from '#{basic_email.from.first}' with subject '#{basic_email.subject}'.")
       processor.process(basic_email)
     end
-    
+
     it 'should receive email without from field' do
       Mailman.logger.should_receive(:info).with("Got new message from 'unknown' with subject '#{basic_email.subject}'.")
       processor.process(no_from_mail)
     end
-    
+
   end
 
   describe "#process_maildir_message" do
@@ -46,6 +46,13 @@ describe Mailman::MessageProcessor do
       rescue Exception
       end
       maildir_message.dir.should_not == :cur
+    end
+
+    it 'should log errors caused by processing the message, but not raise them so futher messages can be processed' do
+      error = StandardError.new('testing')
+      router.should_receive(:route).with(basic_email).and_raise(error)
+      Mailman.logger.should_receive(:error)
+      lambda{ processor.process_maildir_message(maildir_message) }.should_not raise_error
     end
   end
 

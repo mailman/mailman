@@ -21,9 +21,13 @@ module Mailman
 
     # Processes a +Maildir::Message+ instance.
     def process_maildir_message(message)
-      process(message.data)
-      message.process # move message to cur
-      message.seen!
+      begin
+        process(message.data)
+        message.process # move message to cur
+        message.seen!
+      rescue StandardError => error
+        Mailman.logger.error "Error encountered processing message: #{message.inspect}\n #{error.class.to_s}: #{error.message}\n #{error.backtrace.join("\n")}"
+      end
     end
 
   end

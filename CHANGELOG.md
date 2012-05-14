@@ -1,13 +1,27 @@
-## master
+## 0.5.1 (May 9, 2012)
 
 Bugfixes
 
-  - Check all new message in Maildir when only one file change and not
-    only file change
+  - Check maildir on startup to catch any pre-existing messages
+  - Rescue errors while processing messages so that the app doesn't die
+
+
+## 0.5.0 (April 24, 2012)
+
+Features
+
+  - IMAP support
+  - Graceful death
+
+Bugfixes
+
+  - Check all new messages in Maildir when a file changes
   - Don't move message from new to current in Maildir if process failed
-  - Avoid require ffsm if not use ( W. Andrew Loe III )
-  - Avoid failing if POP3::Connection raise an exception ( Dan Cheail )
-  - Check multipart bodies properly. Issue #16
+  - Avoid require listen if not use
+  - Avoid failing if POP3::Connection raises an exception
+  - Check multipart bodies properly
+  - Use listen gem instead of fssm
+  - Don't die if the Rails environment is already loaded
 
 
 ## 0.4.0 (October 3, 2010)

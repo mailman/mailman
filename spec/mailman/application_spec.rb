@@ -22,6 +22,7 @@ describe Mailman::Application do
     describe "when graceful_death flag is set" do
       before do
         Mailman.config.graceful_death = true
+        Mailman.config.poll_interval = 0.1
         @app = Mailman::Application.new {}
       end
 
@@ -29,7 +30,7 @@ describe Mailman::Application do
         @mock_receiver = double("Receiver::POP3")
         @mock_receiver.stub(:connect)
         @mock_receiver.stub(:get_messages) {Process.kill("INT", $$)}
-        @mock_receiver.should_receive(:disconnect)
+        @mock_receiver.should_receive(:disconnect).at_most(:twice)
         Mailman::Receiver::POP3.stub(:new) {@mock_receiver}
 
         Mailman.config.pop3 = {}
