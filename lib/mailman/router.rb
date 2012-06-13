@@ -36,6 +36,7 @@ module Mailman
     # message is available from the +message+ helper.
     # @param [Mail::Message] the message to route.
     def route(message)
+      @params.clear
       @message = message
       result = nil
 
