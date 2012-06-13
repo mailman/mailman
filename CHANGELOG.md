@@ -1,3 +1,11 @@
+## 0.5.2 (June 13, 2012)
+
+Bugfixes
+
+  - Clear the params hash after each message
+  - Allow setting config.rails\_root to false
+
+
 ## 0.5.1 (May 9, 2012)
 
 Bugfixes
