@@ -14,8 +14,8 @@ module Mailman
     # @return [String] the path to the maildir
     attr_accessor :maildir
 
-    # @return [String] the path to the rails root. Setting this to nil stops
-    #   rails environment loading
+    # @return [String] the path to the rails root. Setting this to false to stop
+    #   the rails environment from loading
     attr_accessor :rails_root
 
     # @return [boolean] whether or not to ignore stdin.  Setting this to true
@@ -36,7 +36,7 @@ module Mailman
     end
 
     def rails_root
-      @rails_root ||= '.'
+      @rails_root.nil? ? '.' : @rails_root
     end
 
   end
