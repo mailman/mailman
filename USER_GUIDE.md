@@ -5,16 +5,18 @@ Mailman is a microframework for processing incoming email.
 Here is an example Mailman app that takes incoming messages to a support
 email account, and adds them to a database.
 
-    # mailman_app.rb
-    require 'mailman'
+```ruby
+# mailman_app.rb
+require 'mailman'
 
-    Mailman.config.maildir = '~/Maildir'
+Mailman.config.maildir = '~/Maildir'
 
-    Mailman::Application.run do
-      to 'support@example.org' do
-        Ticket.new_from_message(message)
-      end
-    end
+Mailman::Application.run do
+  to 'support@example.org' do
+    Ticket.new_from_message(message)
+  end
+end
+```
 
 The Mailman app could then be started by running `ruby mailman_app.rb`.
 
@@ -63,9 +65,11 @@ the params helper (`params[:captures]`) as an Array, and as block arguments.
 
 Routes are defined within a Mailman application block:
 
-    Mailman::Application.run do
-      # routes here
-    end
+```ruby
+Mailman::Application.run do
+  # routes here
+end
+```
 
 Messages are passed through routes in the order they are defined in the
 application from top to bottom. The first matching route's block will be
@@ -76,42 +80,54 @@ called.
 Conditions can be chained so that the route will only be executed if all
 conditions pass:
 
-    to('support@example.org').subject(/urgent/) do
-      # process urgent message here
-    end
+```ruby
+to('support@example.org').subject(/urgent/) do
+  # process urgent message here
+end
+```
 
 #### Special routes
 
 The `default` route is a catch-all that is run if no other routes match:
 
-    default do
-      # process non-matching messages
-    end
+```ruby
+default do
+  # process non-matching messages
+end
+```
 
 #### Block Arguments
 
 All captures from matchers are available as block arguments:
 
-    from('%user%@example.org').subject(/Ticket (\d+)/) do |username, ticket_id|
-      puts "Got message from #{username} about Ticket #{ticket_id}"
-    end
+```ruby
+from('%user%@example.org').subject(/Ticket (\d+)/) do |username, ticket_id|
+  puts "Got message from #{username} about Ticket #{ticket_id}"
+end
+```
 
 #### Class Routing
 
 Messages can also be routed to methods. For instance, to route to an
 Object with a `receive` instance method defined, this will work:
 
-    from '%user%@example.org', Sample
+```ruby
+from '%user%@example.org', Sample
+```
 
 Messages can also be routed to arbitrary instance methods:
 
-    from '%user%@example.org', 'ExampleClass#new_message'
+```ruby
+from '%user%@example.org', 'ExampleClass#new_message'
+```
 
 The method should accept two arguments, the message object, and the params:
 
-    def receive(message, params)
-      # process message here
-    end
+```ruby
+def receive(message, params)
+  # process message here
+end
+```
 
 #### Route Helpers
 
@@ -119,12 +135,14 @@ There are two helpers available inside of route blocks:
 
 The `params` hash holds all captures from matchers:
 
-    from('%user%@example.org').subject(/RE: (.*)/) do
-      params[:user] #=> 'chunkybacon'
-      # it is an indifferent hash, so you can use strings and symbols
-      # interchangeably as keys
-      params['captures'][0] #=> 'A very important message about pigs'
-    end
+```ruby
+from('%user%@example.org').subject(/RE: (.*)/) do
+  params[:user] #=> 'chunkybacon'
+  # it is an indifferent hash, so you can use strings and symbols
+  # interchangeably as keys
+  params['captures'][0] #=> 'A very important message about pigs'
+end
+```
 
 The `message` helper is a `Mail::Message` object that contains the entire
 message. See the [mail](http://github.com/mikel/mail/) docs for information on
@@ -201,13 +219,15 @@ set, Mailman will use POP3 polling as the receiver.
 
 **Example**:
 
-    Mailman.config.pop3 = {
-      :username => 'chunkybacon@gmail.com',
-      :password => 'foobar',
-      :server   => 'pop.gmail.com',
-      :port     => 995, # defaults to 110
-      :ssl      => true # defaults to false
-    }
+```ruby
+Mailman.config.pop3 = {
+  :username => 'chunkybacon@gmail.com',
+  :password => 'foobar',
+  :server   => 'pop.gmail.com',
+  :port     => 995, # defaults to 110
+  :ssl      => true # defaults to false
+}
+```
 
 
 ### Polling

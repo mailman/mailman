@@ -3,12 +3,14 @@
 Mailman is an incoming mail processing microframework (with POP3 and Maildir
 support), that works with Rails "out of the box".
 
-    require 'mailman'
-    Mailman::Application.run do
-      to 'ticket-%id%@example.org' do 
-        Ticket.find(params[:id]).add_reply(message)
-      end
-    end
+```ruby
+require 'mailman'
+Mailman::Application.run do
+  to 'ticket-%id%@example.org' do 
+    Ticket.find(params[:id]).add_reply(message)
+  end
+end
+```
 
 See the [User Guide](http://rubydoc.info/github/titanous/mailman/master/file/USER_GUIDE.md) for more information.
 
