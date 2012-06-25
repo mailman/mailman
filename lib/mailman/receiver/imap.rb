@@ -28,7 +28,7 @@ module Mailman
       # Connects to the IMAP server.
       def connect
         @connection.login(@username, @password)
-        @connection.examine("INBOX")
+        @connection.select("INBOX")
       end
 
       # Disconnects from the IMAP server.
