@@ -17,6 +17,7 @@ module Mailman
       # @option options [String] :password the password to authenticate with
       def initialize(options)
         @processor = options[:processor]
+        @server    = options[:server]
         @username  = options[:username]
         @password  = options[:password]
         @filter    = options[:filter] || ['NEW']
@@ -26,7 +27,7 @@ module Mailman
       # Connects to the IMAP server.
       def connect
         if @connection.nil? or @connection.disconnected?
-          @connection = Net::IMAP.new(options[:server], @port)
+          @connection = Net::IMAP.new(@server, @port)
           @connection.login(@username, @password)
         end
         @connection.select("INBOX")
