@@ -21,13 +21,14 @@ module Mailman
         @password  = options[:password]
         @filter    = options[:filter] || ['NEW']
         @port      = options[:port] || 143
-
-        @connection = Net::IMAP.new(options[:server], @port)
       end
 
       # Connects to the IMAP server.
       def connect
-        @connection.login(@username, @password)
+        if @connection.nil? or @connection.disconnected?
+          @connection = Net::IMAP.new(options[:server], @port)
+          @connection.login(@username, @password)
+        end
         @connection.select("INBOX")
       end
 
