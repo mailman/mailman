@@ -13,22 +13,28 @@ module Mailman
       #   messages to
       # @option options [String] :server the server to connect to
       # @option options [Integer] :port the port to connect to
+      # @option options [Boolean] :ssl whether or not to use ssl
       # @option options [String] :username the username to authenticate with
       # @option options [String] :password the password to authenticate with
+      # @option options [String] :folder the mail folder to search
       def initialize(options)
         @processor = options[:processor]
+        @server    = options[:server]
         @username  = options[:username]
         @password  = options[:password]
         @filter    = options[:filter] || ['NEW']
         @port      = options[:port] || 143
-
-        @connection = Net::IMAP.new(options[:server], @port)
+        @ssl       = options[:ssl] || false
+        @folder    = options[:folder] || "INBOX"
       end
 
       # Connects to the IMAP server.
       def connect
-        @connection.login(@username, @password)
-        @connection.examine("INBOX")
+        if @connection.nil? or @connection.disconnected?
+          @connection = Net::IMAP.new(@server, {:port => @port, :ssl => @ssl})
+          @connection.login(@username, @password)
+        end
+        @connection.select(@folder)
       end
 
       # Disconnects from the IMAP server.
