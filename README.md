@@ -23,7 +23,7 @@ There is also a great [Getting Started Guide](http://dansowter.com/mailman-guide
 
 ## Compatibility
 
-Tested on all Ruby versions with Travis CI.
+Tested on Ruby 1.8.7, 1.9.2, 1.9.3, REE, JRuby 1.7, and Rubinius.
 
 ### Dependencies
 
@@ -43,13 +43,16 @@ and my mentor was [Steven Soroka](http://github.com/ssoroka).
 - [Nicolas Aguttes](http://github.com/tranquiliste)
 - [Nathan Broadbent](https://github.com/ndbroadbent)
 - [Tim Carey-Smith](http://github.com/halorgium)
+- [Dan Cheail](https://github.com/DanCheail)
 - [Francis Chong](https://github.com/siuying)
 - [Kevin Glowacz](https://github.com/kjg)
 - [Cyril Mougel](http://github.com/shingara)
 - [Phillip Ridlen](https://github.com/philtr)
 - [Daniel Schierbeck](http://github.com/dasch)
 - [Steven Soroka](http://github.com/ssoroka)
+- [Benjamin Waldher](https://github.com/lgbr)
 - [Ian White](http://github.com/ianwhite)
+- [Andreas Wolff](https://github.com/rubyphunk)
 
 
 ## Copyright
