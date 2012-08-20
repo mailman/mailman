@@ -38,6 +38,15 @@ describe Mailman::Configuration do
     config.maildir.should == '../maildir-test'
   end
 
+  it 'should have a defaut watch maildir setting' do
+    config.watch_maildir.should == true
+  end
+
+  it 'should store the maildir listen setting' do
+    config.watch_maildir = false
+    config.watch_maildir.should == false
+  end
+
   it 'should have a default rails root' do
     config.rails_root.should == '.'
   end
