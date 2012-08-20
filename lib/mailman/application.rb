@@ -74,7 +74,7 @@ module Mailman
 
         process_maildir
 
-        if Mailman.config.maildir_listen
+        if Mailman.config.watch_maildir
           require 'listen'
           Mailman.logger.debug "Monitoring the Maildir for new messages..."
 

@@ -3,7 +3,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', '/spec_helper')
 describe Mailman::Application do
 
   before do
-    config.maildir_listen = false
+    config.watch_maildir = false
   end
 
   after do
@@ -166,7 +166,7 @@ describe Mailman::Application do
   it 'should watch a maildir folder for messages' do
     setup_maildir # creates the maildir with a queued message
 
-    config.maildir_listen = true
+    config.watch_maildir = true
     config.maildir = File.join(SPEC_ROOT, 'test-maildir')
     test_message_path = File.join(config.maildir, 'new', 'message2')
     test_message_path_3 = File.join(config.maildir, 'new', 'message3')
