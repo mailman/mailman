@@ -2,6 +2,10 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', '/spec_helper')
 
 describe Mailman::Application do
 
+  before do
+    config.maildir_listen = false
+  end
+
   after do
     Mailman.reset_config!
     listener = @app.instance_variable_get('@listener')
@@ -153,15 +157,7 @@ describe Mailman::Application do
       end
     }
 
-    app_thread = Thread.new { @app.run } # run the app in a separate thread so that listen doesn't block
-    sleep(THREAD_TIMING)
-
-    begin
-      Timeout::timeout(THREAD_TIMING) {
-        app_thread.join
-      }
-    rescue Timeout::Error # wait for listen handler
-    end
+    @app.run
     @app.router.instance_variable_get('@count').should == 1
 
     FileUtils.rm_rf(config.maildir)
@@ -170,6 +166,7 @@ describe Mailman::Application do
   it 'should watch a maildir folder for messages' do
     setup_maildir # creates the maildir with a queued message
 
+    config.maildir_listen = true
     config.maildir = File.join(SPEC_ROOT, 'test-maildir')
     test_message_path = File.join(config.maildir, 'new', 'message2')
     test_message_path_3 = File.join(config.maildir, 'new', 'message3')

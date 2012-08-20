@@ -68,20 +68,23 @@ module Mailman
       # Maildir
       elsif Mailman.config.maildir
         require 'maildir'
-        require 'listen'
 
         Mailman.logger.info "Maildir receiver enabled (#{Mailman.config.maildir})."
         @maildir = Maildir.new(Mailman.config.maildir)
+
         process_maildir
 
-        Mailman.logger.debug "Monitoring the Maildir for new messages..."
+        if Mailman.config.maildir_listen
+          require 'listen'
+          Mailman.logger.debug "Monitoring the Maildir for new messages..."
 
-        callback = Proc.new do |modified, added, removed|
-          process_maildir
+          callback = Proc.new do |modified, added, removed|
+            process_maildir
+          end
+
+          @listener = Listen.to(File.join(Mailman.config.maildir, 'new')).change(&callback)
+          @listener.start
         end
-
-        @listener = Listen.to(File.join(Mailman.config.maildir, 'new')).change(&callback)
-        @listener.start
       end
     end
 

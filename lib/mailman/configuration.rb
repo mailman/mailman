@@ -14,6 +14,10 @@ module Mailman
     # @return [String] the path to the maildir
     attr_accessor :maildir
 
+    # @return [boolean] whether or not to watch for new messages in the maildir.
+    #   Settings this to false disables listening for file changes if using the Maildir receiver.
+    attr_accessor :maildir_listen
+
     # @return [String] the path to the rails root. Setting this to false to stop
     #   the rails environment from loading
     attr_accessor :rails_root
@@ -33,6 +37,10 @@ module Mailman
 
     def poll_interval
       @poll_interval ||= 60
+    end
+
+    def maildir_listen
+      @maildir_listen.nil? ? true : @maildir_listen
     end
 
     def rails_root
