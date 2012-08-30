@@ -47,6 +47,7 @@ and my mentor was [Steven Soroka](http://github.com/ssoroka).
 - [Francis Chong](https://github.com/siuying)
 - [Kevin Glowacz](https://github.com/kjg)
 - [Cyril Mougel](http://github.com/shingara)
+- [Brian Palmer](https://github.com/codekitchen)
 - [Phillip Ridlen](https://github.com/philtr)
 - [Daniel Schierbeck](http://github.com/dasch)
 - [Steven Soroka](http://github.com/ssoroka)

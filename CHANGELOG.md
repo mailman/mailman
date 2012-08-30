@@ -1,3 +1,11 @@
+## 0.5.3 (August 30, 2012)
+
+Features
+
+  - Add `watch_maildir` config flag that allows a single run against a maildir
+  - Add IMAP SSL and non-inbox folder support
+
+
 ## 0.5.2 (June 13, 2012)
 
 Bugfixes
