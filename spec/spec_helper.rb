@@ -32,6 +32,24 @@ module Mailman::SpecHelpers
     Mail.new("To: test@example.com\r\nFrom: chunky@bacon.com\r\nCC: testing@example.com\r\nSubject: Hello!\r\n\r\nemail message\r\n")
   end
 
+  def multipart_message
+    mail = Mail.new do
+      to   'test@example.com'
+      from 'chunky@bacon.com'
+      subject 'I am a multipart message'
+
+      text_part do
+        body 'This is plain text'
+      end
+
+      html_part do
+        content_type 'text/html; charset=UTF-8'
+        body '<h1>This is HTML</h1>'
+      end
+    end
+
+  end
+
   def mailman_app(&block)
     @app = Mailman::Application.new(&block)
   end
