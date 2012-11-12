@@ -66,6 +66,14 @@ describe Mailman::Route::BodyCondition do
     Mailman::Route.new.body('test').conditions[0].class.should == Mailman::Route::BodyCondition
   end
 
+  it 'returns nil for a non-matching body of a multipart message' do
+    Mailman::Route::BodyCondition.new('foo').match(multipart_message).should be_nil
+  end
+
+  it 'matches on the body of a multipart message' do
+    Mailman::Route::BodyCondition.new('plain').match(multipart_message).should == [{}, []]
+  end
+
 end
 
 describe Mailman::Route::CcCondition do

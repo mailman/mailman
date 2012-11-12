@@ -38,11 +38,11 @@ module Mailman
     class BodyCondition < Condition
       def match(message)
         if message.multipart?
+          result = nil
           message.parts.each do |part|
-            if result = @matcher.match(part.decoded)
-              return result
-            end
+            break if result = @matcher.match(part.decoded)
           end
+          return result
         else
           @matcher.match(message.body.decoded)
         end
