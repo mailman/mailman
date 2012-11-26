@@ -18,10 +18,17 @@ module Mailman
     # @param [Hash] options the application options
     # @option options [true,false] :graceful_death catch interrupt signal and don't die until end of poll
     # @param [Proc] block a block with routes
+
     def initialize(&block)
       @router = Mailman::Router.new
       @processor = MessageProcessor.new(:router => @router)
-      instance_eval(&block)
+
+      if Mailman.config.maildir
+        require 'maildir'
+        @maildir = Maildir.new(Mailman.config.maildir)
+      end
+
+      instance_eval(&block) if block_given?
     end
 
     def polling?
@@ -67,10 +74,8 @@ module Mailman
 
       # Maildir
       elsif Mailman.config.maildir
-        require 'maildir'
 
         Mailman.logger.info "Maildir receiver enabled (#{Mailman.config.maildir})."
-        @maildir = Maildir.new(Mailman.config.maildir)
 
         process_maildir
 

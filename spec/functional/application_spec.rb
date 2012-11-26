@@ -163,6 +163,23 @@ describe Mailman::Application do
     FileUtils.rm_rf(config.maildir)
   end
 
+  it 'should be ready to process a maildir folder before #run is called' do
+    setup_maildir # creates the maildir with a queued message
+
+    config.maildir = File.join(SPEC_ROOT, 'test-maildir')
+    mailman_app {
+      from 'jdoe@machine.example' do
+        @count ||= 0
+        @count += 1
+      end
+    }
+
+    @app.process_maildir
+    @app.router.instance_variable_get('@count').should == 1
+
+    FileUtils.rm_rf(config.maildir)
+  end
+
   it 'should watch a maildir folder for messages' do
     setup_maildir # creates the maildir with a queued message
 
