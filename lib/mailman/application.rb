@@ -44,10 +44,12 @@ module Mailman
     def run
       Mailman.logger.info "Mailman v#{Mailman::VERSION} started"
 
-      rails_env = File.join(Mailman.config.rails_root, 'config', 'environment.rb')
-      if Mailman.config.rails_root && File.exist?(rails_env) && !(defined?(Rails) && Rails.env)
-        Mailman.logger.info "Rails root found in #{Mailman.config.rails_root}, requiring environment..."
-        require rails_env
+      if Mailman.config.rails_root
+        rails_env = File.join(Mailman.config.rails_root, 'config', 'environment.rb')
+        if File.exist?(rails_env) && !(defined?(Rails) && Rails.env)
+          Mailman.logger.info "Rails root found in #{Mailman.config.rails_root}, requiring environment..."
+          require rails_env
+        end
       end
 
       if Mailman.config.graceful_death
