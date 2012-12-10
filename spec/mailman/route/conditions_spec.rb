@@ -93,5 +93,26 @@ describe Mailman::Route::CcCondition do
   it 'should define a method on Route that is chainable and stores the condition' do
     Mailman::Route.new.cc('testing').conditions[0].class.should == Mailman::Route::CcCondition
   end
+end
 
+describe Mailman::Route::HeaderCondition do
+  it 'should match a header' do
+    Mailman::Route::HeaderCondition.new('To=test@example.com').match(basic_message).should == [{}, []]
+  end
+
+  it 'should not match a non-matching header value' do
+    Mailman::Route::HeaderCondition.new('To=foo@bar.com').match(basic_message).should be_nil
+  end
+
+  it 'should not match message with no defined header' do
+    Mailman::Route::HeaderCondition.new('Foo=Bar').match(basic_message).should be_nil
+  end
+
+  it 'should define a method on Route that is chainable and stores the condition' do
+    Mailman::Route.new.header('foo=bar').conditions[0].class.should == Mailman::Route::HeaderCondition
+  end
+
+  it 'should match a header with multiple values' do
+    Mailman::Route::HeaderCondition.new('X-Forwarded-To=Test1').match(basic_message).should == [{}, []]
+  end
 end
