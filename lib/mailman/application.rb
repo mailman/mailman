@@ -79,28 +79,25 @@ module Mailman
 
         Mailman.logger.info "Maildir receiver enabled (#{Mailman.config.maildir})."
 
-        process_maildir
+        Mailman.logger.debug "Processing new message queue..."
+        @maildir.list(:new).each do |message|
+          @processor.process_maildir_message(message)
+        end
 
         if Mailman.config.watch_maildir
           require 'listen'
           Mailman.logger.debug "Monitoring the Maildir for new messages..."
 
           callback = Proc.new do |modified, added, removed|
-            process_maildir
+            added.each do |new_file|
+              message = Maildir::Message.new(@maildir, "new/#{new_file}")
+              @processor.process_maildir_message(message)
+            end
           end
 
-          @listener = Listen.to(File.join(Mailman.config.maildir, 'new')).change(&callback)
+          @listener = Listen.to(File.join(@maildir.path, 'new'), :relative_paths => true).change(&callback)
           @listener.start
         end
-      end
-    end
-
-    # List all message in Maildir new directory and process it
-    def process_maildir
-      # Process messages queued in the new directory
-      Mailman.logger.debug "Processing new message queue..."
-      @maildir.list(:new).each do |message|
-        @processor.process_maildir_message(message)
       end
     end
 
