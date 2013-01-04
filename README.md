@@ -14,8 +14,6 @@ end
 
 See the [User Guide](https://github.com/titanous/mailman/blob/master/USER_GUIDE.md) for more information.
 
-There is also a great [Getting Started Guide](http://dansowter.com/mailman-guide/) written by Dan Sowter.
-
 
 ## Installation
 
