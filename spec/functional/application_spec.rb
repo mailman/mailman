@@ -174,7 +174,7 @@ describe Mailman::Application do
       end
     }
 
-    @app.process_maildir
+    @app.run
     @app.router.instance_variable_get('@count').should == 1
 
     FileUtils.rm_rf(config.maildir)
