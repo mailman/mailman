@@ -50,6 +50,7 @@ and my mentor was [Steven Soroka](http://github.com/ssoroka).
 - [Phillip Ridlen](https://github.com/philtr)
 - [Daniel Schierbeck](http://github.com/dasch)
 - [Steven Soroka](http://github.com/ssoroka)
+- [Ryan Stawarz](https://github.com/rstawarz)
 - [Benjamin Waldher](https://github.com/lgbr)
 - [Ian White](http://github.com/ianwhite)
 - [Andreas Wolff](https://github.com/rubyphunk)
