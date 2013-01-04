@@ -42,6 +42,7 @@ and my mentor was [Steven Soroka](http://github.com/ssoroka).
 
 - [Nicolas Aguttes](http://github.com/tranquiliste)
 - [Nathan Broadbent](https://github.com/ndbroadbent)
+- [John Cant](https://github.com/johncant)
 - [Tim Carey-Smith](http://github.com/halorgium)
 - [Dan Cheail](https://github.com/DanCheail)
 - [Francis Chong](https://github.com/siuying)
