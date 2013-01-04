@@ -1,3 +1,12 @@
+## 0.5.4 (January 3, 2013)
+
+Bufixes
+
+  - Fix multipart message matching
+  - Fix Rails environment require
+  - Speed up maildir processing
+
+
 ## 0.5.3 (August 30, 2012)
 
 Features
