@@ -2,7 +2,7 @@
 
 Features
 
-  - IMAP: Mark messages as seen instead of deleting them (see 5b6aef0163f0f28c790abf3083cbda7cbc9cc13f for details on how revert to the previous behaviour)
+  - IMAP: Mark messages as seen instead of deleting them (see [5b6aef0](https://github.com/titanous/mailman/commit/5b6aef0163f0f28c790abf3083cbda7cbc9cc13f) for details on how revert to the previous behaviour)
 
 Bugfixes
 
