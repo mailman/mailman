@@ -17,15 +17,20 @@ module Mailman
       # @option options [String] :username the username to authenticate with
       # @option options [String] :password the password to authenticate with
       # @option options [String] :folder the mail folder to search
+      # @option options [Array] :done_flags the flags to add to messages that
+      #   have been processed
+      # @option options [String] :filter the search filter to use to select
+      #   messages to process
       def initialize(options)
-        @processor = options[:processor]
-        @server    = options[:server]
-        @username  = options[:username]
-        @password  = options[:password]
-        @filter    = options[:filter] || ['NEW']
-        @port      = options[:port] || 143
-        @ssl       = options[:ssl] || false
-        @folder    = options[:folder] || "INBOX"
+        @processor  = options[:processor]
+        @server     = options[:server]
+        @username   = options[:username]
+        @password   = options[:password]
+        @filter     = options[:filter] || 'UNSEEN'
+        @done_flags = options[:done_flags] || [Net::IMAP::SEEN]
+        @port       = options[:port] || 143
+        @ssl        = options[:ssl] || false
+        @folder     = options[:folder] || "INBOX"
       end
 
       # Connects to the IMAP server.
@@ -44,12 +49,12 @@ module Mailman
       end
 
       # Iterates through new messages, passing them to the processor, and
-      # deleting them.
+      # flagging them as done.
       def get_messages
-        @connection.search(@filter).each do  |message|
-          body = @connection.fetch(message,"RFC822")[0].attr["RFC822"]
+        @connection.search(@filter).each do |message|
+          body = @connection.fetch(message, "RFC822")[0].attr["RFC822"]
           @processor.process(body)
-          @connection.store(message,"+FLAGS",[Net::IMAP::DELETED])
+          @connection.store(message, "+FLAGS", @done_flags)
         end
         # Clears messages that have the Deleted flag set
         @connection.expunge

@@ -56,7 +56,7 @@ class MockIMAP
   alias :fetch :uid_fetch
 
   def uid_store(set, attr, flags)
-    if attr == "+FLAGS" && flags.include?(Net::IMAP::DELETED)
+    if attr == "+FLAGS" && flags.include?(Net::IMAP::SEEN)
       @@marked_for_deletion << set
     end
   end
