@@ -1,3 +1,14 @@
+## 0.6.0 (January 12, 2013)
+
+Features
+
+  - IMAP: Mark messages as seen instead of deleting them (see 5b6aef0163f0f28c790abf3083cbda7cbc9cc13f for details on how revert to the previous behaviour)
+
+Bugfixes
+
+  - IMAP: Don't only process recent messages
+
+
 ## 0.5.4 (January 3, 2013)
 
 Bufixes
