@@ -15,6 +15,8 @@ Gem::Specification.new do |s|
   s.homepage    = 'http://mailmanrb.com'
   s.summary     = 'A incoming email processing microframework'
   s.description = 'Mailman makes it easy to process incoming emails with a simple routing DSL'
+  s.signing_key   = File.expand_path('~/.gem_keys/gem-private_key.pem')
+  s.cert_chain    = ['.gem_cert.pem']
 
   s.rubyforge_project = 'mailman'
 
@@ -26,6 +28,6 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'rspec', '~> 2.10'
 
-  s.files        = Dir.glob('{bin,lib,examples}/**/*') + %w(LICENSE README.md USER_GUIDE.md)
+  s.files        = Dir.glob('{bin,lib,examples}/**/*') + %w(LICENSE README.md USER_GUIDE.md CHANGELOG.md .gem_cert.pem)
   s.require_path = 'lib'
 end
