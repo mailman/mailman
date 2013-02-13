@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['Jonathan Rudenberg']
   s.email       = ['jonathan@titanous.com']
-  s.homepage    = 'http://mailmanrb.com'
+  s.homepage    = 'https://github.com/titanous/mailman'
   s.summary     = 'A incoming email processing microframework'
   s.description = 'Mailman makes it easy to process incoming emails with a simple routing DSL'
   s.signing_key   = File.expand_path('~/.gem_keys/gem-private_key.pem')
