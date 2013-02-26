@@ -95,3 +95,19 @@ describe Mailman::Route::CcCondition do
   end
 
 end
+
+describe Mailman::Route::AnyCondition do
+
+  it 'should match an address' do
+    Mailman::Route::AnyCondition.new('testing').match(basic_message).should == [{}, []]
+  end
+
+  it 'should match other address as well' do
+    Mailman::Route::AnyCondition.new('foo').match(basic_message).should == [{}, []]
+  end
+
+  it 'should define a method on Route that is chainable and stores the condition' do
+    Mailman::Route.new.any('testing').conditions[0].class.should == Mailman::Route::AnyCondition
+  end
+
+end
