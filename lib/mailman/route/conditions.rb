@@ -62,7 +62,13 @@ module Mailman
         nil
       end
     end
-
+    
+    # Matches every message
+    class AnyCondition < Condition
+      def match(message)
+        [{}, []]
+      end
+    end
 
   end
 end
