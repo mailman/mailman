@@ -14,8 +14,6 @@ end
 
 See the [User Guide](https://github.com/titanous/mailman/blob/master/USER_GUIDE.md) for more information.
 
-There is also a great [Getting Started Guide](http://dansowter.com/mailman-guide/) written by Dan Sowter.
-
 
 ## Installation
 
@@ -42,6 +40,7 @@ and my mentor was [Steven Soroka](http://github.com/ssoroka).
 
 - [Nicolas Aguttes](http://github.com/tranquiliste)
 - [Nathan Broadbent](https://github.com/ndbroadbent)
+- [John Cant](https://github.com/johncant)
 - [Tim Carey-Smith](http://github.com/halorgium)
 - [Dan Cheail](https://github.com/DanCheail)
 - [Francis Chong](https://github.com/siuying)
@@ -51,6 +50,7 @@ and my mentor was [Steven Soroka](http://github.com/ssoroka).
 - [Phillip Ridlen](https://github.com/philtr)
 - [Daniel Schierbeck](http://github.com/dasch)
 - [Steven Soroka](http://github.com/ssoroka)
+- [Ryan Stawarz](https://github.com/rstawarz)
 - [Benjamin Waldher](https://github.com/lgbr)
 - [Ian White](http://github.com/ianwhite)
 - [Andreas Wolff](https://github.com/rubyphunk)
