@@ -17,11 +17,13 @@ module Mailman
       # @option options [String] :password the password to authenticate with
       # @option options [true,false] :ssl enable SSL
       def initialize(options)
+        options = {:delete_messages_after_retrieval => true}.merge(options)
         @processor = options[:processor]
         @username = options[:username]
         @password = options[:password]
         @connection = Net::POP3.new(options[:server], options[:port])
         @connection.enable_ssl(OpenSSL::SSL::VERIFY_NONE) if options[:ssl]
+        @delete_messages_after_retrieval = options[:delete_messages_after_retrieval]
       end
 
       # Connects to the POP3 server.
@@ -40,7 +42,8 @@ module Mailman
         @connection.each_mail do |message|
           @processor.process(message.pop)
         end
-        @connection.delete_all
+
+        @connection.delete_all if @delete_messages_after_retrieval
       end
 
     end
