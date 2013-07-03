@@ -199,6 +199,7 @@ describe Mailman::Application do
     sleep(THREAD_TIMING)
     FileUtils.cp(File.join(SPEC_ROOT, 'fixtures', 'example01.eml'), test_message_path) # copy a message into place, triggering listen handler
     FileUtils.cp(File.join(SPEC_ROOT, 'fixtures', 'example01.eml'), test_message_path_3) # copy a message into place, triggering listen handler
+    sleep(0.5)
     begin
       Timeout::timeout(THREAD_TIMING) {
         app_thread.join
