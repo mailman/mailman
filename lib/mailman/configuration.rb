@@ -47,5 +47,13 @@ module Mailman
       @rails_root.nil? ? '.' : @rails_root
     end
 
+    def self.from_hash(options)
+      config = self.new
+      options.each do |key, value|
+        config.send "#{key}=", value
+      end
+      config
+    end
+
   end
 end

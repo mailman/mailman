@@ -2,10 +2,17 @@ module Mailman
   # The main application class. Pass a block to {#new} to create a new app.
   class Application
 
-    def self.run(&block)
-      app = new(&block)
+    def self.run(config=:default, &block)
+      app = new(select_config(config), &block)
       app.run
       app
+    end
+
+    def self.select_config(new_config)
+      return config if new_config == :default
+      return new_config if new_config.is_a?(Configuration)
+      return Configuration.from_hash(new_config) if new_config.is_a?(Hash)
+      return Configuration.new
     end
 
     # @return [Router] the app's router
@@ -14,25 +21,30 @@ module Mailman
     # @return [MessageProcessor] the app's message processor
     attr_reader :processor
 
+    # @return [Config] the apps's configuration
+    attr_reader :config
+
     # Creates a new router, and sets up any routes passed in the block.
     # @param [Hash] options the application options
     # @option options [true,false] :graceful_death catch interrupt signal and don't die until end of poll
     # @param [Proc] block a block with routes
 
-    def initialize(&block)
+    def initialize(config=Mailman.config, &block)
       @router = Mailman::Router.new
       @processor = MessageProcessor.new(:router => @router)
 
-      if Mailman.config.maildir
+      @config = config
+
+      if config.maildir
         require 'maildir'
-        @maildir = Maildir.new(Mailman.config.maildir)
+        @maildir = Maildir.new(config.maildir)
       end
 
       instance_eval(&block) if block_given?
     end
 
     def polling?
-      Mailman.config.poll_interval > 0 && !@polling_interrupt
+      config.poll_interval > 0 && !@polling_interrupt
     end
 
     # Sets the block to run if no routes match a message.
@@ -44,47 +56,47 @@ module Mailman
     def run
       Mailman.logger.info "Mailman v#{Mailman::VERSION} started"
 
-      if Mailman.config.rails_root
-        rails_env = File.join(Mailman.config.rails_root, 'config', 'environment.rb')
+      if config.rails_root
+        rails_env = File.join(config.rails_root, 'config', 'environment.rb')
         if File.exist?(rails_env) && !(defined?(Rails) && Rails.env)
-          Mailman.logger.info "Rails root found in #{Mailman.config.rails_root}, requiring environment..."
+          Mailman.logger.info "Rails root found in #{config.rails_root}, requiring environment..."
           require rails_env
         end
       end
 
-      if Mailman.config.graceful_death
+      if config.graceful_death
         # When user presses CTRL-C, finish processing current message before exiting
         Signal.trap("INT") { @polling_interrupt = true }
       end
 
       # STDIN
-      if !Mailman.config.ignore_stdin && $stdin.fcntl(Fcntl::F_GETFL, 0) == 0
+      if !config.ignore_stdin && $stdin.fcntl(Fcntl::F_GETFL, 0) == 0
         Mailman.logger.debug "Processing message from STDIN."
         @processor.process($stdin.read)
 
       # IMAP
-      elsif Mailman.config.imap
-        options = {:processor => @processor}.merge(Mailman.config.imap)
+      elsif config.imap
+        options = {:processor => @processor}.merge(config.imap)
         Mailman.logger.info "IMAP receiver enabled (#{options[:username]}@#{options[:server]})."
         polling_loop Receiver::IMAP.new(options)
 
       # POP3
-      elsif Mailman.config.pop3
-        options = {:processor => @processor}.merge(Mailman.config.pop3)
+      elsif config.pop3
+        options = {:processor => @processor}.merge(config.pop3)
         Mailman.logger.info "POP3 receiver enabled (#{options[:username]}@#{options[:server]})."
         polling_loop Receiver::POP3.new(options)
 
       # Maildir
-      elsif Mailman.config.maildir
+      elsif config.maildir
 
-        Mailman.logger.info "Maildir receiver enabled (#{Mailman.config.maildir})."
+        Mailman.logger.info "Maildir receiver enabled (#{config.maildir})."
 
         Mailman.logger.debug "Processing new message queue..."
         @maildir.list(:new).each do |message|
           @processor.process_maildir_message(message)
         end
 
-        if Mailman.config.watch_maildir
+        if config.watch_maildir
           require 'listen'
           Mailman.logger.debug "Monitoring the Maildir for new messages..."
 
@@ -106,7 +118,7 @@ module Mailman
     # Run the polling loop for the email inbox connection
     def polling_loop(connection)
       if polling?
-        polling_msg = "Polling enabled. Checking every #{Mailman.config.poll_interval} seconds."
+        polling_msg = "Polling enabled. Checking every #{config.poll_interval} seconds."
       else
         polling_msg = "Polling disabled. Checking for messages once."
       end
@@ -122,7 +134,7 @@ module Mailman
         end
 
         break unless polling?
-        sleep Mailman.config.poll_interval
+        sleep config.poll_interval
       end
     end
 
