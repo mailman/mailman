@@ -9,7 +9,7 @@ module Mailman
     end
 
     def self.select_config(new_config)
-      return config if new_config == :default
+      return Mailman.config if new_config == :default
       return new_config if new_config.is_a?(Configuration)
       return Configuration.from_hash(new_config) if new_config.is_a?(Hash)
       return Configuration.new
