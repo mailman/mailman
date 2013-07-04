@@ -2,17 +2,14 @@ module Mailman
   # The main application class. Pass a block to {#new} to create a new app.
   class Application
 
-    def self.run(config=:default, &block)
-      app = new(select_config(config), &block)
+    def self.run(config=nil, &block)
+      if config
+        app = new(config, &block)
+      else
+        app = new(&block)
+      end
       app.run
       app
-    end
-
-    def self.select_config(new_config)
-      return Mailman.config if new_config == :default
-      return new_config if new_config.is_a?(Configuration)
-      return Configuration.from_hash(new_config) if new_config.is_a?(Hash)
-      return Configuration.new
     end
 
     # @return [Router] the app's router
@@ -29,11 +26,11 @@ module Mailman
     # @option options [true,false] :graceful_death catch interrupt signal and don't die until end of poll
     # @param [Proc] block a block with routes
 
-    def initialize(config=Mailman.config, &block)
+    def initialize(config=:default, &block)
       @router = Mailman::Router.new
       @processor = MessageProcessor.new(:router => @router)
 
-      @config = config
+      @config = select_config(config)
 
       if config.maildir
         require 'maildir'
@@ -114,6 +111,13 @@ module Mailman
     end
 
     private
+
+    def select_config(new_config)
+      return Mailman.config if new_config == :default
+      return new_config if new_config.is_a?(Configuration)
+      return Configuration.from_hash(new_config) if new_config.is_a?(Hash)
+      return Configuration.new
+    end
 
     # Run the polling loop for the email inbox connection
     def polling_loop(connection)
