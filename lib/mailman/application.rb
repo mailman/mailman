@@ -32,9 +32,9 @@ module Mailman
 
       @config = select_config(config)
 
-      if config.maildir
+      if self.config.maildir
         require 'maildir'
-        @maildir = Maildir.new(config.maildir)
+        @maildir = Maildir.new(self.config.maildir)
       end
 
       instance_eval(&block) if block_given?
