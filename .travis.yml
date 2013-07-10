@@ -13,3 +13,4 @@ matrix:
     - rvm:
       - ruby-head
       - jruby-head
+      - rbx-19mode
