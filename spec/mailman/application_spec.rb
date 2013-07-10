@@ -16,6 +16,52 @@ describe Mailman::Application do
       @app.processor.class.should == Mailman::MessageProcessor
     end
 
+    context "with global config" do
+      it 'should use the global config' do
+        @app.config.class.should == Mailman::Configuration
+        @app.config.should == Mailman.config
+      end
+    end
+
+    context "passing config on initialization" do
+      context "passing a hash" do
+        before do
+          @app = Mailman::Application.new({poll_interval: 10}) {}
+        end
+
+        it "should instanciate the configuration" do
+          @app.config.should be_a(Mailman::Configuration)
+        end
+
+        it "should instanciate a config instance with params" do
+          @app.config.poll_interval.should == 10
+        end
+
+        it 'should not use the global config' do
+          @app.config.should_not == Mailman.config
+        end
+      end
+
+      context "passing a Configuration instance" do
+        before do
+          @config = Mailman::Configuration.new
+          @config.poll_interval = 10
+          @app = Mailman::Application.new(@config) {}
+        end
+
+        it "should instanciate the configuration" do
+          @app.config.should be_a(Mailman::Configuration)
+        end
+
+        it "should instanciate a config instance with params" do
+          @app.config.poll_interval.should == 10
+        end
+
+        it 'should not use the global config' do
+          @app.config.should_not == Mailman.config
+        end
+      end
+    end
   end
 
   describe "#run" do
