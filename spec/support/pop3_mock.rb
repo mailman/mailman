@@ -85,6 +85,14 @@ class MockPOP3
     end
     @@popmails = []
   end
+
+  def open_timeout=(seconds)
+    @@open_timeout = seconds
+  end
+
+  def read_timeout=(seconds)
+    @@read_timeout = seconds
+  end
 end
 
 require 'net/pop'
