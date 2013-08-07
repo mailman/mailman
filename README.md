@@ -21,41 +21,13 @@ See the [User Guide](https://github.com/titanous/mailman/blob/master/USER_GUIDE.
 
 ## Compatibility
 
-Tested on Ruby 1.8.7, 1.9.2, 1.9.3, REE, JRuby 1.7, and Rubinius.
-
-### Dependencies
-
- * mail >= 2.0.3
- * activesupport >= 2.3.4
- * listen >= 0.4.1
- * maildir >= 0.5.0
- * i18n >= 0.4.1
+Tested on Ruby 2.0, 1.9.3, JRuby, and Rubinius.
 
 ## Thanks
 
-This project was sponsored by the [Ruby Summer of Code](http://rubysoc.org),
-and my mentor was [Steven Soroka](http://github.com/ssoroka).
-
-### Contributors
-
-- [Nicolas Aguttes](http://github.com/tranquiliste)
-- [Nathan Broadbent](https://github.com/ndbroadbent)
-- [John Cant](https://github.com/johncant)
-- [Tim Carey-Smith](http://github.com/halorgium)
-- [Dan Cheail](https://github.com/DanCheail)
-- [Francis Chong](https://github.com/siuying)
-- [Kevin Glowacz](https://github.com/kjg)
-- [Cyril Mougel](http://github.com/shingara)
-- [Brian Palmer](https://github.com/codekitchen)
-- [Phillip Ridlen](https://github.com/philtr)
-- [Daniel Schierbeck](http://github.com/dasch)
-- [Steven Soroka](http://github.com/ssoroka)
-- [Ryan Stawarz](https://github.com/rstawarz)
-- [Benjamin Waldher](https://github.com/lgbr)
-- [Ian White](http://github.com/ianwhite)
-- [Andreas Wolff](https://github.com/rubyphunk)
-
+This project was originally sponsored by Ruby Summer of Code (2010), and
+mentored by [Steven Soroka](http://github.com/ssoroka).
 
 ## Copyright
 
-Copyright (c) 2010-2012 Jonathan Rudenberg. See LICENSE for details.
+Copyright (c) 2010-2013 Jonathan Rudenberg. See LICENSE for details.
