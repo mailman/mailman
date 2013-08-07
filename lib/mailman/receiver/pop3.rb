@@ -22,6 +22,8 @@ module Mailman
         @password = options[:password]
         @connection = Net::POP3.new(options[:server], options[:port])
         @connection.enable_ssl(OpenSSL::SSL::VERIFY_NONE) if options[:ssl]
+        @connection.open_timeout = options[:open_timeout] if options[:open_timeout]
+        @connection.read_timeout = options[:read_timeout] if options[:read_timeout]
       end
 
       # Connects to the POP3 server.

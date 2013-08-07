@@ -1,3 +1,10 @@
+## 0.6.1 (Unreleased)
+
+Features
+
+  - POP3: Configurable open_timeout and read_timeout values
+
+
 ## 0.6.0 (January 12, 2013)
 
 Features

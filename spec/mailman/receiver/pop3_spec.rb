@@ -7,7 +7,9 @@ describe Mailman::Receiver::POP3 do
     @receiver_options = { :username  => 'user',
                           :password  => 'pass',
                           :server    =>  'example.com',
-                          :processor => @processor }
+                          :processor => @processor,
+                          :open_timeout => 30,
+                          :read_timeout => 60 }
     @receiver = Mailman::Receiver::POP3.new(@receiver_options)
   end
 
