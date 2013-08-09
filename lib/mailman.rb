@@ -9,7 +9,7 @@ require 'mailman/version'
 
 module Mailman
 
-  [:Application, :Router, :Configuration, :Receiver, :MessageProcessor].each do |constant|
+  [:Application, :Router, :Configuration, :Receiver, :MessageProcessor, :Middleware].each do |constant|
     autoload constant, "mailman/#{constant.to_s.underscore}"
   end
 

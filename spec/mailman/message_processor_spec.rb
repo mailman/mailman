@@ -5,7 +5,7 @@ describe Mailman::MessageProcessor do
   let(:message) { "To: mikel\r\nFrom: bob\r\nSubject: Hello!\r\n\r\nemail message\r\n" }
   let(:basic_email) { Mail.new message }
   let(:router) { mock('Message Router', :route => false) }
-  let(:processor) { Mailman::MessageProcessor.new(:router => router) }
+  let(:processor) { Mailman::MessageProcessor.new(:router => router, :config => Mailman.config) }
   let(:maildir_message) { m = Maildir::Message.new(@maildir) ; m.write(message) ; m}
   let(:no_from_mail) { Mail.new "To: mikel\r\nSubject: Hello!\r\n\r\nemail message\r\n" }
 
