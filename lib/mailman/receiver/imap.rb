@@ -36,7 +36,7 @@ module Mailman
       # Connects to the IMAP server.
       def connect
         if @connection.nil? or @connection.disconnected?
-          @connection = Net::IMAP.new(@server, @port, @ssl)
+          @connection = Net::IMAP.new(@server, port: @port, ssl: @ssl)
           @connection.login(@username, @password)
         end
         @connection.select(@folder)
