@@ -28,4 +28,5 @@ Gem::Specification.new do |s|
 
   s.files        = Dir.glob('{bin,lib,examples}/**/*') + %w(LICENSE README.md USER_GUIDE.md CHANGELOG.md)
   s.require_path = 'lib'
+  s.executables  = ['mailman']
 end

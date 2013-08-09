@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+
+require 'mailman/cli'
+require 'optparse'
+
+$:.<< '.'
+
+options = {}
+
+ARGV.options do |opts|
+  opts.on('-c', '--config=val', String) { |config_file| options[:config_file] = config_file }
+  opts.on('-p', '--pidfile=val', String) { |pid_file| options[:pid_file] = pid_file }
+  opts.on('-e', '--environment=val', String) { |environment| options[:environment] = environment }
+
+  opts.parse!
+end
+
+begin
+  Mailman::CLI.new(options).run
+rescue => e
+  STDERR.puts e
+  STDERR.puts e.backtrace.join("\n")
+
+  exit 1
+end
