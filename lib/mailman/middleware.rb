@@ -26,15 +26,18 @@ module Mailman
     end
 
     def run(*args, &final_action)
+      final_return = nil
       stack = @entries.map {|m| m.new()}
       traverse_stack = lambda do
         if stack.empty?
-          final_action.call
+          final_return = final_action.call
         else
           stack.shift.call(*args, &traverse_stack)
         end
       end
       traverse_stack.call
+
+      final_return
     end
 
     def each(&block)
