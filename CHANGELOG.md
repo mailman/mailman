@@ -1,8 +1,11 @@
-## 0.6.1 (Unreleased)
+## 0.7.0 (August 11, 2013)
 
 Features
 
-  - POP3: Configurable open_timeout and read_timeout values
+  - Configurable POP3 open_timeout and read_timeout values
+  - Middleware support
+  - CLI runner tool
+  - Multiple configurations
 
 
 ## 0.6.0 (January 12, 2013)
