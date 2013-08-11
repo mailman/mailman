@@ -7,6 +7,7 @@ module Mailman
     #   messages to
     def initialize(options)
       @router = options[:router]
+      @config = options[:config]
     end
 
     # Converts a raw email into a +Mail::Message+ instance, and passes it to the
@@ -16,7 +17,11 @@ module Mailman
       mail = Mail.new(message)
       from = mail.from.nil? ? "unknown" : mail.from.first
       Mailman.logger.info "Got new message from '#{from}' with subject '#{mail.subject}'."
-      @router.route(mail)
+
+      # Run any middlewares before routing the message
+      @config.middleware.run(mail) do
+        @router.route(mail)
+      end
     end
 
     # Processes a +Maildir::Message+ instance.
