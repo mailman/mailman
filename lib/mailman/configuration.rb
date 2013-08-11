@@ -31,6 +31,10 @@ module Mailman
     # connections.
     attr_accessor :graceful_death
 
+    def middleware
+      @middleware ||= Mailman::Middleware.new
+    end
+
     def logger
       @logger ||= Logger.new(STDOUT)
     end

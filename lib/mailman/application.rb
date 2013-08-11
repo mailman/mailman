@@ -28,9 +28,8 @@ module Mailman
 
     def initialize(config=:default, &block)
       @router = Mailman::Router.new
-      @processor = MessageProcessor.new(:router => @router)
-
       @config = select_config(config)
+      @processor = MessageProcessor.new(:router => @router, :config => @config)
 
       if self.config.maildir
         require 'maildir'

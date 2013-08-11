@@ -269,3 +269,29 @@ interfere with running Mailman with cron or as a daemon.
 (Control-C) and allow the mail receiver to finish its current
 iteration before exiting. Note that this currently only works
 with POP3 receivers.
+
+### Middleware
+
+`Mailman.config.middleware` gives you access to the Mailman middleware stack.
+Middleware allows you to execute code before and after each message is
+processed. Middleware is super useful for things like error handling and any
+other actions you need to do before/after each message is processed.
+
+Here's an example of some simple error logging middleware:
+
+```ruby
+# Define the middleware
+class ErrorLoggingMiddleware
+  def call(mail)
+    begin
+      yield
+    rescue
+      puts "There was an error processing this message! #{mail.subject}"
+      raise
+    end
+  end
+end
+
+# Add it to the Mailman middleware stack
+Mailman.config.middleware.add ErrorLoggingMiddleware
+```
