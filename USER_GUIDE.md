@@ -185,6 +185,24 @@ that you use a mail retriever with the Maildir receiver. You could also use
 Gmail and set it to keep messages after they have been retrieved with POP3.
 
 
+### IMAP
+
+The IMAP receiver is enabled when the `Mailman.config.imap` hash is set. 
+Polling can be set with `Mailman.config.poll_interval`. This will read all unread messages in the INBOX by default.
+Here are example settings for gmail.
+
+```ruby
+Mailman.config.imap = {
+  server: 'imap.gmail.com', 
+  port: 993,  # usually 995, 993 for gmail
+  ssl: true,
+  username: 'foo@somedomain.com',
+  password: 'totallyunsecuredpassword'
+}
+
+```
+* When using gmail, remember to [enable IMAP](https://support.google.com/mail/troubleshooter/1668960)
+
 ### Maildir
 
 The Maildir receiver is enabled when `Mailman.config.maildir` is set to a
