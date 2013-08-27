@@ -131,9 +131,10 @@ module Mailman
         begin
           connection.connect
           connection.get_messages
-          connection.disconnect
         rescue SystemCallError => e
           Mailman.logger.error e.message
+        ensure
+          connection.disconnect
         end
 
         break unless polling?
