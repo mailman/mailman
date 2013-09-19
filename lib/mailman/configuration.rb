@@ -5,7 +5,10 @@ module Mailman
     attr_accessor :logger
 
     # @return [Hash] the configuration hash for POP3
-    attr_accessor :pop3, :imap
+    attr_accessor :pop3
+    
+    # @return [Hash] the configuration hash for IMAP
+    attr_accessor :imap
 
     # @return [Fixnum] the poll interval for POP3 or IMAP. Setting this to 0
     #   disables polling
