@@ -105,6 +105,7 @@ module Mailman
 
           @listener = Listen.to(File.join(@maildir.path, 'new'), :relative_paths => true).change(&callback)
           @listener.start!
+          sleep
         end
       end
     end
