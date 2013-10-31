@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'mail', '>= 2.0.3'
   s.add_dependency 'activesupport', '>= 2.3.4'
-  s.add_dependency 'listen', '>= 0.4.1'
+  s.add_dependency 'listen', '~> 1.3.1'
   s.add_dependency 'maildir', '>= 0.5.0'
   s.add_dependency 'i18n', '>= 0.4.1' # fix for mail/activesupport-3 dependency issue
 
