@@ -3,7 +3,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '/spec_he
 describe Mailman::Receiver::IMAP do
 
   before do
-    @processor = mock('Message Processor', :process => true)
+    @processor = double('Message Processor', :process => true)
     @receiver_options = { :username  => 'user',
                           :password  => 'pass',
                           :server    =>  'example.com',
