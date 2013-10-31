@@ -86,13 +86,13 @@ describe Mailman::Router do
       end
 
       it 'should run the bounce block if it exists' do
-        message = mock('bounced message', :bounced? => true)
+        message = double('bounced message', :bounced? => true)
         @route1.correct_message = message
         @router.route(message).should == 'bounce'
       end
 
       it 'should not run the bounce block if the message did not bounce' do
-        message = mock('bounced message', :bounced? => false)
+        message = double('bounced message', :bounced? => false)
         @route1.correct_message = message
         @route1.block = lambda { 'nobounce' }
         @router.route(message).should == 'nobounce'
