@@ -95,15 +95,16 @@ module Mailman
         if config.watch_maildir
           require 'listen'
           Mailman.logger.debug "Monitoring the Maildir for new messages..."
+          base = Pathname.new(@maildir.path)
 
           callback = Proc.new do |modified, added, removed|
             added.each do |new_file|
-              message = Maildir::Message.new(@maildir, "new/#{new_file}")
+              message = Maildir::Message.new(@maildir, Pathname.new(new_file).relative_path_from(base).to_s)
               @processor.process_maildir_message(message)
             end
           end
 
-          @listener = Listen::Listener.new(File.join(@maildir.path, 'new'), :relative_paths => true, &callback)
+          @listener = Listen::Listener.new(File.join(@maildir.path, 'new'), &callback)
           @listener.start
           sleep
         end

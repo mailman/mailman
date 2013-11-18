@@ -9,7 +9,10 @@ describe Mailman::Application do
   after do
     Mailman.reset_config!
     listener = @app.instance_variable_get('@listener')
-    listener.stop unless listener.nil?
+    begin
+      listener.stop unless listener.nil?
+    rescue SystemExit # eat listen exit
+    end
   end
 
   def send_example
@@ -200,12 +203,7 @@ describe Mailman::Application do
     FileUtils.cp(File.join(SPEC_ROOT, 'fixtures', 'example01.eml'), test_message_path) # copy a message into place, triggering listen handler
     FileUtils.cp(File.join(SPEC_ROOT, 'fixtures', 'example01.eml'), test_message_path_3) # copy a message into place, triggering listen handler
     sleep(0.5)
-    begin
-      Timeout::timeout(THREAD_TIMING) {
-        app_thread.join
-      }
-    rescue Timeout::Error # wait for listen handler
-    end
+    app_thread.kill
     @app.router.instance_variable_get('@count').should == 3
 
     FileUtils.rm_rf(config.maildir)
