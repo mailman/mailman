@@ -29,7 +29,14 @@ module Mailman::SpecHelpers
   end
 
   def basic_message
-    Mail.new("To: test@example.com\r\nFrom: chunky@bacon.com\r\nCC: testing@example.com\r\nSubject: Hello!\r\n\r\nemail message\r\n")
+    @basic_message ||= Mail.new.tap do |mail|
+      mail.to      = "test@example.com"
+      mail.from    = "chunky@bacon.com"
+      mail.cc      = "testing@example.com"
+      mail.bcc     = "blind@example.com"
+      mail.subject = "Hello!"
+      mail.body    = "email message"
+    end
   end
 
   def multipart_message

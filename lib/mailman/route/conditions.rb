@@ -63,6 +63,19 @@ module Mailman
       end
     end
 
+    # Matches against the BCC header of a message.
+    class BccCondition < Condition
+      def match(message)
+        if !message.bcc.nil?
+          message.bcc.each do |address|
+            if result = @matcher.match(address)
+              return result
+            end
+          end
+        end
+        nil
+      end
+    end
 
   end
 end

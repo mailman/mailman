@@ -151,7 +151,7 @@ the properties available.
 
 ### Conditions
 
-Currently there are five conditions available: `to`, `from`, `cc`, `subject`, `body`
+Currently there are five conditions available: `to`, `from`, `cc`, `bcc`, `subject`, `body`
 
 More can be added easily (see `lib/mailman/route/conditions.rb`).
 
