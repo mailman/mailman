@@ -95,3 +95,23 @@ describe Mailman::Route::CcCondition do
   end
 
 end
+
+describe Mailman::Route::BccCondition do
+
+  it 'should match an address' do
+    Mailman::Route::BccCondition.new('blind').match(basic_message).should == [{}, []]
+  end
+
+  it 'should not match a non-matching address' do
+    Mailman::Route::BccCondition.new('foo').match(basic_message).should be_nil
+  end
+
+  it 'should not match a nil address' do
+    Mailman::Route::BccCondition.new('blind').match(Mail.new).should be_nil
+  end
+
+  it 'should define a method on Route that is chainable and stores the condition' do
+    Mailman::Route.new.bcc('blind').conditions[0].class.should == Mailman::Route::BccCondition
+  end
+
+end
