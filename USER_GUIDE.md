@@ -173,6 +173,7 @@ with the `Mailman.config.ignore_stdin` option.
 
 **Example**: `cat plain_message.eml | ruby mailman_app.rb`
 
+*Note that the standard input receiver is not supported on Windows platforms.*
 
 ### POP3
 
@@ -187,13 +188,13 @@ Gmail and set it to keep messages after they have been retrieved with POP3.
 
 ### IMAP
 
-The IMAP receiver is enabled when the `Mailman.config.imap` hash is set. 
+The IMAP receiver is enabled when the `Mailman.config.imap` hash is set.
 Polling can be set with `Mailman.config.poll_interval`. This will read all unread messages in the INBOX by default.
 Here are example settings for gmail.
 
 ```ruby
 Mailman.config.imap = {
-  server: 'imap.gmail.com', 
+  server: 'imap.gmail.com',
   port: 993,  # usually 995, 993 for gmail
   ssl: true,
   username: 'foo@somedomain.com',
@@ -283,7 +284,7 @@ interfere with running Mailman with cron or as a daemon.
 
 ### Graceful death
 
-`Mailman.config.graceful_death`, if set, will catch SIGINTs 
+`Mailman.config.graceful_death`, if set, will catch SIGINTs
 (Control-C) and allow the mail receiver to finish its current
 iteration before exiting. Note that this currently only works
 with POP3 receivers.
