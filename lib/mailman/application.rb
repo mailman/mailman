@@ -1,6 +1,8 @@
 require 'rbconfig'
 
 module Mailman
+  IS_WINDOWS = (RbConfig::CONFIG['target_os'] =~ /mswin|mingw|cygwin/i)
+
   # The main application class. Pass a block to {#new} to create a new app.
   class Application
 
@@ -32,7 +34,6 @@ module Mailman
       @router = Mailman::Router.new
       @config = select_config(config)
       @processor = MessageProcessor.new(:router => @router, :config => @config)
-      @is_windows = (RbConfig::CONFIG['target_os'] =~ /mswin|mingw|cygwin/i)
 
       if self.config.maildir
         require 'maildir'
@@ -69,7 +70,7 @@ module Mailman
       end
 
       # STDIN
-      if !@is_windows && !config.ignore_stdin && $stdin.fcntl(Fcntl::F_GETFL, 0) == 0
+      if !IS_WINDOWS && !config.ignore_stdin && $stdin.fcntl(Fcntl::F_GETFL, 0) == 0
         Mailman.logger.debug "Processing message from STDIN."
         @processor.process($stdin.read)
 
