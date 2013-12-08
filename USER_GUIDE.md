@@ -173,6 +173,7 @@ with the `Mailman.config.ignore_stdin` option.
 
 **Example**: `cat plain_message.eml | ruby mailman_app.rb`
 
+*Note that the standard input receiver is not supported on Windows platforms.*
 
 ### POP3
 
