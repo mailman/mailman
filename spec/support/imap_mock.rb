@@ -39,6 +39,7 @@ class MockIMAP
 
   def select(mailbox)
     @@mailbox = mailbox
+    block_given? ? yield(self) : self
   end
 
   def examine(mailbox)
