@@ -133,12 +133,18 @@ module Mailman
       end
       Mailman.logger.info(polling_msg)
 
+      tries ||= 5
       loop do
         begin
           connection.connect
           connection.get_messages
-        rescue SystemCallError => e
+        rescue SystemCallError, EOFError => e
           Mailman.logger.error e.message
+          unless (tries -= 1).zero?
+            Mailman.logger.error "Retrying..."
+            connection.disconnect
+            retry
+          end
         ensure
           connection.started? && connection.disconnect
         end
