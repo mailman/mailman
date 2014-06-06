@@ -1,3 +1,11 @@
+## 0.7.1 (June 6, 2014)
+
+Bugfixes
+
+  - Update to listen 2.2.0
+  - Handle POP3 receiver crashes better
+
+
 ## 0.7.0 (August 11, 2013)
 
 Features
