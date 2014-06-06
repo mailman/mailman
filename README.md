@@ -14,6 +14,7 @@ end
 
 See the [User Guide](https://github.com/titanous/mailman/blob/master/USER_GUIDE.md) for more information.
 
+**If you'd like to maintain this gem, email jonathan@titanous.com.**
 
 ## Installation
 
