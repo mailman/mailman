@@ -1,3 +1,9 @@
+## 0.7.2 (June 9, 2014)
+
+Bugfixes
+
+  - Allow newer versions of the `listen` gem
+
 ## 0.7.1 (June 6, 2014)
 
 Bugfixes
