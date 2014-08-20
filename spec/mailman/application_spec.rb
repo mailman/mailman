@@ -77,6 +77,7 @@ describe Mailman::Application do
         @mock_receiver.stub(:connect)
         @mock_receiver.stub(:get_messages) {Process.kill("INT", $$)}
         @mock_receiver.should_receive(:disconnect).at_most(:twice)
+        @mock_receiver.should_receive(:started?).at_most(:twice)
         Mailman::Receiver::POP3.stub(:new) {@mock_receiver}
 
         Mailman.config.pop3 = {}

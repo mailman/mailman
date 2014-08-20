@@ -41,4 +41,12 @@ describe Mailman::Receiver::IMAP do
 
   end
 
+  describe 'started connection' do
+    it 'should return the same of connection when started' do
+      @receiver.connect
+      expect_any_instance_of(MockIMAP).to receive(:disconnected?)
+      @receiver.started?
+    end
+  end
+
 end

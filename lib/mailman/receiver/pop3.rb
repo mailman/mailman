@@ -45,6 +45,9 @@ module Mailman
         @connection.delete_all
       end
 
+      def started?
+        @connection.started?
+      end
     end
   end
 end

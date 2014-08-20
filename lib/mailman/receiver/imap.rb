@@ -60,6 +60,10 @@ module Mailman
         @connection.expunge
       end
 
+      def started?
+        not @connection.disconnected?
+      end
+
     end
   end
 end
