@@ -9,7 +9,7 @@ describe Mailman::Route::Matcher do
   it 'should have base methods to override' do
     lambda { @matcher.match('test') }.should raise_error(NotImplementedError)
     lambda { Mailman::Route::Matcher.valid_pattern?('test') }.should raise_error(NotImplementedError)
-    @matcher.respond_to?(:compile!).should be_true
+    @matcher.respond_to?(:compile!).should be_truthy
   end
 
   it 'should store the pattern' do
@@ -17,7 +17,7 @@ describe Mailman::Route::Matcher do
   end
 
   it 'should call #compile! when initialized' do
-    TestMatcher.new('test').compiled.should be_true
+    TestMatcher.new('test').compiled.should be_truthy
   end
 
   describe 'singleton' do

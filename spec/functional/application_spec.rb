@@ -16,7 +16,7 @@ describe Mailman::Application do
   end
 
   def send_example
-    send_message(fixture('example01')).should be_true
+    send_message(fixture('example01')).should be_truthy
   end
 
   it 'should route a message based on the from address' do
@@ -52,7 +52,7 @@ describe Mailman::Application do
   it "should route a message that doesn't match to the default block" do
     mailman_app {
       from('foobar@example.net') do
-        false.should be_true # we're not supposed to be here
+        false.should be_truthy # we're not supposed to be here
       end
 
       default do
@@ -71,7 +71,7 @@ describe Mailman::Application do
     }
 
     $stdin.string = fixture('example02')
-    @app.run.should be_true
+    @app.run.should be_truthy
     $stdin.string = nil
   end
 
@@ -88,7 +88,7 @@ describe Mailman::Application do
       }
 
       $stdin.string = fixture('example02')
-      @app.run.should be_false
+      @app.run.should be_falsey
       $stdin.string = nil
     end
   end
@@ -216,7 +216,7 @@ describe Mailman::Application do
       end
     }
 
-    send_message(fixture('multipart_encoded')).should be_true
+    send_message(fixture('multipart_encoded')).should be_truthy
   end
 
 end

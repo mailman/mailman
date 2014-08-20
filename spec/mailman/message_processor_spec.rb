@@ -12,7 +12,7 @@ describe Mailman::MessageProcessor do
   describe "#process" do
     it 'should process a message and pass it to the router' do
       router.should_receive(:route).with(basic_email).and_return(true)
-      processor.process(basic_email).should be_true
+      processor.process(basic_email).should be_truthy
     end
 
     it 'should log in info the new message received' do

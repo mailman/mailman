@@ -8,7 +8,7 @@ describe Mailman::Route::RegexpMatcher do
 
   describe 'basic' do
 
-    before do 
+    before do
       @matcher = regexp_matcher(/test/)
     end
 
@@ -17,7 +17,7 @@ describe Mailman::Route::RegexpMatcher do
     end
 
     it 'should match a string' do
-      @matcher.match('test').should be_true
+      @matcher.match('test').should be_truthy
     end
 
     it 'should not match a non-matching string' do

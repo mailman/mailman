@@ -14,12 +14,12 @@ describe Mailman::Receiver::IMAP do
   describe 'connection' do
 
     it 'should connect to a IMAP server' do
-      @receiver.connect.should be_true
+      @receiver.connect.should be_truthy
     end
 
     it 'should disconnect from a IMAP server' do
       @receiver.connect
-      @receiver.disconnect.should be_true
+      @receiver.disconnect.should be_truthy
     end
 
   end
