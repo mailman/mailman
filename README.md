@@ -22,7 +22,7 @@ See the [User Guide](https://github.com/titanous/mailman/blob/master/USER_GUIDE.
 
 ## Compatibility
 
-Tested on Ruby 2.2, 2.0, 1.9.3, JRuby, and Rubinius.
+Tested on Ruby 2.1, 2.0, 1.9.3, JRuby, and Rubinius.
 
 ## Thanks
 
