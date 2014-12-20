@@ -35,11 +35,14 @@ module Mailman
 
       # Connects to the IMAP server.
       def connect
+        tries ||= 5
         if @connection.nil? or @connection.disconnected?
           @connection = Net::IMAP.new(@server, port: @port, ssl: @ssl)
           @connection.login(@username, @password)
         end
         @connection.select(@folder)
+      rescue Net::IMAP::ByeResponseError, Net::IMAP::NoResponseError => e
+        retry unless (tries -= 1).zero?
       end
 
       # Disconnects from the IMAP server.
@@ -53,7 +56,12 @@ module Mailman
       def get_messages
         @connection.search(@filter).each do |message|
           body = @connection.fetch(message, "RFC822")[0].attr["RFC822"]
-          @processor.process(body)
+          begin
+            @processor.process(body)
+          rescue StandardError => error
+            Mailman.logger.error "Error encountered processing message: #{message.inspect}\n #{error.class.to_s}: #{error.message}\n #{error.backtrace.join("\n")}"
+            next
+          end
           @connection.store(message, "+FLAGS", @done_flags)
         end
         # Clears messages that have the Deleted flag set

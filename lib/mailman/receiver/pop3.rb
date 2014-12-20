@@ -40,7 +40,12 @@ module Mailman
       # deleting them.
       def get_messages
         @connection.each_mail do |message|
-          @processor.process(message.pop)
+          begin
+            @processor.process(message.pop)
+          rescue StandardError => error
+            Mailman.logger.error "Error encountered processing message: #{message.inspect}\n #{error.class.to_s}: #{error.message}\n #{error.backtrace.join("\n")}"
+            next
+          end
         end
         @connection.delete_all
       end
