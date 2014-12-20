@@ -14,16 +14,14 @@ describe Mailman::Receiver::POP3 do
   end
 
   describe 'connection' do
-
     it 'should connect to a POP3 server' do
-      @receiver.connect.should be_true
+      @receiver.connect.should be_truthy
     end
 
     it 'should disconnect from a POP3 server' do
       @receiver.connect
-      @receiver.disconnect.should be_true
+      @receiver.disconnect.should be_truthy
     end
-
   end
 
   describe 'message reception' do
@@ -40,7 +38,13 @@ describe Mailman::Receiver::POP3 do
       @receiver.get_messages
       @receiver.connection.mails.should be_empty
     end
+  end
 
+  describe 'started connection' do
+    it 'should return the same of connection when started' do
+      expect_any_instance_of(MockPOP3).to receive(:started?)
+      @receiver.started?
+    end
   end
 
 end

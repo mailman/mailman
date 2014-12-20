@@ -15,7 +15,7 @@ describe Mailman::Route::Condition do
     block = Proc.new { test }
     route = Mailman::Route.new
     route.test('foo').should == route
-    route.test('foo', &block).should be_true
+    route.test('foo', &block).should be_truthy
     route.conditions.first.class.should == TestCondition
     route.block.should == block
   end

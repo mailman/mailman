@@ -140,7 +140,7 @@ module Mailman
         rescue SystemCallError => e
           Mailman.logger.error e.message
         ensure
-          connection.disconnect
+          connection.started? && connection.disconnect
         end
 
         break unless polling?

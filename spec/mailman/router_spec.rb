@@ -13,7 +13,7 @@ describe Mailman::Router do
 
   describe 'routing' do
 
-    before do 
+    before do
       @route1 = TestRoute.new
       @route1.correct_message = 'test1'
       @router.add_route(@route1)
@@ -23,7 +23,7 @@ describe Mailman::Router do
 
       it 'should work without args' do
         @route1.block = lambda { params[:test].should == 'test'
-                                 message.should == 'test1' } 
+                                 message.should == 'test1' }
         @router.route('test1')
       end
 
@@ -31,7 +31,7 @@ describe Mailman::Router do
         @route1.block = lambda { |arg1,arg2| arg1.should == 'test'
                                              arg2.should == 'testing'
                                              params[:test].should == 'test'
-                                             message.should == 'test1' } 
+                                             message.should == 'test1' }
         @router.route('test1')
       end
 
@@ -41,19 +41,19 @@ describe Mailman::Router do
 
       it 'should route to the default method' do
         @route1.klass = TestMailer
-        @router.route('test1').should be_true
+        @router.route('test1').should be_truthy
       end
 
       it 'should route to the specified method' do
         @route1.klass = 'testMailer#get'
-        @router.route('test1').should be_true
+        @router.route('test1').should be_truthy
       end
 
     end
 
     it 'should set the params helper to a indifferent hash' do
       @route1.block = lambda { params[:test].should == 'test'
-                               params['test'].should == 'test' } 
+                               params['test'].should == 'test' }
       @router.route('test1')
     end
 

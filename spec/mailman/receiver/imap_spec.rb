@@ -14,12 +14,12 @@ describe Mailman::Receiver::IMAP do
   describe 'connection' do
 
     it 'should connect to a IMAP server' do
-      @receiver.connect.should be_true
+      @receiver.connect.should be_truthy
     end
 
     it 'should disconnect from a IMAP server' do
       @receiver.connect
-      @receiver.disconnect.should be_true
+      @receiver.disconnect.should be_truthy
     end
 
   end
@@ -39,6 +39,14 @@ describe Mailman::Receiver::IMAP do
       @receiver.connection.search(:all).should be_empty
     end
 
+  end
+
+  describe 'started connection' do
+    it 'should return the same of connection when started' do
+      @receiver.connect
+      expect_any_instance_of(MockIMAP).to receive(:disconnected?)
+      @receiver.started?
+    end
   end
 
 end
