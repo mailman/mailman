@@ -13,7 +13,10 @@ module Mailman
       #   messages to
       # @option options [String] :server the server to connect to
       # @option options [Integer] :port the port to connect to
-      # @option options [Boolean] :ssl whether or not to use ssl
+      # @option options [Boolean] :ssl if options is true, then an attempt will
+      #   be made to use SSL (now TLS) to connect to the server.
+      # @option options [Boolean] :starttls use STARTTLS command to start
+      #   TLS session.
       # @option options [String] :username the username to authenticate with
       # @option options [String] :password the password to authenticate with
       # @option options [String] :folder the mail folder to search
@@ -30,7 +33,12 @@ module Mailman
         @done_flags = options[:done_flags] || [Net::IMAP::SEEN]
         @port       = options[:port] || 143
         @ssl        = options[:ssl] || false
+        @starttls   = options[:starttls] || false
         @folder     = options[:folder] || "INBOX"
+
+        if @starttls && @ssl
+          raise StandardError.new("either specify ssl or starttls, not both")
+        end
       end
 
       # Connects to the IMAP server.
@@ -38,6 +46,9 @@ module Mailman
         tries ||= 5
         if @connection.nil? or @connection.disconnected?
           @connection = Net::IMAP.new(@server, port: @port, ssl: @ssl)
+          if @starttls
+            @connection.starttls
+          end
           @connection.login(@username, @password)
         end
         @connection.select(@folder)
