@@ -142,7 +142,10 @@ module Mailman
           Mailman.logger.error e.message
           unless (tries -= 1).zero?
             Mailman.logger.error "Retrying..."
-            connection.disconnect
+            begin
+              connection.disconnect
+            rescue # don't crash in the crash handler
+            end
             retry
           end
         ensure
