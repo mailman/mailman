@@ -24,6 +24,13 @@ See the [User Guide](https://github.com/titanous/mailman/blob/master/USER_GUIDE.
 
 Tested on Ruby 2.1, 2.0, 1.9.3, JRuby, and Rubinius.
 
+### Ruby < 2.0.0
+
+In order to use this gem with ruby versions older then 2.0.0, you have to
+restrict the maildir gem to the latest supported version in your `Gemfile`:
+
+    gem 'maildir', '< 2.1.0'
+
 ## Thanks
 
 This project was originally sponsored by Ruby Summer of Code (2010), and
