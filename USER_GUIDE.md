@@ -185,6 +185,10 @@ after processing*. If you want to keep a copy of messages, it is recommended
 that you use a mail retriever with the Maildir receiver. You could also use
 Gmail and set it to keep messages after they have been retrieved with POP3.
 
+You can pass a Hash to `ssl` with
+[SSL context options](http://www.ruby-doc.org/stdlib/libdoc/openssl/rdoc/OpenSSL/SSL/SSLContext.html).
+For example, when you have a self-signed certificate: `ssl: { ca_file: '/etc/pki/my_ca.pem' }`.
+
 
 ### IMAP
 
@@ -195,7 +199,7 @@ Here are example settings for gmail.
 ```ruby
 Mailman.config.imap = {
   server: 'imap.gmail.com',
-  port: 993,  # usually 995, 993 for gmail
+  port: 993, # you usually don't need to set this, but it's there if you need to
   ssl: true,
   # Use starttls instead of ssl (do not specify both)
   #starttls: true,
@@ -205,6 +209,7 @@ Mailman.config.imap = {
 
 ```
 * When using gmail, remember to [enable IMAP](https://support.google.com/mail/troubleshooter/1668960)
+* You can pass a Hash to `ssl`, just like with POP3.
 
 ### Maildir
 
@@ -245,7 +250,7 @@ Mailman.config.pop3 = {
   :username => 'chunkybacon@gmail.com',
   :password => 'foobar',
   :server   => 'pop.gmail.com',
-  :port     => 995, # defaults to 110
+  :port     => 995, # you can usually omit this, but it's there
   :ssl      => true # defaults to false
 }
 ```

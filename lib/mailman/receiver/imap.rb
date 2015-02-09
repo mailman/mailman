@@ -13,8 +13,9 @@ module Mailman
       #   messages to
       # @option options [String] :server the server to connect to
       # @option options [Integer] :port the port to connect to
-      # @option options [Boolean] :ssl if options is true, then an attempt will
-      #   be made to use SSL (now TLS) to connect to the server.
+      # @option options [Boolean,Hash] :ssl if options is true, then an attempt will
+      #   be made to use SSL (now TLS) to connect to the server. A Hash can be used
+      #   to enable ssl and supply SSL context options.
       # @option options [Boolean] :starttls use STARTTLS command to start
       #   TLS session.
       # @option options [String] :username the username to authenticate with
@@ -31,9 +32,9 @@ module Mailman
         @password   = options[:password]
         @filter     = options[:filter] || 'UNSEEN'
         @done_flags = options[:done_flags] || [Net::IMAP::SEEN]
-        @port       = options[:port] || 143
         @ssl        = options[:ssl] || false
         @starttls   = options[:starttls] || false
+        @port       = options[:port] || (@ssl ? 993 : 143)
         @folder     = options[:folder] || "INBOX"
 
         if @starttls && @ssl
