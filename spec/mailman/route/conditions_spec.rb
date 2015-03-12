@@ -3,19 +3,19 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '/spec_he
 describe Mailman::Route::ToCondition do
 
   it 'should match an address' do
-    Mailman::Route::ToCondition.new('test').match(basic_message).should == [{}, []]
+    expect(Mailman::Route::ToCondition.new('test').match(basic_message)).to eq([{}, []])
   end
 
   it 'should not match a non-matching address' do
-    Mailman::Route::ToCondition.new('foo').match(basic_message).should be_nil
+    expect(Mailman::Route::ToCondition.new('foo').match(basic_message)).to be_nil
   end
 
   it 'should not match a nil address' do
-    Mailman::Route::ToCondition.new('test').match(Mail.new).should be_nil
+    expect(Mailman::Route::ToCondition.new('test').match(Mail.new)).to be_nil
   end
 
   it 'should define a method on Route that is chainable and stores the condition' do
-    Mailman::Route.new.to('test').conditions[0].class.should == Mailman::Route::ToCondition
+    expect(Mailman::Route.new.to('test').conditions[0].class).to eq(Mailman::Route::ToCondition)
   end
 
 end
@@ -23,15 +23,15 @@ end
 describe Mailman::Route::FromCondition do
 
   it 'should match an address' do
-    Mailman::Route::FromCondition.new('chunky').match(basic_message).should == [{}, []]
+    expect(Mailman::Route::FromCondition.new('chunky').match(basic_message)).to eq([{}, []])
   end
 
   it 'should not match a non-matching address' do
-    Mailman::Route::FromCondition.new('foo').match(basic_message).should be_nil
+    expect(Mailman::Route::FromCondition.new('foo').match(basic_message)).to be_nil
   end
 
   it 'should define a method on Route that is chainable and stores the condition' do
-    Mailman::Route.new.from('test').conditions[0].class.should == Mailman::Route::FromCondition
+    expect(Mailman::Route.new.from('test').conditions[0].class).to eq(Mailman::Route::FromCondition)
   end
 
 end
@@ -39,15 +39,15 @@ end
 describe Mailman::Route::SubjectCondition do
 
   it 'should match the subject' do
-    Mailman::Route::SubjectCondition.new('Hello').match(basic_message).should == [{}, []]
+    expect(Mailman::Route::SubjectCondition.new('Hello').match(basic_message)).to eq([{}, []])
   end
 
   it 'should not match a non-matching subject' do
-    Mailman::Route::SubjectCondition.new('foo').match(basic_message).should be_nil
+    expect(Mailman::Route::SubjectCondition.new('foo').match(basic_message)).to be_nil
   end
 
   it 'should define a method on Route that is chainable and stores the condition' do
-    Mailman::Route.new.subject('test').conditions[0].class.should == Mailman::Route::SubjectCondition
+    expect(Mailman::Route.new.subject('test').conditions[0].class).to eq(Mailman::Route::SubjectCondition)
   end
 
 end
@@ -55,23 +55,23 @@ end
 describe Mailman::Route::BodyCondition do
 
   it 'should match the body' do
-    Mailman::Route::BodyCondition.new('email').match(basic_message).should == [{}, []]
+    expect(Mailman::Route::BodyCondition.new('email').match(basic_message)).to eq([{}, []])
   end
 
   it 'should not match a non-matching body' do
-    Mailman::Route::BodyCondition.new('foo').match(basic_message).should be_nil
+    expect(Mailman::Route::BodyCondition.new('foo').match(basic_message)).to be_nil
   end
 
   it 'should define a method on Route that is chainable and stores the condition' do
-    Mailman::Route.new.body('test').conditions[0].class.should == Mailman::Route::BodyCondition
+    expect(Mailman::Route.new.body('test').conditions[0].class).to eq(Mailman::Route::BodyCondition)
   end
 
   it 'returns nil for a non-matching body of a multipart message' do
-    Mailman::Route::BodyCondition.new('foo').match(multipart_message).should be_nil
+    expect(Mailman::Route::BodyCondition.new('foo').match(multipart_message)).to be_nil
   end
 
   it 'matches on the body of a multipart message' do
-    Mailman::Route::BodyCondition.new('plain').match(multipart_message).should == [{}, []]
+    expect(Mailman::Route::BodyCondition.new('plain').match(multipart_message)).to eq([{}, []])
   end
 
 end
@@ -79,19 +79,19 @@ end
 describe Mailman::Route::CcCondition do
 
   it 'should match an address' do
-    Mailman::Route::CcCondition.new('testing').match(basic_message).should == [{}, []]
+    expect(Mailman::Route::CcCondition.new('testing').match(basic_message)).to eq([{}, []])
   end
 
   it 'should not match a non-matching address' do
-    Mailman::Route::CcCondition.new('foo').match(basic_message).should be_nil
+    expect(Mailman::Route::CcCondition.new('foo').match(basic_message)).to be_nil
   end
 
   it 'should not match a nil address' do
-    Mailman::Route::CcCondition.new('testing').match(Mail.new).should be_nil
+    expect(Mailman::Route::CcCondition.new('testing').match(Mail.new)).to be_nil
   end
 
   it 'should define a method on Route that is chainable and stores the condition' do
-    Mailman::Route.new.cc('testing').conditions[0].class.should == Mailman::Route::CcCondition
+    expect(Mailman::Route.new.cc('testing').conditions[0].class).to eq(Mailman::Route::CcCondition)
   end
 
 end

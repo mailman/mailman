@@ -28,7 +28,7 @@ Gem::Specification.new do |s|
   end
   s.add_dependency 'i18n', '>= 0.4.1' # fix for mail/activesupport-3 dependency issue
 
-  s.add_development_dependency 'rspec', '~> 2.10'
+  s.add_development_dependency 'rspec', '~> 3.0'
 
   s.files        = Dir.glob('{bin,lib,examples}/**/*') + %w(LICENSE README.md USER_GUIDE.md CHANGELOG.md)
   s.require_path = 'lib'

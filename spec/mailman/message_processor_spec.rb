@@ -11,17 +11,17 @@ describe Mailman::MessageProcessor do
 
   describe "#process" do
     it 'should process a message and pass it to the router' do
-      router.should_receive(:route).with(basic_email).and_return(true)
-      processor.process(basic_email).should be_truthy
+      expect(router).to receive(:route).with(basic_email).and_return(true)
+      expect(processor.process(basic_email)).to be_truthy
     end
 
     it 'should log in info the new message received' do
-      Mailman.logger.should_receive(:info).with("Got new message from '#{basic_email.from.first}' with subject '#{basic_email.subject}'.")
+      expect(Mailman.logger).to receive(:info).with("Got new message from '#{basic_email.from.first}' with subject '#{basic_email.subject}'.")
       processor.process(basic_email)
     end
 
     it 'should receive email without from field' do
-      Mailman.logger.should_receive(:info).with("Got new message from 'unknown' with subject '#{basic_email.subject}'.")
+      expect(Mailman.logger).to receive(:info).with("Got new message from 'unknown' with subject '#{basic_email.subject}'.")
       processor.process(no_from_mail)
     end
 
@@ -31,28 +31,28 @@ describe Mailman::MessageProcessor do
     before { setup_maildir }
     it 'should mark message like seen' do
       processor.process_maildir_message(maildir_message)
-      maildir_message.should be_seen
+      expect(maildir_message).to be_seen
     end
 
     it 'should move to current' do
       processor.process_maildir_message(maildir_message)
-      maildir_message.dir.should == :cur
+      expect(maildir_message.dir).to eq(:cur)
     end
 
     it 'should not move file in cur if process failed' do
-      router.should_receive(:route).with(basic_email).and_raise(Exception)
+      expect(router).to receive(:route).with(basic_email).and_raise(Exception)
       begin
         processor.process_maildir_message(maildir_message)
       rescue Exception
       end
-      maildir_message.dir.should_not == :cur
+      expect(maildir_message.dir).to_not eq(:cur)
     end
 
     it 'should log errors caused by processing the message, but not raise them so futher messages can be processed' do
       error = StandardError.new('testing')
-      router.should_receive(:route).with(basic_email).and_raise(error)
-      Mailman.logger.should_receive(:error)
-      lambda{ processor.process_maildir_message(maildir_message) }.should_not raise_error
+      expect(router).to receive(:route).with(basic_email).and_raise(error)
+      expect(Mailman.logger).to receive(:error)
+      expect(lambda{ processor.process_maildir_message(maildir_message) }).to_not raise_error
     end
   end
 

@@ -7,23 +7,23 @@ describe Mailman::Route::Matcher do
   end
 
   it 'should have base methods to override' do
-    lambda { @matcher.match('test') }.should raise_error(NotImplementedError)
-    lambda { Mailman::Route::Matcher.valid_pattern?('test') }.should raise_error(NotImplementedError)
-    @matcher.respond_to?(:compile!).should be_truthy
+    expect { @matcher.match('test') }.to raise_error(NotImplementedError)
+    expect { Mailman::Route::Matcher.valid_pattern?('test') }.to raise_error(NotImplementedError)
+    expect(@matcher.respond_to?(:compile!)).to be_truthy
   end
 
   it 'should store the pattern' do
-    @matcher.pattern.should == 'test'
+    expect(@matcher.pattern).to eq('test')
   end
 
   it 'should call #compile! when initialized' do
-    TestMatcher.new('test').compiled.should be_truthy
+    expect(TestMatcher.new('test').compiled).to be_truthy
   end
 
   describe 'singleton' do
 
     it 'should have an array of registered matchers' do
-      Mailman::Route::Matcher.matchers.should include(TestMatcher)
+      expect(Mailman::Route::Matcher.matchers).to include(TestMatcher)
     end
 
     it 'should be able to find and create a matcher instance' do
@@ -31,9 +31,9 @@ describe Mailman::Route::Matcher do
       original_matchers = matcher_class.instance_variable_get('@matchers')
       matcher_class.instance_variable_set('@matchers', [TestMatcher])
       matcher = matcher_class.create('test')
-      matcher.class.should == TestMatcher
-      matcher.pattern.should == 'test'
-      TestMatcher.validated.should == true
+      expect(matcher.class).to eq(TestMatcher)
+      expect(matcher.pattern).to eq('test')
+      expect(TestMatcher.validated).to eq(true)
       matcher_class.instance_variable_set('@matchers', original_matchers)
     end
 

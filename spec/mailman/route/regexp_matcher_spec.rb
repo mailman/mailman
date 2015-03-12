@@ -3,7 +3,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '/spec_he
 describe Mailman::Route::RegexpMatcher do
 
   it 'should be registered with Matcher' do
-    Mailman::Route::Matcher.create(/test/).class.should == Mailman::Route::RegexpMatcher
+    expect(Mailman::Route::Matcher.create(/test/).class).to eq(Mailman::Route::RegexpMatcher)
   end
 
   describe 'basic' do
@@ -13,15 +13,15 @@ describe Mailman::Route::RegexpMatcher do
     end
 
     it 'should store a pattern' do
-      @matcher.pattern.should == /test/
+      expect(@matcher.pattern).to eq(/test/)
     end
 
     it 'should match a string' do
-      @matcher.match('test').should be_truthy
+      expect(@matcher.match('test')).to be_truthy
     end
 
     it 'should not match a non-matching string' do
-      @matcher.match('foo').should be_nil
+      expect(@matcher.match('foo')).to be_nil
     end
 
   end
@@ -30,11 +30,11 @@ describe Mailman::Route::RegexpMatcher do
 
     it 'should return a captures hash and array with matches' do
       correct_captures = ['test', 'example.com']
-      regexp_matcher(/(.*)@(.*)/).match('test@example.com').should == [{:captures => correct_captures}, correct_captures]
+      expect(regexp_matcher(/(.*)@(.*)/).match('test@example.com')).to eq([{:captures => correct_captures}, correct_captures])
     end
 
     it 'should return empty capture arrays if there were no captures' do
-      regexp_matcher(/test/).match('test').should == [{:captures => []}, []]
+      expect(regexp_matcher(/test/).match('test')).to eq([{:captures => []}, []])
     end
 
   end

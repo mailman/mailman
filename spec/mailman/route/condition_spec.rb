@@ -3,21 +3,21 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '/spec_he
 describe Mailman::Route::Condition do
 
   it 'should have base methods to override' do
-    lambda { Mailman::Route::Condition.new('test').match('test') }.should raise_error(NotImplementedError)
+    expect { Mailman::Route::Condition.new('test').match('test') }.to raise_error(NotImplementedError)
   end
 
   it 'should store the matcher' do
-    Mailman::Route::Condition.new(/test/).matcher.class.should == Mailman::Route::RegexpMatcher
-    Mailman::Route::Condition.new('test').matcher.class.should == Mailman::Route::StringMatcher
+    expect(Mailman::Route::Condition.new(/test/).matcher.class).to eq(Mailman::Route::RegexpMatcher)
+    expect(Mailman::Route::Condition.new('test').matcher.class).to eq(Mailman::Route::StringMatcher)
   end
 
   it 'should define condition methods on Route' do
     block = Proc.new { test }
     route = Mailman::Route.new
-    route.test('foo').should == route
-    route.test('foo', &block).should be_truthy
-    route.conditions.first.class.should == TestCondition
-    route.block.should == block
+    expect(route.test('foo')).to eq(route)
+    expect(route.test('foo', &block)).to be_truthy
+    expect(route.conditions.first.class).to eq(TestCondition)
+    expect(route.block).to eq(block)
   end
 
 end
