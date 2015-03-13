@@ -16,14 +16,14 @@ describe Mailman::Application do
   end
 
   def send_example
-    send_message(fixture('example01')).should be_truthy
+    send_message(fixture('example01'))
   end
 
   it 'should route a message based on the from address' do
     mailman_app {
       from '%user%@machine.example'  do
-        params[:user].should == 'jdoe'
-        message.subject.should == 'Saying Hello'
+        raise "Params Unavailable" unless params[:user] == 'jdoe'
+        raise "Subject Unavailable" unless message.subject == 'Saying Hello'
       end
     }
 
@@ -33,8 +33,8 @@ describe Mailman::Application do
   it 'should route a message based on the from and to addresses' do
     mailman_app {
       from('jdoe@machine.example').to(/(.+)@(.+)/) do |to_user, to_domain|
-        params[:captures].first.should == 'mary'
-        to_domain.should == 'example.net'
+        raise "Captures Unavailable" unless params[:captures].first == 'mary'
+        raise "To Domain Unavailable" unless to_domain == 'example.net'
       end
     }
 
@@ -52,11 +52,11 @@ describe Mailman::Application do
   it "should route a message that doesn't match to the default block" do
     mailman_app {
       from('foobar@example.net') do
-        false.should be_truthy # we're not supposed to be here
+        raise "We're not supposed to be here"
       end
 
       default do
-        message.subject.should == 'Saying Hello'
+        raise "Subject Unavailable" unless message.subject == 'Saying Hello'
       end
     }
 
@@ -71,7 +71,7 @@ describe Mailman::Application do
     }
 
     $stdin.string = fixture('example02')
-    @app.run.should be_truthy
+    expect(@app.run).to be_truthy
     $stdin.string = nil
   end
 
@@ -88,7 +88,7 @@ describe Mailman::Application do
       }
 
       $stdin.string = fixture('example02')
-      @app.run.should be_falsey
+      expect(@app.run).to be_falsey
       $stdin.string = nil
     end
   end
@@ -107,7 +107,7 @@ describe Mailman::Application do
     }
 
     @app.run
-    @app.router.instance_variable_get('@count').should == 2
+    expect(@app.router.instance_variable_get('@count')).to eq(2)
   end
 
   it 'should handle connection errors and log them to logger.error' do
@@ -117,10 +117,10 @@ describe Mailman::Application do
     config.poll_interval = 0 # just poll once
 
     mock_pop3 = MockPOP3.new
-    mock_pop3.should_receive(:start).exactly(5).times.and_raise(SystemCallError.new("Generic Connection Error"))
-    Net::POP3.should_receive(:new).and_return(mock_pop3)
-    Mailman.logger.should_receive(:error).with(/Retrying.../i).exactly(4).times
-    Mailman.logger.should_receive(:error).with(/unknown error - Generic Connection Error/i).exactly(5).times
+    expect(mock_pop3).to receive(:start).exactly(5).times.and_raise(SystemCallError.new("Generic Connection Error"))
+    expect(Net::POP3).to receive(:new).and_return(mock_pop3)
+    expect(Mailman.logger).to receive(:error).with(/Retrying.../i).exactly(4).times
+    expect(Mailman.logger).to receive(:error).with(/unknown error - Generic Connection Error/i).exactly(5).times
 
     mailman_app {
       from 'chunky@bacon.com' do
@@ -129,7 +129,7 @@ describe Mailman::Application do
       end
     }
     @app.run
-    @app.router.instance_variable_get('@count').should == nil
+    expect(@app.router.instance_variable_get('@count')).to be_nil
   end
 
   it 'should poll an IMAP server, and process messsages' do
@@ -146,7 +146,7 @@ describe Mailman::Application do
     }
 
     @app.run
-    @app.router.instance_variable_get('@count').should == 2
+    expect(@app.router.instance_variable_get('@count')).to eq(2)
   end
 
   it 'should process new messages in the maildir folder on launch' do
@@ -162,7 +162,7 @@ describe Mailman::Application do
     }
 
     @app.run
-    @app.router.instance_variable_get('@count').should == 1
+    expect(@app.router.instance_variable_get('@count')).to eq(1)
 
     FileUtils.rm_rf(config.maildir)
   end
@@ -179,7 +179,7 @@ describe Mailman::Application do
     }
 
     @app.run
-    @app.router.instance_variable_get('@count').should == 1
+    expect(@app.router.instance_variable_get('@count')).to eq(1)
 
     FileUtils.rm_rf(config.maildir)
   end
@@ -205,7 +205,7 @@ describe Mailman::Application do
     FileUtils.cp(File.join(SPEC_ROOT, 'fixtures', 'example01.eml'), test_message_path_3) # copy a message into place, triggering listen handler
     sleep(0.5)
     app_thread.kill
-    @app.router.instance_variable_get('@count').should == 3
+    expect(@app.router.instance_variable_get('@count')).to eq(3)
 
     FileUtils.rm_rf(config.maildir)
   end
@@ -213,11 +213,11 @@ describe Mailman::Application do
   it 'should match a multipart endocoded body' do
     mailman_app {
       body /ID (\d+) (OK|NO)/ do
-        params[:captures].first.should == '43'
+        raise "Captures Unavailable" unless params[:captures].first == '43'
       end
     }
 
-    send_message(fixture('multipart_encoded')).should be_truthy
+    send_message(fixture('multipart_encoded'))
   end
 
 end

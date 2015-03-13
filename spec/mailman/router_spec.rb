@@ -7,8 +7,8 @@ describe Mailman::Router do
   end
 
   it 'should add a route' do
-    @router.add_route('test').should == 'test'
-    @router.routes.should == ['test']
+    expect(@router.add_route('test')).to eq('test')
+    expect(@router.routes).to eq(['test'])
   end
 
   describe 'routing' do
@@ -22,16 +22,20 @@ describe Mailman::Router do
     describe 'blocks' do
 
       it 'should work without args' do
-        @route1.block = lambda { params[:test].should == 'test'
-                                 message.should == 'test1' }
+        @route1.block = lambda {
+          raise "Params unavailable" unless params[:test] == 'test'
+          raise "Message unavailable" unless message == 'test1'
+        }
         @router.route('test1')
       end
 
       it 'should work with args' do
-        @route1.block = lambda { |arg1,arg2| arg1.should == 'test'
-                                             arg2.should == 'testing'
-                                             params[:test].should == 'test'
-                                             message.should == 'test1' }
+        @route1.block = lambda { |arg1, arg2|
+          raise "Argument 1 unavailable" unless arg1 == 'test'
+          raise "Argument 2 unavailable" unless arg2 == 'testing'
+          raise "Params unavailable" unless params[:test] == 'test'
+          raise "Message unavailable" unless message == 'test1'
+        }
         @router.route('test1')
       end
 
@@ -41,19 +45,21 @@ describe Mailman::Router do
 
       it 'should route to the default method' do
         @route1.klass = TestMailer
-        @router.route('test1').should be_truthy
+        expect(@router.route('test1')).to be_truthy
       end
 
       it 'should route to the specified method' do
         @route1.klass = 'testMailer#get'
-        @router.route('test1').should be_truthy
+        expect(@router.route('test1')).to be_truthy
       end
 
     end
 
     it 'should set the params helper to a indifferent hash' do
-      @route1.block = lambda { params[:test].should == 'test'
-                               params['test'].should == 'test' }
+      @route1.block = proc {
+        raise "Symbol access unavailable" unless params[:test] == 'test'
+        raise "String access unavailable" unless params['test'] == 'test'
+      }
       @router.route('test1')
     end
 
@@ -67,14 +73,14 @@ describe Mailman::Router do
       it 'should loop through routes and find the first route that matches' do
         @route2.block = lambda { 2 }
         @route2.correct_message = 'test2'
-        @router.route('test2').should == 2
+        expect(@router.route('test2')).to eq(2)
       end
 
       it 'should run the first route that matches with two matching routes' do
         @route2.correct_message = 'test1'
         @route1.block = lambda { 1 }
         @route2.block = lambda { 2 }
-        @router.route('test1').should == 1
+        expect(@router.route('test1')).to eq(1)
       end
 
     end
@@ -88,14 +94,14 @@ describe Mailman::Router do
       it 'should run the bounce block if it exists' do
         message = double('bounced message', :bounced? => true)
         @route1.correct_message = message
-        @router.route(message).should == 'bounce'
+        expect(@router.route(message)).to eq('bounce')
       end
 
       it 'should not run the bounce block if the message did not bounce' do
         message = double('bounced message', :bounced? => false)
         @route1.correct_message = message
         @route1.block = lambda { 'nobounce' }
-        @router.route(message).should == 'nobounce'
+        expect(@router.route(message)).to eq('nobounce')
       end
 
     end
@@ -108,13 +114,13 @@ describe Mailman::Router do
 
       it 'should run the default block if it exists and no routes match' do
         @route1.correct_message = 'foobar'
-        @router.route('blah').should == 'default'
+        expect(@router.route('blah')).to eq('default')
       end
 
       it 'should not run the default block if a route matched' do
         @route1.correct_message = 'test'
         @route1.block = lambda { 'nodefault' }
-        @router.route('test').should == 'nodefault'
+        expect(@router.route('test')).to eq('nodefault')
       end
 
     end

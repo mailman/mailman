@@ -9,17 +9,17 @@ describe Mailman::Application do
     end
 
     it 'should initialize and store the router' do
-      @app.router.class.should == Mailman::Router
+      expect(@app.router.class).to eq(Mailman::Router)
     end
 
     it 'should initialize and store the message processor' do
-      @app.processor.class.should == Mailman::MessageProcessor
+      expect(@app.processor.class).to eq(Mailman::MessageProcessor)
     end
 
     context "with global config" do
       it 'should use the global config' do
-        @app.config.class.should == Mailman::Configuration
-        @app.config.should == Mailman.config
+        expect(@app.config.class).to eq(Mailman::Configuration)
+        expect(@app.config).to eq(Mailman.config)
       end
     end
 
@@ -30,15 +30,15 @@ describe Mailman::Application do
         end
 
         it "should instanciate the configuration" do
-          @app.config.should be_a(Mailman::Configuration)
+          expect(@app.config).to be_a(Mailman::Configuration)
         end
 
         it "should instanciate a config instance with params" do
-          @app.config.poll_interval.should == 10
+          expect(@app.config.poll_interval).to eq(10)
         end
 
         it 'should not use the global config' do
-          @app.config.should_not == Mailman.config
+          expect(@app.config).to_not eq(Mailman.config)
         end
       end
 
@@ -50,15 +50,15 @@ describe Mailman::Application do
         end
 
         it "should instanciate the configuration" do
-          @app.config.should be_a(Mailman::Configuration)
+          expect(@app.config).to be_a(Mailman::Configuration)
         end
 
         it "should instanciate a config instance with params" do
-          @app.config.poll_interval.should == 10
+          expect(@app.config.poll_interval).to eq(10)
         end
 
         it 'should not use the global config' do
-          @app.config.should_not == Mailman.config
+          expect(@app.config).to_not eq(Mailman.config)
         end
       end
     end
@@ -74,15 +74,15 @@ describe Mailman::Application do
 
       it "should catch interrupt signal and let a POP3 receiver finish its poll before exiting" do
         @mock_receiver = double("Receiver::POP3")
-        @mock_receiver.stub(:connect)
-        @mock_receiver.stub(:get_messages) {Process.kill("INT", $$)}
-        @mock_receiver.should_receive(:disconnect).at_most(:twice)
-        @mock_receiver.should_receive(:started?).at_most(:twice)
-        Mailman::Receiver::POP3.stub(:new) {@mock_receiver}
+        allow(@mock_receiver).to receive(:connect)
+        allow(@mock_receiver).to receive(:get_messages) { Process.kill("INT", $$) }
+        expect(@mock_receiver).to receive(:disconnect).at_most(:twice)
+        expect(@mock_receiver).to receive(:started?).at_most(:twice)
+        allow(Mailman::Receiver::POP3).to receive(:new).and_return(@mock_receiver)
 
         Mailman.config.pop3 = {}
 
-        Signal.trap("INT") {raise "Application didn't catch SIGINT"}
+        Signal.trap("INT") { raise "Application didn't catch SIGINT" }
         @app.run
       end
     end
