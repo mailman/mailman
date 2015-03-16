@@ -86,4 +86,3 @@ RSpec.configure do |config|
     FileUtils.rm File.join(SPEC_ROOT, 'mailman-log.log') rescue nil
   end
 end
-
