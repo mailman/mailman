@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['Jonathan Rudenberg']
   s.email       = ['jonathan@titanous.com']
-  s.homepage    = 'https://github.com/titanous/mailman'
+  s.homepage    = 'https://github.com/mailman/mailman'
   s.summary     = 'A incoming email processing microframework'
   s.description = 'Mailman makes it easy to process incoming emails with a simple routing DSL'
 
