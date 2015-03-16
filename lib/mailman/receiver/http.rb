@@ -81,7 +81,7 @@ module Mailman
           @processor.process(@parser.parse(env))
           return [200, {}, []]
         rescue Exception => e
-          Mailman.logger.error (e.message + "\n#{e.backtrace}"
+          Mailman.logger.error(e.message + "\n#{e.backtrace}")
           return [500, {}, ["Email processing failed"]]
         end
       end
