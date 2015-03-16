@@ -1,4 +1,5 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', '/spec_helper'))
+require 'timeout'
 
 describe Mailman::Application do
 
@@ -199,15 +200,23 @@ describe Mailman::Application do
       end
     }
 
-    app_thread = Thread.new { @app.run } # run the app in a separate thread so that listen doesn't block
-    sleep(THREAD_TIMING)
-    FileUtils.cp(File.join(SPEC_ROOT, 'fixtures', 'example01.eml'), test_message_path) # copy a message into place, triggering listen handler
-    FileUtils.cp(File.join(SPEC_ROOT, 'fixtures', 'example01.eml'), test_message_path_3) # copy a message into place, triggering listen handler
-    sleep(0.5)
-    app_thread.kill
-    expect(@app.router.instance_variable_get('@count')).to eq(3)
+    if defined?(RUBY_ENGINE) && RUBY_ENGINE == 'rbx'
+      pending "RBX threads != MRI threads; tests stall here."
+      raise "Killing test before it stalls"
+    end
 
-    FileUtils.rm_rf(config.maildir)
+    Timeout::timeout(10) do
+      app_thread = Thread.new { @app.run } # run the app in a separate thread so that listen doesn't block
+      sleep(THREAD_TIMING)
+      FileUtils.cp(File.join(SPEC_ROOT, 'fixtures', 'example01.eml'), test_message_path) # copy a message into place, triggering listen handler
+      FileUtils.cp(File.join(SPEC_ROOT, 'fixtures', 'example01.eml'), test_message_path_3) # copy a message into place, triggering listen handler
+      sleep(0.5)
+      app_thread.kill
+      count = @app.router.instance_variable_get('@count')
+      # FIXME: Interacting with the count variable at this point causes the stall
+      expect(count).to eq(3)
+      FileUtils.rm_rf(config.maildir)
+    end
   end
 
   it 'should match a multipart endocoded body' do

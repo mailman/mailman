@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = 'mailman'
 
-  s.add_dependency 'mail', '>= 2.0.3'
+  s.add_dependency 'mail', '~>2.0', '>= 2.0.3'
   s.add_dependency 'activesupport', '>= 2.3.4'
   s.add_dependency 'listen', '~> 2.2'
   if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.0.0')
