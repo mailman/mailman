@@ -35,7 +35,7 @@ combined with a block of code to form a **Route**.
 
 ### Matchers
 
-There are string and regular expression matchers. Both can perform captures.
+There are string, regular expression and header matchers. All can perform captures.
 
 #### String
 
@@ -57,9 +57,42 @@ matcher instead.
 
 #### Regular expression
 
-Regular expressions may be used as matchers. All captures will be available from
-the params helper (`params[:captures]`) as an Array, and as block arguments.
+Regular expressions may be used as matchers. All captures will be available from the params helper (`params[:captures]`) as an Array, and as block arguments.
 
+#### Headers
+
+You can match against headers using strings or regular expressions. Multiple headers can be listed and all of them must be matched in order for the route to progress.
+
+Capture groups are available for headers matched with regular expressions, although they are provided in a slightly more complex form, as some headers can appear multiple times.
+
+For an email that looks like this:
+
+```
+To: hello@mailman.example.com
+X-Forwarded-To: someone@example.com
+X-Forwarded-To: other@example.in
+```
+
+You can expect the captures to work like this:
+
+```ruby
+Mailman::Application.run do
+  header to: /h(ell)o/, x_forwarded_to: /(.+)@example.(.+)/ do
+    p params[:captures]
+    # => {
+    #   to: [
+    #     [ 'ell' ]
+    #   ],
+    #   x_forwarded_to: [
+    #     [ 'someone', 'com' ],
+    #     [ 'other', 'in' ]
+    #   ]
+    # }
+  end
+end
+```
+
+Using block arguments isn't advised for header matching as the exact number of arguments is limited only by the inbound email.
 
 ### Routes
 

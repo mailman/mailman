@@ -61,5 +61,6 @@ module Mailman
   end
 end
 
+require 'mailman/route/header_matcher'
 require 'mailman/route/regexp_matcher'
 require 'mailman/route/string_matcher'

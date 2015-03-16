@@ -20,6 +20,10 @@ end
 
 module Mailman::SpecHelpers
 
+  def header_matcher(pattern)
+    Mailman::Route::HeaderMatcher.new(pattern)
+  end
+
   def regexp_matcher(pattern)
     Mailman::Route::RegexpMatcher.new(pattern)
   end
