@@ -1,13 +1,17 @@
 ## 0.7.3 (March 17, 2015)
+
 Features
-   starttls for imap
-   allow passing options to openssl for pop3/imap
+
+  - STARTTLS for IMAP
+  - Allow passing options to OpenSSL for POP3/IMAP
 
 Security fixes
-   Enable certificate validation for pop3
+
+  - Enable certificate validation for POP3
 
 Bugfixes
-   added retry logic to handle connection errors gracefully
+
+  - Added retry logic to handle connection errors gracefully
 
 ## 0.7.2 (June 9, 2014)
 
