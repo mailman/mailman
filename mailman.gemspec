@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['Jonathan Rudenberg']
   s.email       = ['jonathan@titanous.com']
-  s.homepage    = 'https://github.com/titanous/mailman'
+  s.homepage    = 'https://github.com/mailman/mailman'
   s.summary     = 'A incoming email processing microframework'
   s.description = 'Mailman makes it easy to process incoming emails with a simple routing DSL'
 
@@ -29,6 +29,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'i18n', '>= 0.4.1' # fix for mail/activesupport-3 dependency issue
 
   s.add_development_dependency 'rspec', '~> 3.0'
+  s.add_development_dependency 'rack', '~> 1.6'
 
   s.files        = Dir.glob('{bin,lib,examples}/**/*') + %w(LICENSE README.md USER_GUIDE.md CHANGELOG.md)
   s.require_path = 'lib'
