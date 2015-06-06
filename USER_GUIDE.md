@@ -35,7 +35,7 @@ combined with a block of code to form a **Route**.
 
 ### Matchers
 
-There are string and regular expression matchers. Both can perform captures.
+There are string, regular expression and header matchers. All can perform captures.
 
 #### String
 
@@ -57,9 +57,42 @@ matcher instead.
 
 #### Regular expression
 
-Regular expressions may be used as matchers. All captures will be available from
-the params helper (`params[:captures]`) as an Array, and as block arguments.
+Regular expressions may be used as matchers. All captures will be available from the params helper (`params[:captures]`) as an Array, and as block arguments.
 
+#### Headers
+
+You can match against headers using strings or regular expressions. Multiple headers can be listed and all of them must be matched in order for the route to progress.
+
+Capture groups are available for headers matched with regular expressions, although they are provided in a slightly more complex form, as some headers can appear multiple times.
+
+For an email that looks like this:
+
+```
+To: hello@mailman.example.com
+X-Forwarded-To: someone@example.com
+X-Forwarded-To: other@example.in
+```
+
+You can expect the captures to work like this:
+
+```ruby
+Mailman::Application.run do
+  header to: /h(ell)o/, x_forwarded_to: /(.+)@example.(.+)/ do
+    p params[:captures]
+    # => {
+    #   to: [
+    #     [ 'ell' ]
+    #   ],
+    #   x_forwarded_to: [
+    #     [ 'someone', 'com' ],
+    #     [ 'other', 'in' ]
+    #   ]
+    # }
+  end
+end
+```
+
+Using block arguments isn't advised for header matching as the exact number of arguments is limited only by the inbound email.
 
 ### Routes
 
@@ -210,6 +243,55 @@ Mailman.config.imap = {
 ```
 * When using gmail, remember to [enable IMAP](https://support.google.com/mail/troubleshooter/1668960)
 * You can pass a Hash to `ssl`, just like with POP3.
+
+### HTTP
+
+If `Mailman.config.http` is set then the HTTP receiver will be used. This will set up an HTTP server which expects emails to be delivered to `http://0.0.0.0:6245/` by default. You can alter the listening endpoint with the options below and altering the `parser` will allow different SMTP-HTTP gateways to be used.
+
+**NB.** You will need to make sure `rack` (and optionally `thin`) are included in your gemset in order to use the HTTP receiver.
+
+The default options are:
+
+```ruby
+Mailman.config.http = {
+  host: '0.0.0.0',
+  port: 6245,
+  path: '/',
+  parser: :raw_post,
+  parser_opts: {
+    part_name: 'message'
+  }
+}
+```
+
+#### Raw Post
+
+The Raw Post Parser (`:raw_post`) expects the raw contents of emails to be delivered via multipart POST request to the specified endpoint. You can specify the name of the part which will contain the email data with the `:part_name` parser option ('message' by default).
+
+The default HTTP configuration is perfect for [Cloudmailin](http://www.cloudmailin.com). If you set your target as `http://yourpublicserver:6245/` then mailman will work with the most basic config:
+
+```ruby
+Mailman.config.http = {}
+
+Mailman::Application.run do
+  # ... etc
+end
+```
+
+#### Sendgrid
+
+The parser for [Sendgrid](https://sendgrid.com) (`:sendgrid`) expects requests to conform to the [Inbound Parse Webhook](https://sendgrid.com/docs/API_Reference/Webhooks/parse.html) specification. Once you have pointed your domain's MX record at `mx.sendgrid.net` and configured an [inbound address](https://sendgrid.com/developer/reply) that points to your mailman server and the path you specified, all requests should flow as expected.
+
+```ruby
+Mailman.config.http = {
+  parser: :sendgrid,
+  path: "/emails"
+}
+
+Mailman::Application.run do
+  # ... etc
+end
+```
 
 ### Maildir
 

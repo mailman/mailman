@@ -18,4 +18,5 @@ matrix:
     - rvm: ruby-head
     - rvm: jruby-19mode
     - rvm: jruby-head
+    - rvm: rbx-2
     - rvm: rbx-19mode

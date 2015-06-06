@@ -10,6 +10,9 @@ module Mailman
     # @return [Hash] the configuration hash for IMAP
     attr_accessor :imap
 
+    # @return [Hash] the configuration hash for HTTP receiving
+    attr_accessor :http
+
     # @return [Fixnum] the poll interval for POP3 or IMAP. Setting this to 0
     #   disables polling
     attr_accessor :poll_interval

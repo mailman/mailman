@@ -86,6 +86,12 @@ module Mailman
         Mailman.logger.info "POP3 receiver enabled (#{options[:username]}@#{options[:server]})."
         polling_loop Receiver::POP3.new(options)
 
+      # HTTP
+      elsif config.http
+        options = {:processor => @processor}.merge(config.http)
+        Mailman.logger.info "HTTP server started"
+        Receiver::HTTP.new(options).start_and_block
+
       # Maildir
       elsif config.maildir
 

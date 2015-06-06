@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = 'mailman'
 
-  s.add_dependency 'mail', '>= 2.0.3'
+  s.add_dependency 'mail', '~>2.0', '>= 2.0.3'
   s.add_dependency 'activesupport', '>= 2.3.4'
   s.add_dependency 'listen', '~> 2.2'
   if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.0.0')
@@ -29,6 +29,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'i18n', '>= 0.4.1' # fix for mail/activesupport-3 dependency issue
 
   s.add_development_dependency 'rspec', '~> 3.0'
+  s.add_development_dependency 'rack', '~> 1.6'
 
   s.files        = Dir.glob('{bin,lib,examples}/**/*') + %w(LICENSE README.md USER_GUIDE.md CHANGELOG.md)
   s.require_path = 'lib'
