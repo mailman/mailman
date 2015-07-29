@@ -200,11 +200,6 @@ describe Mailman::Application do
       end
     }
 
-    if defined?(RUBY_ENGINE) && RUBY_ENGINE == 'rbx'
-      pending "RBX threads != MRI threads; tests stall here."
-      raise "Killing test before it stalls"
-    end
-
     Timeout::timeout(10) do
       app_thread = Thread.new { @app.run } # run the app in a separate thread so that listen doesn't block
       sleep(THREAD_TIMING)
