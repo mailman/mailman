@@ -5,7 +5,8 @@ module Mailman
     class ToCondition < Condition
       def match(message)
         if !message.to.nil?
-          message.to.each do |address|
+          messageto = message.to.is_a?(Array) ? message.to : [message.to]
+          messageto.each do |address|
             if result = @matcher.match(address)
               return result
             end
@@ -62,7 +63,11 @@ module Mailman
         nil
       end
     end
-
-
+    
+    class HeaderCondition < Condition
+      def match(message)
+        @matcher.match(message.header)
+      end      
+    end
   end
 end

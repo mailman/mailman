@@ -20,6 +20,10 @@ end
 
 module Mailman::SpecHelpers
 
+  def header_matcher(pattern)
+    Mailman::Route::HeaderMatcher.new(pattern)
+  end
+
   def regexp_matcher(pattern)
     Mailman::Route::RegexpMatcher.new(pattern)
   end
@@ -29,7 +33,7 @@ module Mailman::SpecHelpers
   end
 
   def basic_message
-    Mail.new("To: test@example.com\r\nFrom: chunky@bacon.com\r\nCC: testing@example.com\r\nSubject: Hello!\r\n\r\nemail message\r\n")
+    Mail.new("To: test@example.com\r\nFrom: chunky@bacon.com\r\nCC: testing@example.com\r\nX-Forwarded-To: Test1\r\nX-Forwarded-To: Test2\r\nSubject: Hello!\r\n\r\nemail message\r\n")
   end
 
   def multipart_message

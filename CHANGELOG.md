@@ -1,3 +1,33 @@
+## 0.8.0 (April 1, 2015)
+
+Features
+
+  - An HTTP Receiver for creating email-only applications with services like Sendgrid and Cloudmailin
+  - Header conditions; route by matching email headers
+
+Bugfixes
+
+  - RBX build issues
+
+Notes
+
+  - Uses the master branch version of `mail` because of a bug when using RBX (see [#116](https://github.com/mailman/mailman/issues/116)). This will be removed when the mail gem is next released.
+
+## 0.7.3 (March 17, 2015)
+
+Features
+
+  - STARTTLS for IMAP
+  - Allow passing options to OpenSSL for POP3/IMAP
+
+Security fixes
+
+  - Enable certificate validation for POP3
+
+Bugfixes
+
+  - Added retry logic to handle connection errors gracefully
+
 ## 0.7.2 (June 9, 2014)
 
 Bugfixes
@@ -26,7 +56,7 @@ Features
 
 Features
 
-  - IMAP: Mark messages as seen instead of deleting them (see [5b6aef0](https://github.com/titanous/mailman/commit/5b6aef0163f0f28c790abf3083cbda7cbc9cc13f) for details on how revert to the previous behaviour)
+  - IMAP: Mark messages as seen instead of deleting them (see [5b6aef0](https://github.com/mailman/mailman/commit/5b6aef0163f0f28c790abf3083cbda7cbc9cc13f) for details on how revert to the previous behaviour)
 
 Bugfixes
 

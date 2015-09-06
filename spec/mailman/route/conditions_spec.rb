@@ -93,5 +93,26 @@ describe Mailman::Route::CcCondition do
   it 'should define a method on Route that is chainable and stores the condition' do
     expect(Mailman::Route.new.cc('testing').conditions[0].class).to eq(Mailman::Route::CcCondition)
   end
+end
 
+describe Mailman::Route::HeaderCondition do
+  it 'should match a header' do
+    expect(Mailman::Route::HeaderCondition.new(to: 'test').match(basic_message)).to be_truthy
+  end
+
+  it 'should not match a non-matching header value' do
+    expect(Mailman::Route::HeaderCondition.new(to: 'nope').match(basic_message)).to be_nil
+  end
+
+  it 'should not match message with no defined header' do
+    expect(Mailman::Route::HeaderCondition.new(foo: 'Bar').match(basic_message)).to be_nil
+  end
+
+  it 'should define a method on Route that is chainable and stores the condition' do
+    expect(Mailman::Route.new.header(foo: 'bar').conditions[0].class).to eq(Mailman::Route::HeaderCondition)
+  end
+
+  it 'should not pass when some headers do not match' do
+    expect(Mailman::Route::HeaderCondition.new(to: 'test', from: 'streaky').match(basic_message)).to be_nil
+  end
 end
