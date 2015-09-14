@@ -58,7 +58,7 @@ module Mailman
 
       if config.rails_root
         rails_env = File.join(config.rails_root, 'config', 'environment.rb')
-        if File.exist?(rails_env) && !(defined?(Rails) && Rails.env)
+        if File.exist?(rails_env) && !(defined?(::Rails) && ::Rails.env)
           Mailman.logger.info "Rails root found in #{config.rails_root}, requiring environment..."
           require rails_env
         end
