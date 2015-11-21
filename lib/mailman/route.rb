@@ -3,7 +3,6 @@ module Mailman
   # {Route::Condition.inherited}. Stores a route with a set of conditions and
   # matches against them.
   class Route
-
     # @return [Proc] the block that should be run if the conditions match
     attr_reader :block
 
@@ -33,9 +32,8 @@ module Mailman
           return nil
         end
       end
-      { :block => @block, :klass => @klass, :params => params, :args => args }
+      { block: @block, klass: @klass, params: params, args: args }
     end
-
   end
 end
 

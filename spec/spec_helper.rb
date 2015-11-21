@@ -6,20 +6,17 @@ require 'rspec'
 require 'maildir'
 
 # Require all files in spec/support (Mocks, helpers, etc.)
-Dir[File.join(File.dirname(__FILE__), "support", "**", "*.rb")].each do |f|
+Dir[File.join(File.dirname(__FILE__), 'support', '**', '*.rb')].each do |f|
   require File.expand_path(f)
 end
 
-unless defined?(SPEC_ROOT)
-  SPEC_ROOT = File.join(File.dirname(__FILE__))
-end
+SPEC_ROOT = File.join(File.dirname(__FILE__)) unless defined?(SPEC_ROOT)
 
 unless defined?(THREAD_TIMING)
   THREAD_TIMING = (ENV['THREAD_TIMING'] || (defined?(RUBY_ENGINE) && (RUBY_ENGINE == 'jruby' || RUBY_ENGINE == 'rbx') ? 2.5 : 2)).to_f
 end
 
 module Mailman::SpecHelpers
-
   def header_matcher(pattern)
     Mailman::Route::HeaderMatcher.new(pattern)
   end
@@ -38,7 +35,7 @@ module Mailman::SpecHelpers
 
   def multipart_message
     mail = Mail.new do
-      to   'test@example.com'
+      to 'test@example.com'
       from 'chunky@bacon.com'
       subject 'I am a multipart message'
 
@@ -51,7 +48,6 @@ module Mailman::SpecHelpers
         body '<h1>This is HTML</h1>'
       end
     end
-
   end
 
   def mailman_app(&block)
@@ -72,13 +68,16 @@ module Mailman::SpecHelpers
 
   def setup_maildir
     maildir_path = File.join(SPEC_ROOT, 'test-maildir')
-    FileUtils.rm_r(maildir_path) rescue nil
+    begin
+      FileUtils.rm_r(maildir_path)
+    rescue
+      nil
+    end
     @maildir = Maildir.new(maildir_path)
     message = File.new(File.join(maildir_path, 'new', 'message1'), 'w')
     message.puts(fixture('example01'))
     message.close
   end
-
 end
 
 RSpec.configure do |config|
@@ -87,6 +86,10 @@ RSpec.configure do |config|
     Mailman.config.logger = Logger.new(File.join(SPEC_ROOT, 'mailman-log.log'))
   end
   config.after do
-    FileUtils.rm File.join(SPEC_ROOT, 'mailman-log.log') rescue nil
+    begin
+      FileUtils.rm File.join(SPEC_ROOT, 'mailman-log.log')
+    rescue
+      nil
+    end
   end
 end

@@ -6,7 +6,7 @@ describe Mailman::Receiver::HTTP do
     attr_writer :block
     attr_accessor :parsed_message
 
-    def initialize(opts = {}); end
+    def initialize(_opts = {}); end
 
     def parse(env)
       @env = env
@@ -18,9 +18,9 @@ describe Mailman::Receiver::HTTP do
   before do
     @processor = double('Message Processor', process: true)
     @receiver_options = {
-      host: "127.0.0.1",
+      host: '127.0.0.1',
       port: 80,
-      path: "/emails",
+      path: '/emails',
       parser: :test,
       processor: @processor
     }
@@ -43,8 +43,8 @@ describe Mailman::Receiver::HTTP do
       expect(@handler).to have_received(:run).with(
         instance_of(described_class),
         hash_including(
-          :Host => @receiver_options[:host],
-          :Port => @receiver_options[:port]
+          Host: @receiver_options[:host],
+          Port: @receiver_options[:port]
         )
       )
     end
@@ -69,26 +69,24 @@ describe Mailman::Receiver::HTTP do
       end
 
       it 'should respond with 404 for other paths' do
-        response = receiver.send(:call, { 'REQUEST_PATH' => "/some-other-path" })
+        response = receiver.send(:call, { 'REQUEST_PATH' => '/some-other-path' })
         expect(response).to eq([404, {}, []])
       end
     end
 
     context 'unsuccessful processing' do
       it 'should deliver the environment to the parser and return 200 OK' do
-        parser.block = proc { raise }
+        parser.block = proc { fail }
         response = receiver.send(:call, @basic_env)
         expect(parser.env).to eq(@basic_env)
-        expect(response).to eq([500, {}, ["Email processing failed"]])
+        expect(response).to eq([500, {}, ['Email processing failed']])
       end
     end
   end
 
   describe Mailman::Receiver::HTTP::RawPostParser do
-
   end
 
   describe Mailman::Receiver::HTTP::SendgridParser do
-
   end
 end

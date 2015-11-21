@@ -22,12 +22,12 @@ module Mailman
 
     def insert_after(oldklass, newklass)
       idx = entries.rindex(oldklass) || entries.count - 1
-      entries.insert(idx+1, newklass)
+      entries.insert(idx + 1, newklass)
     end
 
     def run(*args, &final_action)
       final_return = nil
-      stack = @entries.map {|m| m.new}
+      stack = @entries.map(&:new)
       traverse_stack = lambda do
         if stack.empty?
           final_return = final_action.call

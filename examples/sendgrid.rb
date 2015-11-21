@@ -12,13 +12,13 @@ require 'mailman'
 # 4. Profit!
 
 Mailman.config.http = {
-  host: "0.0.0.0",
+  host: '0.0.0.0',
   port: 6245,
   parser: :sendgrid
 }
 
 Mailman::Application.run do
-  to %r{^message-(\d+)@} do
+  to /^message-(\d+)@/ do
     open("#{params['captures'].first}.txt", 'w') do |f|
       f.write message.from.join(', ')
     end

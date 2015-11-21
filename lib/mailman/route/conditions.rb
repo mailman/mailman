@@ -1,10 +1,9 @@
 module Mailman
   class Route
-
     # Matches against the To addresses of a message.
     class ToCondition < Condition
       def match(message)
-        if !message.to.nil?
+        unless message.to.nil?
           messageto = message.to.is_a?(Array) ? message.to : [message.to]
           messageto.each do |address|
             if result = @matcher.match(address)
@@ -53,7 +52,7 @@ module Mailman
     # Matches against the CC header of a message.
     class CcCondition < Condition
       def match(message)
-        if !message.cc.nil?
+        unless message.cc.nil?
           message.cc.each do |address|
             if result = @matcher.match(address)
               return result
@@ -63,11 +62,11 @@ module Mailman
         nil
       end
     end
-    
+
     class HeaderCondition < Condition
       def match(message)
         @matcher.match(message.header)
-      end      
+      end
     end
   end
 end

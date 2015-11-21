@@ -1,15 +1,14 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '/spec_helper'))
 
 describe Mailman::Receiver::POP3 do
-
   before do
-    @processor = double('Message Processor', :process => true)
-    @receiver_options = { :username  => 'user',
-                          :password  => 'pass',
-                          :server    =>  'example.com',
-                          :processor => @processor,
-                          :open_timeout => 30,
-                          :read_timeout => 60 }
+    @processor = double('Message Processor', process: true)
+    @receiver_options = { username: 'user',
+                          password: 'pass',
+                          server: 'example.com',
+                          processor: @processor,
+                          open_timeout: 30,
+                          read_timeout: 60 }
     @receiver = Mailman::Receiver::POP3.new(@receiver_options)
   end
 
@@ -46,5 +45,4 @@ describe Mailman::Receiver::POP3 do
       @receiver.started?
     end
   end
-
 end

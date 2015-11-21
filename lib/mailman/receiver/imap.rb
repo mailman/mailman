@@ -4,7 +4,6 @@ module Mailman
   module Receiver
     # Receives messages using IMAP, and passes them to a {MessageProcessor}.
     class IMAP
-
       # @return [Net::IMAP] the IMAP connection
       attr_reader :connection
 
@@ -35,21 +34,19 @@ module Mailman
         @ssl        = options[:ssl] || false
         @starttls   = options[:starttls] || false
         @port       = options[:port] || (@ssl ? 993 : 143)
-        @folder     = options[:folder] || "INBOX"
+        @folder     = options[:folder] || 'INBOX'
 
         if @starttls && @ssl
-          raise StandardError.new("either specify ssl or starttls, not both")
+          fail StandardError.new('either specify ssl or starttls, not both')
         end
       end
 
       # Connects to the IMAP server.
       def connect
         tries ||= 5
-        if @connection.nil? or @connection.disconnected?
+        if @connection.nil? || @connection.disconnected?
           @connection = Net::IMAP.new(@server, port: @port, ssl: @ssl)
-          if @starttls
-            @connection.starttls
-          end
+          @connection.starttls if @starttls
           @connection.login(@username, @password)
         end
         @connection.select(@folder)
@@ -61,28 +58,32 @@ module Mailman
       def disconnect
         return false if @connection.nil?
         @connection.logout
-        @connection.disconnected? ? true : @connection.disconnect rescue nil
+        begin
+          @connection.disconnected? ? true : @connection.disconnect
+        rescue
+          nil
+        end
       end
 
       # Iterates through new messages, passing them to the processor, and
       # flagging them as done.
       def get_messages
         @connection.search(@filter).each do |message|
-          body = @connection.fetch(message, "RFC822")[0].attr["RFC822"]
+          body = @connection.fetch(message, 'RFC822')[0].attr['RFC822']
           begin
             @processor.process(body)
           rescue StandardError => error
-            Mailman.logger.error "Error encountered processing message: #{message.inspect}\n #{error.class.to_s}: #{error.message}\n #{error.backtrace.join("\n")}"
+            Mailman.logger.error "Error encountered processing message: #{message.inspect}\n #{error.class}: #{error.message}\n #{error.backtrace.join("\n")}"
             next
           end
-          @connection.store(message, "+FLAGS", @done_flags)
+          @connection.store(message, '+FLAGS', @done_flags)
         end
         # Clears messages that have the Deleted flag set
         @connection.expunge
       end
 
       def started?
-        not (!@connection.nil? && @connection.disconnected?)
+        !(!@connection.nil? && @connection.disconnected?)
       end
     end
   end

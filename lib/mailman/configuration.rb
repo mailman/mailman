@@ -1,12 +1,11 @@
 module Mailman
   class Configuration
-
     # @return [Logger] the application's logger
     attr_accessor :logger
 
     # @return [Hash] the configuration hash for POP3
     attr_accessor :pop3
-    
+
     # @return [Hash] the configuration hash for IMAP
     attr_accessor :imap
 
@@ -58,12 +57,11 @@ module Mailman
     end
 
     def self.from_hash(options)
-      config = self.new
+      config = new
       options.each do |key, value|
         config.send "#{key}=", value
       end
       config
     end
-
   end
 end

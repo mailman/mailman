@@ -3,7 +3,6 @@ module Mailman
     # Matches using a +String+ with named param captures formatted like
     # +%user%@example.com+.
     class StringMatcher < Matcher
-
       # @return [Array<Symbol>] the names of the param captures
       attr_reader :keys
 
@@ -28,7 +27,7 @@ module Mailman
           when *special_chars
             Regexp.escape(match)
           else
-            @keys << $2[1..-2].to_sym
+            @keys << Regexp.last_match(2)[1..-2].to_sym
             '(.*)'
           end
         end
@@ -38,7 +37,6 @@ module Mailman
       def self.valid_pattern?(pattern)
         pattern.respond_to?(:to_s)
       end
-
     end
   end
 end

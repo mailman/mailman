@@ -1,13 +1,11 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '/spec_helper'))
 
 describe Mailman::Route::StringMatcher do
-
   it 'should be registered with Matcher' do
     expect(Mailman::Route::Matcher.create('test').class).to eq(Mailman::Route::StringMatcher)
   end
 
   describe 'compiler' do
-
     before do
       @matcher = string_matcher('%user%@example.com')
     end
@@ -19,13 +17,11 @@ describe Mailman::Route::StringMatcher do
     it 'should turn tokens into keys' do
       expect(@matcher.keys).to eq([:user])
     end
-
   end
 
   describe 'matcher' do
-
     it 'should return a hash of named params and an array of captures' do
-      correct_result = [{ :user_name => 'test', :domain => 'example.com' }, ['test', 'example.com']]
+      correct_result = [{ user_name: 'test', domain: 'example.com' }, ['test', 'example.com']]
       expect(string_matcher('%user_name%@%domain%').match('test@example.com')).to eq(correct_result)
     end
 
@@ -61,7 +57,5 @@ describe Mailman::Route::StringMatcher do
       expect(matches[1]).to eq('test')
       expect(matches[2]).to eq('2')
     end
-
   end
-
 end
