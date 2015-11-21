@@ -21,11 +21,11 @@ class MockIMAP
   def initialize
     @@examples = []
     2.times do |i|
-      @@examples << MockIMAPFetchData.new("To: test@example.com\r\nFrom: chunky@bacon.com\r\nSubject: Hello!\r\n\r\nemail message\r\ntest#{i.to_s}", i)
+      @@examples << MockIMAPFetchData.new("To: test@example.com\r\nFrom: chunky@bacon.com\r\nSubject: Hello!\r\n\r\nemail message\r\ntest#{i}", i)
     end
   end
 
-  def login(user, password)
+  def login(_user, _password)
     @@connection = true
   end
 
@@ -46,41 +46,47 @@ class MockIMAP
     select(mailbox)
   end
 
-  def uid_search(keys, charset=nil)
+  def uid_search(_keys, _charset = nil)
     [*(0..@@examples.size - 1)]
   end
-  alias :search :uid_search
+  alias_method :search, :uid_search
 
-  def uid_fetch(set, attr)
+  def uid_fetch(set, _attr)
     [@@examples[set]]
   end
-  alias :fetch :uid_fetch
+  alias_method :fetch, :uid_fetch
 
   def uid_store(set, attr, flags)
-    if attr == "+FLAGS" && flags.include?(Net::IMAP::SEEN)
+    if attr == '+FLAGS' && flags.include?(Net::IMAP::SEEN)
       @@marked_for_deletion << set
     end
   end
-  alias :store :uid_store
-
+  alias_method :store, :uid_store
 
   def expunge
-    @@marked_for_deletion.reverse.each do |i|    # start with highest index first
+    @@marked_for_deletion.reverse_each do |i| # start with highest index first
       @@examples.delete_at(i)
     end
     @@marked_for_deletion = []
   end
 
-  def self.mailbox; @@mailbox end    # test only
+  # test only
+  def self.mailbox
+    @@mailbox
+  end
 
-  def self.disconnected?; @@connection == false end
-  def      disconnected?; @@connection == false end
+  def self.disconnected?
+    @@connection == false
+  end
 
+  def disconnected?
+    @@connection == false
+  end
 end
 
 require 'net/imap'
 class Net::IMAP
-  def self.new(*args)
+  def self.new(*_args)
     MockIMAP.new
   end
 end

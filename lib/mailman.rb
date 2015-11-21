@@ -8,7 +8,6 @@ require 'active_support/core_ext/hash/indifferent_access'
 require 'mailman/version'
 
 module Mailman
-
   [:Application, :Router, :Configuration, :Receiver, :MessageProcessor, :Middleware].each do |constant|
     autoload constant, "mailman/#{constant.to_s.underscore}"
   end
@@ -29,5 +28,4 @@ module Mailman
   def self.logger
     Mailman.config.logger
   end
-
 end

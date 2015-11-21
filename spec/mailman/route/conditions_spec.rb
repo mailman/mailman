@@ -1,7 +1,6 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '/spec_helper'))
 
 describe Mailman::Route::ToCondition do
-
   it 'should match an address' do
     expect(Mailman::Route::ToCondition.new('test').match(basic_message)).to eq([{}, []])
   end
@@ -17,11 +16,9 @@ describe Mailman::Route::ToCondition do
   it 'should define a method on Route that is chainable and stores the condition' do
     expect(Mailman::Route.new.to('test').conditions[0].class).to eq(Mailman::Route::ToCondition)
   end
-
 end
 
 describe Mailman::Route::FromCondition do
-
   it 'should match an address' do
     expect(Mailman::Route::FromCondition.new('chunky').match(basic_message)).to eq([{}, []])
   end
@@ -33,11 +30,9 @@ describe Mailman::Route::FromCondition do
   it 'should define a method on Route that is chainable and stores the condition' do
     expect(Mailman::Route.new.from('test').conditions[0].class).to eq(Mailman::Route::FromCondition)
   end
-
 end
 
 describe Mailman::Route::SubjectCondition do
-
   it 'should match the subject' do
     expect(Mailman::Route::SubjectCondition.new('Hello').match(basic_message)).to eq([{}, []])
   end
@@ -49,11 +44,9 @@ describe Mailman::Route::SubjectCondition do
   it 'should define a method on Route that is chainable and stores the condition' do
     expect(Mailman::Route.new.subject('test').conditions[0].class).to eq(Mailman::Route::SubjectCondition)
   end
-
 end
 
 describe Mailman::Route::BodyCondition do
-
   it 'should match the body' do
     expect(Mailman::Route::BodyCondition.new('email').match(basic_message)).to eq([{}, []])
   end
@@ -73,11 +66,9 @@ describe Mailman::Route::BodyCondition do
   it 'matches on the body of a multipart message' do
     expect(Mailman::Route::BodyCondition.new('plain').match(multipart_message)).to eq([{}, []])
   end
-
 end
 
 describe Mailman::Route::CcCondition do
-
   it 'should match an address' do
     expect(Mailman::Route::CcCondition.new('testing').match(basic_message)).to eq([{}, []])
   end

@@ -37,7 +37,6 @@ module Mailman
     #       # ... etc
     #     end
     class HTTP
-
       # @param [Hash] options the receiver options
       # @option options [MessageProcessor] :processor the processor to pass new
       #   messages to
@@ -50,9 +49,9 @@ module Mailman
       def initialize(options)
         @processor = options[:processor]
         @listen = URI::HTTP.build(
-          host: options[:host] || "0.0.0.0",
+          host: options[:host] || '0.0.0.0',
           port: options[:port] || 6245,
-          path: options[:path] || "/"
+          path: options[:path] || '/'
         )
 
         options[:parser] ||= :raw_post
@@ -68,7 +67,7 @@ module Mailman
 
       # Starts the HTTP server
       def start_and_block
-        @handler.run(self, {:Host => @listen.host, :Port => @listen.port}) do |server|
+        @handler.run(self, Host: @listen.host, Port: @listen.port) do |_server|
           Mailman.logger.info "Listening for emails at #{@listen} using #{@parser.class.name.demodulize} processing"
         end
       end
@@ -82,7 +81,7 @@ module Mailman
           return [200, {}, []]
         rescue Exception => e
           Mailman.logger.error(e.message + "\n#{e.backtrace}")
-          return [500, {}, ["Email processing failed"]]
+          return [500, {}, ['Email processing failed']]
         end
       end
 
@@ -91,7 +90,7 @@ module Mailman
       #      Mailman.config.http = {
       #        parser: :raw_post,
       #        parser_opts: {
-      #          part_name: 'message' 
+      #          part_name: 'message'
       #        }
       #      }
       class RawPostParser
@@ -114,7 +113,7 @@ module Mailman
       #      Mailman.config.http = { parser: :sendgrid }
       class SendgridParser
         # @param [Hash] opts The parser's options - not used for this parser.
-        def initialize(opts = {}); end
+        def initialize(_opts = {}); end
 
         # Parses a Rack `env` variable and creates a +Mail::Message+ from the email contents found.
         def parse(env)

@@ -3,7 +3,7 @@
 require 'mailman/cli'
 require 'optparse'
 
-$:.<< '.'
+$LOAD_PATH.<< '.'
 
 options = {}
 

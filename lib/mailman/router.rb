@@ -1,7 +1,6 @@
 module Mailman
   # The router. Stores routes and uses them to process messages.
   class Router
-
     # @return [Array] the list of routes
     attr_accessor :routes
 
@@ -40,7 +39,7 @@ module Mailman
       @message = message
       result = nil
 
-      if @bounce_block and message.respond_to?(:bounced?) and message.bounced?
+      if @bounce_block && message.respond_to?(:bounced?) && message.bounced?
         return instance_exec(&@bounce_block)
       end
 
@@ -53,7 +52,7 @@ module Mailman
         if !result[:klass].nil?
           if result[:klass].is_a?(Class) # no instance method specified
             result[:klass].new.send(:receive, @message, @params)
-          elsif result[:klass].kind_of?(String) # instance method specified
+          elsif result[:klass].is_a?(String) # instance method specified
             klass, method = result[:klass].split('#')
             klass.camelize.constantize.new.send(method.to_sym, @message, @params)
           end
@@ -66,6 +65,5 @@ module Mailman
         instance_exec(&@default_block)
       end
     end
-
   end
 end

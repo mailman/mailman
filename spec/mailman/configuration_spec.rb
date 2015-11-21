@@ -1,7 +1,6 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', '/spec_helper'))
 
 describe Mailman::Configuration do
-
   # in spec_helper config = Mailman.config
 
   after do
@@ -19,8 +18,8 @@ describe Mailman::Configuration do
   end
 
   it 'should store the POP3 config hash' do
-    config.pop3 = {:user => 'foo'}
-    expect(config.pop3).to eq({:user => 'foo'})
+    config.pop3 = { user: 'foo' }
+    expect(config.pop3).to eq({ user: 'foo' })
   end
 
   it 'should have a default poll interval' do
@@ -55,17 +54,17 @@ describe Mailman::Configuration do
     config.rails_root = 'test-app'
     expect(config.rails_root).to eq('test-app')
   end
-  
+
   it 'should default to not ignoring stdin' do
     expect(config.ignore_stdin).to eq(nil)
   end
-  
+
   it 'should store ignore_stdin setting' do
     config.ignore_stdin = true
     expect(config.ignore_stdin).to eq(true)
   end
 
-  it "should store graceful_death flag" do
+  it 'should store graceful_death flag' do
     config.graceful_death = true
     expect(config.graceful_death).to eq(true)
   end

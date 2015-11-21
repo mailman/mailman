@@ -1,7 +1,6 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '/spec_helper'))
 
 describe Mailman::Route::Matcher do
-
   before do
     @matcher = Mailman::Route::Matcher.new('test')
   end
@@ -21,7 +20,6 @@ describe Mailman::Route::Matcher do
   end
 
   describe 'singleton' do
-
     it 'should have an array of registered matchers' do
       expect(Mailman::Route::Matcher.matchers).to include(TestMatcher)
     end
@@ -36,9 +34,7 @@ describe Mailman::Route::Matcher do
       expect(TestMatcher.validated).to eq(true)
       matcher_class.instance_variable_set('@matchers', original_matchers)
     end
-
   end
-
 end
 
 class TestMatcher < Mailman::Route::Matcher

@@ -2,13 +2,12 @@ module Mailman
   class Route
     # Matches Hashes against the headers of a +Mail::Message+.
     class HeaderMatcher < Matcher
-
       # Matches against a hash using the given stored +Regexp+.
       # @param [Mail::Header] headers the message headers
       # @return [({:captures => <String>}, <String>)] the params hash with
       #   +:captures+ set to an array of captures, and an array of captures.
       def match(headers)
-        all_captures = [{:captures => {}}, []]
+        all_captures = [{ captures: {} }, []]
         required_matches = @pattern.keys
         headers.fields.each do |header|
           header_symbol = header.name.underscore.to_sym

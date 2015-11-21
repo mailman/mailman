@@ -1,20 +1,18 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '/spec_helper'))
 
 describe Mailman::Receiver::IMAP do
-
   before do
-    @processor = double('Message Processor', :process => true)
-    @receiver_options = { :username  => 'user',
-                          :password  => 'pass',
-                          :server    => 'example.com',
-                          :folder    => 'INBOX',
-                          :processor => @processor }
+    @processor = double('Message Processor', process: true)
+    @receiver_options = { username: 'user',
+                          password: 'pass',
+                          server: 'example.com',
+                          folder: 'INBOX',
+                          processor: @processor }
     @receiver = Mailman::Receiver::IMAP.new(@receiver_options)
-    @error_response = double( :data => double( :text => 'Temporary System Error' ) )
+    @error_response = double(data: double(text: 'Temporary System Error'))
   end
 
   describe 'connection' do
-
     it 'should connect to a IMAP server' do
       expect(@receiver.connect).to be_truthy
     end
@@ -39,9 +37,8 @@ describe Mailman::Receiver::IMAP do
     it 'should raise on other errors from the IMAP server' do
       mock_imap = mock_imap_with_select_error(Net::IMAP::BadResponseError, 1)
       expect(Net::IMAP).to receive(:new).and_return(mock_imap)
-      expect{@receiver.connect}.to raise_error(Net::IMAP::BadResponseError)
+      expect { @receiver.connect }.to raise_error(Net::IMAP::BadResponseError)
     end
-
   end
 
   describe 'message reception' do
@@ -58,7 +55,6 @@ describe Mailman::Receiver::IMAP do
       @receiver.get_messages
       expect(@receiver.connection.search(:all)).to be_empty
     end
-
   end
 
   describe 'started connection' do

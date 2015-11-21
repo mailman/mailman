@@ -3,7 +3,6 @@ module Mailman
     # The base condition class. All conditions should subclass and override
     # {#match}.
     class Condition
-
       # @return the matcher to match against.
       attr_reader :matcher
 
@@ -18,8 +17,8 @@ module Mailman
       # @param message [Mail::Message] The message to match against
       # @return [(Hash, Array)] a hash to merge into params, and an array of
       #   block arguments.
-      def match(message)
-        raise NotImplementedError
+      def match(_message)
+        fail NotImplementedError
       end
 
       # Registers a condition subclass, which creates instance methods on
@@ -46,7 +45,6 @@ module Mailman
           end
         EOM
       end
-
     end
   end
 end
