@@ -36,6 +36,8 @@ module Mailman
         @starttls   = options[:starttls] || false
         @port       = options[:port] || (@ssl ? 993 : 143)
         @folder     = options[:folder] || "INBOX"
+        @move_seen   = options[:move_seen] || false
+        @seen_folder     = options[:seen_folder] || "PROCESSED"
 
         if @starttls && @ssl
           raise StandardError.new("either specify ssl or starttls, not both")
@@ -76,6 +78,7 @@ module Mailman
             next
           end
           @connection.store(message, "+FLAGS", @done_flags)
+          move message if @move_seen
         end
         # Clears messages that have the Deleted flag set
         @connection.expunge
@@ -83,6 +86,18 @@ module Mailman
 
       def started?
         not (!@connection.nil? && @connection.disconnected?)
+      end
+
+      private
+
+      #move the message from current folder to the destination folder
+      #deleting it from the current folder
+      def move message
+        unless @connection.list('', @seen_folder)
+          @connection.create(@seen_folder)
+        end
+        @connection.copy(message, @seen_folder)
+        @connection.store(message, "+FLAGS", [Net::IMAP::DELETED])
       end
     end
   end
