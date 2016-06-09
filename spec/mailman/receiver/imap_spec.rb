@@ -54,9 +54,27 @@ describe Mailman::Receiver::IMAP do
       @receiver.get_messages
     end
 
-    it 'should delete the messages after processing' do
+    it 'should delete the messages with delete flag after processing' do
+      receiver_options = @receiver_options
+      receiver_options[:done_flags] = [Net::IMAP::DELETED]
+      receiver = Mailman::Receiver::IMAP.new(receiver_options)
+      receiver.connect
+      receiver.get_messages
+      expect(receiver.connection.search('ALL')).to be_empty
+    end
+
+    it 'should mark the messages as seen after processing' do
       @receiver.get_messages
-      expect(@receiver.connection.search(:all)).to be_empty
+      expect(@receiver.connection.search('UNSEEN')).to be_empty
+    end
+
+    it 'should move the message from read folder to seen folder' do
+      receiver_options = @receiver_options
+      receiver_options[:move_seen] = true
+      receiver = Mailman::Receiver::IMAP.new(receiver_options)
+      receiver.connect
+      receiver.get_messages
+      expect(receiver.connection.search('ALL')).to be_empty
     end
 
   end
