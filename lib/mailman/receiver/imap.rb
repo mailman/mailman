@@ -54,7 +54,6 @@ module Mailman
           end
         rescue Net::IMAP::ByeResponseError, Net::IMAP::NoResponseError => e
           @connection = nil
-          Mailman.logger.error "IMAP connection connect or login failed: #{e.message}"
           raise(e)
         end
 
@@ -62,7 +61,6 @@ module Mailman
         begin
           @connection.select(@folder)
         rescue Net::IMAP::ByeResponseError, Net::IMAP::NoResponseError => e
-          Mailman.logger.error "IMAP connection select failed: #{e.message}"
           retry unless (tries -= 1).zero?
         end
       end
