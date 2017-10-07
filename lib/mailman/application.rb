@@ -139,8 +139,8 @@ module Mailman
       end
       Mailman.logger.info(polling_msg)
 
-      tries ||= 5
       loop do
+        tries ||= 5
         begin
           connection.connect
           connection.get_messages
