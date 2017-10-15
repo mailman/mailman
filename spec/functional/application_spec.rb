@@ -214,7 +214,7 @@ describe Mailman::Application do
     end
   end
 
-  it 'should match a multipart endocoded body' do
+  it 'should match a multipart encoded body' do
     mailman_app {
       body /ID (\d+) (OK|NO)/ do
         raise "Captures Unavailable" unless params[:captures].first == '43'
