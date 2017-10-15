@@ -38,7 +38,7 @@ describe Mailman::Configuration do
     expect(config.maildir).to eq('../maildir-test')
   end
 
-  it 'should have a defaut watch maildir setting' do
+  it 'should have a default watch maildir setting' do
     expect(config.watch_maildir).to eq(true)
   end
 
