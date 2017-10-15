@@ -94,7 +94,7 @@ describe Mailman::Application do
     end
   end
 
-  it 'should poll a POP3 server, and process messsages' do
+  it 'should poll a POP3 server, and process messages' do
     config.pop3 = { :server => 'example.com',
                     :username => 'chunky',
                     :password => 'bacon' }
@@ -133,7 +133,7 @@ describe Mailman::Application do
     expect(@app.router.instance_variable_get('@count')).to be_nil
   end
 
-  it 'should poll an IMAP server, and process messsages' do
+  it 'should poll an IMAP server, and process messages' do
     config.imap = { :server => 'example.com',
                     :username => 'chunky',
                     :password => 'bacon' }
