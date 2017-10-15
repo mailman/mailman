@@ -342,7 +342,7 @@ Mailman.config.pop3 = {
 
 `Mailman.config.poll_interval` is the duration in seconds to wait between
 checking for new messages on the server. It is currently only used by the
-POP3 reciever. If it is set to `0`, Mailman will do a one-time retrieval and
+POP3 receiver. If it is set to `0`, Mailman will do a one-time retrieval and
 then exit.
 
 **Default**: `60`
