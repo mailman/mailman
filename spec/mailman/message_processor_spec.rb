@@ -48,7 +48,7 @@ describe Mailman::MessageProcessor do
       expect(maildir_message.dir).to_not eq(:cur)
     end
 
-    it 'should log errors caused by processing the message, but not raise them so futher messages can be processed' do
+    it 'should log errors caused by processing the message, but not raise them so further messages can be processed' do
       error = StandardError.new('testing')
       expect(router).to receive(:route).with(basic_email).and_raise(error)
       expect(Mailman.logger).to receive(:error)
