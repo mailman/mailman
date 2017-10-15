@@ -29,11 +29,11 @@ describe Mailman::Application do
           @app = Mailman::Application.new({poll_interval: 10}) {}
         end
 
-        it "should instanciate the configuration" do
+        it "should instantiate the configuration" do
           expect(@app.config).to be_a(Mailman::Configuration)
         end
 
-        it "should instanciate a config instance with params" do
+        it "should instantiate a config instance with params" do
           expect(@app.config.poll_interval).to eq(10)
         end
 
@@ -49,11 +49,11 @@ describe Mailman::Application do
           @app = Mailman::Application.new(@config) {}
         end
 
-        it "should instanciate the configuration" do
+        it "should instantiate the configuration" do
           expect(@app.config).to be_a(Mailman::Configuration)
         end
 
-        it "should instanciate a config instance with params" do
+        it "should instantiate a config instance with params" do
           expect(@app.config.poll_interval).to eq(10)
         end
 
