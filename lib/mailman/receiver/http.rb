@@ -96,7 +96,7 @@ module Mailman
       #      }
       class RawPostParser
         # @param [Hash] opts The parser's options
-        # @option opts [String] :part_name ('message') The name of the mulipart segment which will contain the email
+        # @option opts [String] :part_name ('message') The name of the multipart segment which will contain the email
         def initialize(opts = {})
           @opts = opts
           @opts['part_name'] ||= 'message'

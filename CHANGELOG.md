@@ -65,7 +65,7 @@ Bugfixes
 
 ## 0.5.4 (January 3, 2013)
 
-Bufixes
+Bugfixes
 
   - Fix multipart message matching
   - Fix Rails environment require
