@@ -44,17 +44,25 @@ module Mailman
 
       # Connects to the IMAP server.
       def connect
-        tries ||= 5
-        if @connection.nil? or @connection.disconnected?
-          @connection = Net::IMAP.new(@server, port: @port, ssl: @ssl)
-          if @starttls
-            @connection.starttls
+        begin
+          if @connection.nil? or @connection.disconnected?
+            @connection = Net::IMAP.new(@server, port: @port, ssl: @ssl)
+            if @starttls
+              @connection.starttls
+            end
+            @connection.login(@username, @password)
           end
-          @connection.login(@username, @password)
+        rescue Net::IMAP::ByeResponseError, Net::IMAP::NoResponseError => e
+          @connection = nil
+          raise(e)
         end
-        @connection.select(@folder)
-      rescue Net::IMAP::ByeResponseError, Net::IMAP::NoResponseError => e
-        retry unless (tries -= 1).zero?
+
+        tries ||= 5
+        begin
+          @connection.select(@folder)
+        rescue Net::IMAP::ByeResponseError, Net::IMAP::NoResponseError => e
+          retry unless (tries -= 1).zero?
+        end
       end
 
       # Disconnects from the IMAP server.
@@ -82,7 +90,7 @@ module Mailman
       end
 
       def started?
-        not (!@connection.nil? && @connection.disconnected?)
+        !@connection.nil? && !@connection.disconnected?
       end
     end
   end
