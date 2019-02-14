@@ -237,7 +237,9 @@ Mailman.config.imap = {
   # Use starttls instead of ssl (do not specify both)
   #starttls: true,
   username: 'foo@somedomain.com',
-  password: 'totallyunsecuredpassword'
+  password: 'totallyunsecuredpassword',
+  move_seen: false, #if you want to move seen messages to another folder
+  seen_folder: "PROCESSING"
 }
 
 ```
