@@ -359,7 +359,7 @@ is set, Mailman will use Maildir watching as the receiver.
 ### Rails
 
 `Mailman.config.rails_root` is the location of the root of a Rails app to
-load the environment from. If this option is set to `nil`, Rails environment
+load the environment from. If this option is set to `false`, Rails environment
 loading will be disabled.
 
 **Default**: `'.'`
